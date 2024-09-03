@@ -1,5 +1,5 @@
 import { MatButtonModule } from '@angular/material/button';
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
@@ -14,6 +14,15 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
+import { EmployeeManagementComponent } from './Components/employee-management/employee-management.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatTableModule } from '@angular/material/table';
+import { MatIconModule } from '@angular/material/icon';
+import { EmployeeDialogComponent } from './Components/employee-management/employee-dialog/employee-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { ConfirmDeleteDialogComponent } from './Dialogs/confirm-delete-dialog/confirm-delete-dialog.component';
+import { MatSelectModule } from '@angular/material/select';
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -25,12 +34,15 @@ export function HttpLoaderFactory(http: HttpClient) {
     AppComponent,
     HeaderComponent,
     HomeComponent,
-    FooterComponent
+    FooterComponent,
+    EmployeeManagementComponent,
+    EmployeeDialogComponent,
+    ConfirmDeleteDialogComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule, // Add this line
+    HttpClientModule,
     BrowserModule,
     BrowserAnimationsModule,
     MatButtonModule,
@@ -38,6 +50,13 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatInputModule,
     MatMenuModule,
     AppRoutingModule,
+    FormsModule,
+    MatTableModule,
+    MatIconModule,
+    ReactiveFormsModule, 
+    MatDialogModule,
+    MatPaginatorModule,
+    MatSelectModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -49,6 +68,7 @@ export function HttpLoaderFactory(http: HttpClient) {
   providers: [
     provideAnimationsAsync()
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

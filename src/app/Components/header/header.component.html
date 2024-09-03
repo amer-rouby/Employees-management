@@ -1,10 +1,20 @@
 <mat-toolbar color="primary">
-  <span>{{ 'APP_TITLE' | translate }}</span>
+
+    <a mat-button [routerLink]="'/home'">{{ 'HOME' | translate }}</a>
+    <!-- <a mat-button [routerLink]="'/employee-management'">{{ 'EMPLOYEE_MANAGEMENT' | translate }}</a> -->
+    <!-- <a mat-button [routerLink]="'/contact'">{{ 'CONTACT' | translate }}</a> -->
+    
   <span class="spacer"></span>
+
+  <span>{{ 'EMPLOYEE_MANAGEMENT' | translate }}</span>
+  
+  <span class="spacer"></span>
+  
   <button mat-button [matMenuTriggerFor]="menu">{{ 'LANGUAGE' | translate }}</button>
   <mat-menu #menu="matMenu">
     <button mat-menu-item (click)="changeLanguage('en')">{{ 'ENGLISH' | translate }}</button>
     <button mat-menu-item (click)="changeLanguage('ar')">{{ 'ARABIC' | translate }}</button>
   </mat-menu>
 </mat-toolbar>
+
 

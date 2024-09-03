@@ -1,21 +1,11 @@
 <div class="container">
-    <table class="table mt-3">
-        <thead class="table-info">
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">First</th>
-                <th scope="col">Last</th>
-                <th scope="col">Handle</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let row of tableData">
-                <th scope="row">{{ row.id }}</th>
-                <td>{{ row.firstName }}</td>
-                <td>{{ row.lastName }}</td>
-                <td>{{ row.handle }}</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-  
+   <div class="image-container">
+     <a [routerLink]="'/employee-management'">
+       <img src="assets/images/What-is-Attendance-Software-for-Employee-Management-and-How-Does-it-Work_-feature-image-1.png" alt="Employee Management">
+     </a>
+     <div class="path-name">
+       {{ 'EMPLOYEE_MANAGEMENT' | translate }}
+     </div>
+   </div>
+ </div>
+ 

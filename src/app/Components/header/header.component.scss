@@ -1,6 +1,10 @@
 mat-toolbar {
   display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
   align-items: center;
+  z-index: 300;
   .spacer {
     flex: 1 1 auto;
   }
