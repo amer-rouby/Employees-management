@@ -9,7 +9,7 @@ import { TranslateService } from '@ngx-translate/core';
 export class AppComponent implements OnInit {
   title = 'Angular-testing';
 
-  constructor(public translate: TranslateService) {}
+  constructor(public translate: TranslateService) { }
 
   ngOnInit(): void {
     // Set the default language

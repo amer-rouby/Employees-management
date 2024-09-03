@@ -1,0 +1,18 @@
+.employee-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px; /* تباعد بين العناصر */
+  
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 16px; /* تباعد بين الحقول */
+    }
+  
+    .form-buttons {
+      display: flex;
+      gap: 16px; /* تباعد بين الأزرار */
+      justify-content: flex-end; /* محاذاة الأزرار إلى اليمين */
+    }
+  }
+  

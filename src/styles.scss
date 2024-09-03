@@ -7,8 +7,50 @@ body {
 }
 
 body {
-    margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
     direction: inherit;
     /* Ensure this is overridden by Angular logic */
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    // background-image: url('assets/images/carbon-fiber-hd-widescreen-for-laptop-wallpaper-preview.jpg'); /* Use url() and correct path */
+    background-size: cover; /* Scale the background image to cover the entire container */
+    background-position: center center; /* Center the image horizontally and vertically */
+    background-repeat: no-repeat; /* Prevent the image from repeating */
+    background-attachment: fixed; /* Fix the background image in place during scrolling */
+    color: #fff; /* Ensure text color contrasts well with the background */
+  }
+  
+
+.app-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* تأكد من أن العنصر الرئيسي يمتد إلى طول الشاشة */
+}
+
+.main-content {
+    flex: 1; /* يجعل المحتوى يأخذ المساحة المتبقية */
+}
+
+.footer-toolbar {
+    background-color: #3f51b5; /* اللون الأساسي لـ Angular Material */
+    color: #fff;
+    text-align: center;
+    padding: 1rem;
+    width: 100%;
+    box-sizing: border-box; /* تأكد من تضمين الحشو في عرض الفوتر */
+}
+
+.footer-text {
+    margin: 0;
+}
+
+.footer-link {
+    color: #fff;
+    text-decoration: none;
+    &:hover {
+        text-decoration: underline;
+    }
 }

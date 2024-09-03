@@ -1,0 +1,40 @@
+/* Center the dialog title and give it a bold appearance */
+mat-dialog-title {
+    text-align: center;
+    font-weight: bold;
+    font-size: 20px;
+    color: #3f51b5; /* Primary color for the title */
+  }
+  
+  /* Style the dialog content to center text and add padding */
+  mat-dialog-content {
+    text-align: center;
+    padding: 1rem 2rem;
+    font-size: 16px;
+    color: #444; /* Subtle color for the content */
+  }
+  
+  /* Align the action buttons with space around and add some margin */
+  mat-dialog-actions {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 1rem 1rem;
+  }
+  
+  /* Style the cancel button */
+  mat-button {
+    font-size: 14px;
+    color: #555; /* Neutral color for cancel button */
+  }
+  
+  /* Style the delete button with a warning color */
+  mat-raised-button {
+    font-size: 14px;
+    background-color: #f44336; /* Warning color */
+    color: #fff;
+  
+    &:hover {
+      background-color: #d32f2f; /* Darker warning color on hover */
+    }
+  }
+  
