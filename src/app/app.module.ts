@@ -23,6 +23,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { ConfirmDeleteDialogComponent } from './Dialogs/confirm-delete-dialog/confirm-delete-dialog.component';
 import { MatSelectModule } from '@angular/material/select';
+import { SharedTableComponent } from './Components/shared-table/shared-table.component';
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -37,7 +38,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     FooterComponent,
     EmployeeManagementComponent,
     EmployeeDialogComponent,
-    ConfirmDeleteDialogComponent
+    ConfirmDeleteDialogComponent,
+    SharedTableComponent
   ],
   imports: [
     BrowserModule,
