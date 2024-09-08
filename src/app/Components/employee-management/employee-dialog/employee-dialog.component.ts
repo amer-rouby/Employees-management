@@ -23,7 +23,7 @@ export class EmployeeDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: Employee
   ) {
     this.employeeForm = this.fb.group({
-      id: [0],
+      id: [''], // تغيير إلى '' إذا كانت id من نوع string
       name: ['', Validators.required],
       departmentId: ['', Validators.required],
       jobTitleId: ['', Validators.required],

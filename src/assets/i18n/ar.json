@@ -14,7 +14,7 @@
     "EMPLOYEE_LIST": "قائمة الموظفين",
     "ACTIONS": "الإجراءات",
     "FIELD_REQUIRED": "هذا الحقل مطلوب",
-    "COPYRIGHT": "© 2024 شركتك. جميع الحقوق محفوظة.",
+    "COPYRIGHT": "© 2024 ادارة موظفين الشركة",
     "FOOTER_LINK_TEXT": "زيارة GitHub الخاص بنا",
     "CONFIRM_DELETE": "تأكيد الحذف",
     "ARE_YOU_SURE_DELETE": "هل أنت متأكد أنك تريد حذف هذا العنصر؟",
@@ -22,5 +22,10 @@
     "DELETE": "حذف",
     "SEARCH_EMPLOYEE": "البحث عن موظف",
     "ENTER_NAME": "أدخل الاسم",
-    "GENDER": "الجنس"
+    "GENDER": "الجنس",
+    "employeeAdded": "تمت إضافة الموظف بنجاح!",
+    "employeeUpdated": "تم تحديث الموظف بنجاح!",
+    "employeeDeleted": "تم حذف الموظف بنجاح!",
+    "formInvalid": "الرجاء ملء جميع الحقول بشكل صحيح.",
+    "changesDiscarded": "تم إلغاء التعديلات."
 }

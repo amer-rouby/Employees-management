@@ -24,7 +24,11 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { ConfirmDeleteDialogComponent } from './Dialogs/confirm-delete-dialog/confirm-delete-dialog.component';
 import { MatSelectModule } from '@angular/material/select';
 import { SharedTableComponent } from './Components/shared-table/shared-table.component';
-
+import { ToastrModule } from 'ngx-toastr';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
+import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
+import { environment } from '../environments/environment';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -59,13 +63,17 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatDialogModule,
     MatPaginatorModule,
     MatSelectModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireAuthModule,
+    AngularFireDatabaseModule,
+    ToastrModule.forRoot(),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
         deps: [HttpClient]
       }
-    })
+    }),
   ],
   providers: [
     provideAnimationsAsync()
