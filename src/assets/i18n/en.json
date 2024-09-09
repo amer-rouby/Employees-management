@@ -25,5 +25,34 @@
   "GENDER": "Gender",
   "employeeAdded": "Employee added successfully!",
   "employeeUpdated": "Employee updated successfully!",
-  "employeeDeleted": "Employee deleted successfully!"
+  "employeeDeleted": "Employee deleted successfully!",
+  "LOGOUT": "Logout",
+  "LOGIN": {
+    "TITLE": "Login",
+    "EMAIL": "Email",
+    "EMAIL_PLACEHOLDER": "Enter your email",
+    "EMAIL_REQUIRED": "Email is required.",
+    "INVALID_EMAIL": "Invalid email format.",
+    "PASSWORD": "Password",
+    "PASSWORD_PLACEHOLDER": "Enter your password",
+    "PASSWORD_REQUIRED": "Password is required.",
+    "PASSWORD_MIN_LENGTH": "Password must be at least 6 characters long.",
+    "SUBMIT": "Login"
+  },
+  "REGISTER": {
+    "TITLE": "User Registration",
+    "EMAIL": "Email",
+    "EMAIL_PLACEHOLDER": "Enter your email",
+    "EMAIL_REQUIRED": "Email is required.",
+    "INVALID_EMAIL": "Invalid email format.",
+    "PASSWORD": "Password",
+    "PASSWORD_PLACEHOLDER": "Enter your password",
+    "PASSWORD_REQUIRED": "Password is required.",
+    "PASSWORD_MIN_LENGTH": "Password must be at least 6 characters long.",
+    "CONFIRM_PASSWORD": "Confirm Password",
+    "CONFIRM_PASSWORD_PLACEHOLDER": "Confirm your password",
+    "CONFIRM_PASSWORD_REQUIRED": "Confirm Password is required.",
+    "PASSWORD_MISMATCH": "Passwords do not match.",
+    "SUBMIT": "Register"
+  }
 }

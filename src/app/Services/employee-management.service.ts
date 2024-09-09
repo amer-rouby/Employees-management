@@ -25,8 +25,6 @@ export class EmployeesService {
       })
     );
   }
-  
-  
 
   addEmployees(data: Employee): Observable<Employee> {
     return from(this.db.list<Employee>(this.basePath).push(data).then(docRef => {

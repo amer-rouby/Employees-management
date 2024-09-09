@@ -76,25 +76,29 @@ export class EmployeeManagementComponent implements OnInit, AfterViewInit {
   addEmployee(employee: Employee): void {
     this.employeesService.addEmployees(employee).subscribe(newEmployee => {
       this.employees.push(newEmployee);
-      this.dataSource.data = [...this.employees];
+      this.dataSource.data = this.employees; // تعيين مباشر بدون إعادة نسخ
       this.translate.get('employeeAdded').subscribe((message: string) => {
         this.toastr.success(message, 'Success');
       });
+      this.loadEmployees()
     });
   }
+  
+  
 
   updateEmployee(updatedEmployee: Employee): void {
     this.employeesService.updateEmployees(updatedEmployee.id, updatedEmployee).subscribe(() => {
       const index = this.employees.findIndex(emp => emp.id === updatedEmployee.id);
       if (index !== -1) {
         this.employees[index] = updatedEmployee;
-        this.dataSource.data = [...this.employees];
+        this.dataSource.data = this.employees; // تعيين مباشر بدون إعادة نسخ
       }
       this.translate.get('employeeUpdated').subscribe((message: string) => {
         this.toastr.success(message, 'Success');
       });
     });
   }
+  
 
   deleteEmployee(id: any): void {
     const dialogRef = this.dialog.open(ConfirmDeleteDialogComponent, {

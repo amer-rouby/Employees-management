@@ -27,5 +27,34 @@
     "employeeUpdated": "تم تحديث الموظف بنجاح!",
     "employeeDeleted": "تم حذف الموظف بنجاح!",
     "formInvalid": "الرجاء ملء جميع الحقول بشكل صحيح.",
-    "changesDiscarded": "تم إلغاء التعديلات."
+    "changesDiscarded": "تم إلغاء التعديلات.",
+    "LOGOUT": "تسجيل خروج",
+    "LOGIN": {
+    "TITLE": "تسجيل الدخول",
+    "EMAIL": "البريد الإلكتروني",
+    "EMAIL_PLACEHOLDER": "أدخل بريدك الإلكتروني",
+    "EMAIL_REQUIRED": "البريد الإلكتروني مطلوب.",
+    "INVALID_EMAIL": "تنسيق البريد الإلكتروني غير صالح.",
+    "PASSWORD": "كلمة المرور",
+    "PASSWORD_PLACEHOLDER": "أدخل كلمة المرور",
+    "PASSWORD_REQUIRED": "كلمة المرور مطلوبة.",
+    "PASSWORD_MIN_LENGTH": "يجب أن تكون كلمة المرور لا تقل عن 6 أحرف.",
+    "SUBMIT": "تسجيل الدخول"
+  },
+  "REGISTER": {
+    "TITLE": "تسجيل المستخدمين ",
+    "EMAIL": "البريد الإلكتروني",
+    "EMAIL_PLACEHOLDER": "أدخل بريدك الإلكتروني",
+    "EMAIL_REQUIRED": "البريد الإلكتروني مطلوب.",
+    "INVALID_EMAIL": "تنسيق البريد الإلكتروني غير صالح.",
+    "PASSWORD": "كلمة المرور",
+    "PASSWORD_PLACEHOLDER": "أدخل كلمة المرور",
+    "PASSWORD_REQUIRED": "كلمة المرور مطلوبة.",
+    "PASSWORD_MIN_LENGTH": "يجب أن تكون كلمة المرور لا تقل عن 6 أحرف.",
+    "CONFIRM_PASSWORD": "تأكيد كلمة المرور",
+    "CONFIRM_PASSWORD_PLACEHOLDER": "أكد كلمة المرور",
+    "CONFIRM_PASSWORD_REQUIRED": "تأكيد كلمة المرور مطلوب.",
+    "PASSWORD_MISMATCH": "كلمات المرور لا تتطابق.",
+    "SUBMIT": "تسجيل"
+  }
 }

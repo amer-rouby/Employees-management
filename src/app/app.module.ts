@@ -29,6 +29,11 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
 import { environment } from '../environments/environment';
+import { RegisterComponent } from './auth/register/register.component';
+import { LoginComponent } from './auth/login/login.component';
+import { AuthService } from './Services/auth.service';
+import { AuthGuard } from './Guards/auth.guard';
+import { RedirectIfLoggedInGuard } from './Guards/redirect-if-logged-in.guard';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -43,7 +48,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     EmployeeManagementComponent,
     EmployeeDialogComponent,
     ConfirmDeleteDialogComponent,
-    SharedTableComponent
+    SharedTableComponent,
+    RegisterComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -76,7 +83,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     }),
   ],
   providers: [
-    provideAnimationsAsync()
+    provideAnimationsAsync(),
+   AuthService, AuthGuard, RedirectIfLoggedInGuard,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]
