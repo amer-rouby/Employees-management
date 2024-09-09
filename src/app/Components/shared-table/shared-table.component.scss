@@ -1,0 +1,36 @@
+/* employee-management.component.scss */
+
+/* Basic styles for the table */
+.table-container {
+    overflow-x: auto;
+  }
+  
+  .mat-table {
+    width: 100%;
+  }
+  th {
+    background-color: #3f51b5 !important;
+    color: white;
+  }
+  /* Media query for tablets and smaller devices */
+  @media (max-width: 768px) {
+    .mat-header-cell, .mat-cell {
+      font-size: 12px; /* Adjust font size for smaller screens */
+    }
+  
+    .mat-table {
+      display: block;
+    }
+  
+    /* Hide all columns except 'actions' */
+    .mat-header-cell:not([matColumnDef="actions"]),
+    .mat-cell:not([matColumnDef="actions"]) {
+      display: none;
+    }
+  
+    .mat-header-cell[matColumnDef="actions"],
+    .mat-cell[matColumnDef="actions"] {
+      display: table-cell;
+    }
+  }
+  

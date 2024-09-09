@@ -1,12 +1,70 @@
+/* General container styling */
 .container {
     padding: 20px;
     margin-top: 60px;
-}
-.search-employee {
-    width: 450px;
-}
-
-th{
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  
+  /* Toolbar styling */
+  .toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  
+  /* Adjust search field width */
+  .search-employee {
+    max-width: 300px; /* Adjust as needed */
+    flex: 1;
+    margin-left: 16px;
+  }
+  
+  /* Table header styling */
+  th {
     background-color: #3f51b5 !important;
     color: white;
-}
+  }
+  
+  /* Ensure table and paginator are responsive */
+  .mat-table {
+    width: 100%;
+    overflow-x: auto;
+  }
+  
+  /* Responsive adjustments for smaller screens */
+  @media (max-width: 768px) {
+    .mat-header-cell, .mat-cell {
+      font-size: 12px; /* Adjust font size for smaller screens */
+    }
+  
+    .mat-table {
+      display: block;
+    }
+  
+    /* Hide all columns except 'actions' */
+    .mat-header-cell:not([matColumnDef="actions"]),
+    .mat-cell:not([matColumnDef="actions"]) {
+      display: none;
+    }
+  
+    .mat-header-cell[matColumnDef="actions"],
+    .mat-cell[matColumnDef="actions"] {
+      display: table-cell;
+    }
+  
+    /* Full-width search input on smaller screens */
+    .search-employee {
+      max-width: 100%;
+      margin-left: 0;
+      margin: 0 10px;
+    }
+  
+    /* Stack buttons and search input vertically on small screens */
+    .toolbar {
+      flex-direction: row;
+      align-items: flex-start;
+    }
+  }
+  

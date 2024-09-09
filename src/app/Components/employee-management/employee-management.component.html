@@ -1,5 +1,5 @@
 <div class="container">
-  <div class="toolbar d-flex justify-content-between">
+  <div class="toolbar">
     <button mat-raised-button color="primary" (click)="openDialog()">
       {{ 'ADD_EMPLOYEE' | translate }}
     </button>
@@ -13,47 +13,14 @@
   <hr />
 
   <h3>{{ 'EMPLOYEE_LIST' | translate }}</h3>
-  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-    <!-- Name Column -->
-    <ng-container matColumnDef="name">
-      <th mat-header-cell *matHeaderCellDef> {{ 'NAME' | translate }} </th>
-      <td mat-cell *matCellDef="let employee"> {{ employee.name }} </td>
-    </ng-container>
+  
+  <app-shared-table
+    [dataSource]="dataSource"
+    [displayedColumns]="displayedColumns"
+    [columnDefinitions]="columnDefinitions"
+    (onEdit)="openDialog($event)"
+    (onDelete)="deleteEmployee($event)">
+  </app-shared-table>
 
-    <!-- Position Column -->
-    <ng-container matColumnDef="jobTitle">
-      <th mat-header-cell *matHeaderCellDef> {{ 'POSITION' | translate }} </th>
-      <td mat-cell *matCellDef="let employee"> {{ getJobTitleById(employee.jobTitleId) }} </td>
-    </ng-container>
-
-    <!-- Department Column -->
-    <ng-container matColumnDef="department">
-      <th mat-header-cell *matHeaderCellDef> {{ 'DEPARTMENT' | translate }} </th>
-      <td mat-cell *matCellDef="let employee"> {{ getDepartmentById(employee.departmentId) }} </td>
-    </ng-container>
-
-    <!-- gender Column -->
-    <ng-container matColumnDef="gender">
-      <th mat-header-cell *matHeaderCellDef> {{ 'GENDER' | translate }} </th>
-      <td mat-cell *matCellDef="let employee"> {{ getGenderById(employee.genderId) }} </td>
-    </ng-container>
-
-    <!-- Actions Column -->
-    <ng-container matColumnDef="actions">
-      <th mat-header-cell *matHeaderCellDef> {{ 'ACTIONS' | translate }} </th>
-      <td mat-cell *matCellDef="let employee">
-        <button mat-icon-button color="primary" (click)="openDialog(employee)">
-          <mat-icon>edit</mat-icon>
-        </button>
-        <button mat-icon-button color="warn" (click)="deleteEmployee(employee.id)">
-          <mat-icon>delete</mat-icon>
-        </button>
-      </td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-  </table>
-
-  <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons></mat-paginator>
+  <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons></mat-paginator>
 </div>
