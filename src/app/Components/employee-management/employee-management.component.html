@@ -1,5 +1,9 @@
 <div class="container">
-  <div class="toolbar">
+  @if(isLoading){
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  }
+  
+  <div class="toolbar mt-2">
     <button mat-raised-button color="primary" (click)="openDialog()">
       {{ 'ADD_EMPLOYEE' | translate }}
     </button>

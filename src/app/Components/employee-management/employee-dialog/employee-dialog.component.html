@@ -43,6 +43,17 @@
         {{ 'FIELD_REQUIRED' | translate }}
       </mat-error>
     </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>{{ 'NATIONALITIE' | translate }}</mat-label>
+      <mat-select formControlName="nationalitieId">
+        <mat-option *ngFor="let n of nationalities" [value]="n.id">
+          {{ n.arabic }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="employeeForm.get('nationalitieId')?.hasError('required')">
+        {{ 'FIELD_REQUIRED' | translate }}
+      </mat-error>
+    </mat-form-field>
   </div>
 
   <div class="form-buttons">

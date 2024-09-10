@@ -11,7 +11,7 @@ import { AuthService } from '../../Services/auth.service';
 })
 export class LoginComponent {
   loginForm: FormGroup;
-
+  isLoading = false;
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
@@ -25,10 +25,12 @@ export class LoginComponent {
   }
 
   onSubmit() {
+    this.isLoading = true;
     if (this.loginForm.valid) {
       const { email, password } = this.loginForm.value;
       this.authService.login(email, password)
         .then(() => {
+          this.isLoading = false;
           this.toastr.success('Login successful', 'Success');
           this.router.navigate(['/home']); // Navigate to the home page
         })

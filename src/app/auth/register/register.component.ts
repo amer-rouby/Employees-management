@@ -1,4 +1,4 @@
-// register.component.ts
+
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -11,29 +11,30 @@ import { AuthService } from '../../Services/auth.service';
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent {
-  registerForm: FormGroup;
+  registrationForm: FormGroup;
+  isLoading: boolean= false;
+  constructor(private fb: FormBuilder,private authService: AuthService, private toastr: ToastrService) {
 
-  constructor(
-    private fb: FormBuilder,
-    private authService: AuthService,
-    private toastr: ToastrService
-  ) {
-    this.registerForm = this.fb.group({
+    this.registrationForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      confirmPassword: ['', [Validators.required]]
     });
   }
 
   onSubmit() {
-    if (this.registerForm.valid) {
-      const { email, password } = this.registerForm.value;
+    this.isLoading = true;
+    if (this.registrationForm.valid) {
+      const { email, password } = this.registrationForm.value;
       this.authService.register(email, password)
         .then(() => {
           this.toastr.success('Registration successful', 'Success');
+          this.isLoading = false;
           // Redirect user after successful registration
         })
         .catch(error => {
           this.toastr.error('Registration failed', 'Error');
+          this.isLoading = false;
           console.error('Registration error:', error);
         });
     } else {

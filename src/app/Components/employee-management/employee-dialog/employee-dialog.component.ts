@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Employee } from '../../../Models/employee.model';
-import { departments, gender, jobTitles } from '../../../Lookup-code/Lookup-code'; // تأكد من استيراد gender بشكل صحيح
+import { departments, gender, jobTitles, nationalities } from '../../../Lookup-code/Lookup-code'; // تأكد من استيراد gender بشكل صحيح
 
 @Component({
   selector: 'app-employee-dialog',
@@ -16,6 +16,7 @@ export class EmployeeDialogComponent implements OnInit {
   jobTitles = jobTitles;
   departments = departments;
   gender = gender; // تأكد من أن gender يتم تعيينه هنا
+  nationalities = nationalities; // تأكد من أن gender يتم تعيينه هنا
 
   constructor(
     private fb: FormBuilder,
@@ -28,6 +29,7 @@ export class EmployeeDialogComponent implements OnInit {
       departmentId: ['', Validators.required],
       jobTitleId: ['', Validators.required],
       genderId: ['', Validators.required],
+      nationalitieId: ['', Validators.required],
     });
 
     this.isEditMode = !!data;
@@ -41,6 +43,7 @@ export class EmployeeDialogComponent implements OnInit {
         jobTitleId: this.data.jobTitleId ?? '',
         departmentId: this.data.departmentId ?? '',
         genderId: this.data.genderId ?? '',
+        nationalitieId: this.data.nationalitieId ?? '',
       });
     }
   }

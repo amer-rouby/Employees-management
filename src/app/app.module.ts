@@ -34,7 +34,9 @@ import { LoginComponent } from './auth/login/login.component';
 import { AuthService } from './Services/auth.service';
 import { AuthGuard } from './Guards/auth.guard';
 import { RedirectIfLoggedInGuard } from './Guards/redirect-if-logged-in.guard';
-
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { ProgressBarComponent } from './Components/progress-bar/progress-bar.component';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
@@ -50,7 +52,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ConfirmDeleteDialogComponent,
     SharedTableComponent,
     RegisterComponent,
-    LoginComponent
+    LoginComponent,
+    ProgressBarComponent
   ],
   imports: [
     BrowserModule,
@@ -70,6 +73,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatDialogModule,
     MatPaginatorModule,
     MatSelectModule,
+    MatProgressBarModule,
+    MatProgressSpinnerModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
     AngularFireDatabaseModule,

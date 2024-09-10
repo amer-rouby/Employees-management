@@ -1,8 +1,11 @@
+.container {
+  margin-top: 100px;
+}
 .login-form {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 100px;
+    margin-top: 10px;
     max-height: 70vh ;
     // background: linear-gradient(135deg, #e09, #d0e);
   
@@ -57,3 +60,20 @@
     }
   }
   
+  .spinner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    /* Full viewport height */
+    width: 100vw;
+    /* Full viewport width */
+    position: fixed;
+    /* Fix the spinner at the center of the screen */
+    top: 0;
+    left: 0;
+    background-color: rgba(255, 255, 255, 0.8);
+    /* Optional: semi-transparent background */
+    z-index: 9999;
+    /* Ensure it is on top of other content */
+}

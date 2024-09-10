@@ -4,4 +4,5 @@ export interface Employee {
   departmentId?: string;
   jobTitleId?: string;
   genderId?: string;
+  nationalitieId?: string;
 }

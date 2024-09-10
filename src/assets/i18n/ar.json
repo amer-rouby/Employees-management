@@ -56,5 +56,7 @@
     "CONFIRM_PASSWORD_REQUIRED": "تأكيد كلمة المرور مطلوب.",
     "PASSWORD_MISMATCH": "كلمات المرور لا تتطابق.",
     "SUBMIT": "تسجيل"
-  }
+  },
+  "NATIONALITIE": "الجنسيه"
+
 }

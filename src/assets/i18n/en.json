@@ -54,5 +54,6 @@
     "CONFIRM_PASSWORD_REQUIRED": "Confirm Password is required.",
     "PASSWORD_MISMATCH": "Passwords do not match.",
     "SUBMIT": "Register"
-  }
+  },
+  "NATIONALITIE": "nationalities"
 }
