@@ -1,18 +1,42 @@
 .employee-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px; 
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 16px; 
+    direction: inherit; 
+  }
+
+  .form-buttons {
     display: flex;
-    flex-direction: column;
-    gap: 16px; /* تباعد بين العناصر */
+    gap: 16px; 
+    justify-content: flex-end; 
+    direction: inherit; 
+  }
+
   
+  [dir="rtl"] .employee-form,
+  [dir="rtl"] .form-grid,
+  [dir="rtl"] .form-buttons {
+    direction: rtl; 
+    text-align: right; 
+  }
+
+ 
+  [dir="ltr"] .employee-form,
+  [dir="ltr"] .form-grid,
+  [dir="ltr"] .form-buttons {
+    direction: ltr; 
+    text-align: left; 
+  }
+
+ 
+  @media (max-width: 768px) {
     .form-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 16px; /* تباعد بين الحقول */
-    }
-  
-    .form-buttons {
-      display: flex;
-      gap: 16px; /* تباعد بين الأزرار */
-      justify-content: flex-end; /* محاذاة الأزرار إلى اليمين */
+      grid-template-columns: 1fr; 
     }
   }
-  
+}

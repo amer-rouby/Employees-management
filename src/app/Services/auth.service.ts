@@ -7,9 +7,9 @@ import { map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class AuthService {
-  firebaseRestAPI = "https://identitytoolkit.googleapis.com/v1/accounts:";
-  apiKey = "AIzaSyBHfgM_etC9-Oec-Tb-__AEojuUxd9IC5U";
-  signUp = `${this.firebaseRestAPI}signUp?key=${this.apiKey}`;
+  // firebaseRestAPI = "https://identitytoolkit.googleapis.com/v1/accounts:";
+  // apiKey = "AIzaSyBHfgM_etC9-Oec-Tb-__AEojuUxd9IC5U";
+  // signUp = `${this.firebaseRestAPI}signUp?key=${this.apiKey}`;
 
   constructor(private afAuth: AngularFireAuth) {}
 
@@ -22,7 +22,10 @@ export class AuthService {
   }
 
   logout(): Promise<void> {
-    return this.afAuth.signOut();
+    return this.afAuth.signOut().then(() => {
+      // Clear the local storage on logout
+      localStorage.removeItem('isLoggedIn');
+    });
   }
 
   getUserState(): Observable<firebase.default.User | null> {
@@ -33,5 +36,15 @@ export class AuthService {
     return this.afAuth.authState.pipe(
       map(user => !!user)
     );
+  }
+
+  // Optional: Check login status directly
+  getLoginStatus(): boolean {
+    return localStorage.getItem('isLoggedIn') === 'true';
+  }
+
+  // Optional: Set login status in localStorage
+  setLoginStatus(isLoggedIn: boolean): void {
+    localStorage.setItem('isLoggedIn', String(isLoggedIn));
   }
 }

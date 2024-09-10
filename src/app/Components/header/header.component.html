@@ -1,22 +1,66 @@
 <mat-toolbar color="primary">
-  <a mat-button [routerLink]="'/home'">{{ 'HOME' | translate }}</a>
-  <a mat-button [routerLink]="'/employee-management'">{{ 'EMPLOYEE_MANAGEMENT' | translate }}</a>
-  <!-- <a mat-button [routerLink]="'/login'">{{ 'LOGIN.TITLE' | translate }}</a>
-  <a mat-button [routerLink]="'/register'">{{ 'REGISTER.TITLE' | translate }}</a>
-   -->
+  <!-- Standard navigation for larger screens -->
+  <a mat-button [routerLink]="'/home'" class="nav-item">
+    <mat-icon>home</mat-icon>
+    {{ 'HOME' | translate }}
+  </a>
+  
+  <!-- <a mat-button [routerLink]="'/employee-management'" class="nav-item">
+    <mat-icon>group</mat-icon>
+    {{ 'EMPLOYEE_MANAGEMENT' | translate }}
+  </a> -->
+
   <span class="spacer"></span>
 
-  <span>{{ 'EMPLOYEE_MANAGEMENT' | translate }}</span>
-  
-  <span class="spacer"></span>
-  
-  <button mat-button [matMenuTriggerFor]="menu">{{ 'LANGUAGE' | translate }}</button>
+  <!-- Language menu -->
+  <button mat-button [matMenuTriggerFor]="menu" class="nav-item">
+    <mat-icon>language</mat-icon>
+    {{ 'LANGUAGE' | translate }}
+  </button>
+
   <mat-menu #menu="matMenu">
-    <button mat-menu-item (click)="changeLanguage('en')">{{ 'ENGLISH' | translate }}</button>
-    <button mat-menu-item (click)="changeLanguage('ar')">{{ 'ARABIC' | translate }}</button>
+    <button mat-menu-item (click)="changeLanguage('en')">
+      <mat-icon>flag</mat-icon>
+      {{ 'ENGLISH' | translate }}
+    </button>
+    <button mat-menu-item (click)="changeLanguage('ar')">
+      <mat-icon>flag</mat-icon>
+      {{ 'ARABIC' | translate }}
+    </button>
   </mat-menu>
 
-  <!-- Add the logout button here -->
-  <button mat-button (click)="logout()">{{ 'LOGOUT' | translate }}</button>
+  <!-- Logout button -->
+  <button mat-button (click)="logout()" class="nav-item">
+    <mat-icon>logout</mat-icon>
+    {{ 'LOGOUT' | translate }}
+  </button>
+
+  <!-- Hamburger menu for smaller screens -->
+  <button mat-icon-button [matMenuTriggerFor]="mobileMenu" class="hamburger-menu">
+    <mat-icon>menu</mat-icon>
+  </button>
+
+  <mat-menu #mobileMenu="matMenu">
+    <button mat-menu-item [routerLink]="'/home'">
+      <mat-icon>home</mat-icon>
+      {{ 'HOME' | translate }}
+    </button>
+    <button mat-menu-item [routerLink]="'/employee-management'">
+      <mat-icon>group</mat-icon>
+      {{ 'EMPLOYEE_MANAGEMENT' | translate }}
+    </button>
+    <button mat-menu-item (click)="changeLanguage('en')">
+      <mat-icon>flag</mat-icon>
+      {{ 'ENGLISH' | translate }}
+    </button>
+    <button mat-menu-item (click)="changeLanguage('ar')">
+      <mat-icon>flag</mat-icon>
+      {{ 'ARABIC' | translate }}
+    </button>
+    <button mat-menu-item (click)="logout()">
+      <mat-icon>logout</mat-icon>
+      {{ 'LOGOUT' | translate }}
+    </button>
+  </mat-menu>
 </mat-toolbar>
 
