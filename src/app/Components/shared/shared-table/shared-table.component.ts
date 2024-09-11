@@ -12,6 +12,7 @@ export class SharedTableComponent<T> {
   @Input() columnDefinitions: any[] = [];
   @Output() onEdit = new EventEmitter<T>();
   @Output() onDelete = new EventEmitter<number>();
+  @Output() onView = new EventEmitter<any>();
 
   constructor() {}
 
@@ -21,5 +22,9 @@ export class SharedTableComponent<T> {
 
   deleteEmployee(id: number): void {
     this.onDelete.emit(id);
+  }
+
+  viewEmployeeDetails(employee: any): void {
+    this.onView.emit(employee);  // Correcting the emitted event to onView
   }
 }

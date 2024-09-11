@@ -57,6 +57,11 @@
     "PASSWORD_MISMATCH": "كلمات المرور لا تتطابق.",
     "SUBMIT": "تسجيل"
   },
-  "NATIONALITIE": "الجنسيه"
+  "NATIONALITIE": "الجنسيه",
+  "MARITAL_STATUS": "الحالة الاجتماعيه",
+  "EMPLOYEE_DETAILS": "بيانات الموظف",
+  "PHONE_NUMBER": "رقم الهاتف",
+  "IDENTITY_NUMBER": "رقم الهوية",
+  "HIRE_DATE": "تاريخ التعيين"
 
 }

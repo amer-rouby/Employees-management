@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Employee } from '../../../Models/employee.model';
-import { departments, gender, jobTitles, nationalities } from '../../../Lookup-code/Lookup-code'; // تأكد من استيراد gender بشكل صحيح
+import { departments, gender, jobTitles, nationalities, maritalStatus } from '../../../constants/data.constants';
 
 @Component({
   selector: 'app-employee-dialog',
@@ -15,8 +15,9 @@ export class EmployeeDialogComponent implements OnInit {
 
   jobTitles = jobTitles;
   departments = departments;
-  gender = gender; // تأكد من أن gender يتم تعيينه هنا
-  nationalities = nationalities; // تأكد من أن gender يتم تعيينه هنا
+  gender = gender;
+  nationalities = nationalities;
+  maritalStatus = maritalStatus;
 
   constructor(
     private fb: FormBuilder,
@@ -24,12 +25,16 @@ export class EmployeeDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: Employee
   ) {
     this.employeeForm = this.fb.group({
-      id: [''], // تغيير إلى '' إذا كانت id من نوع string
+      id: [''],
       name: ['', Validators.required],
       departmentId: ['', Validators.required],
       jobTitleId: ['', Validators.required],
       genderId: ['', Validators.required],
       nationalitieId: ['', Validators.required],
+      maritalStatusId: ['', Validators.required],
+      phoneNumber: ['', [Validators.required, Validators.pattern('^\\+?[0-9]{10,15}$')]], // الحقل الجديد
+      identityNumber: ['', [Validators.required, Validators.pattern('^[0-9]{6,15}$')]], // الحقل الجديد
+      hireDate: ['', Validators.required] // الحقل الجديد
     });
 
     this.isEditMode = !!data;
@@ -44,6 +49,10 @@ export class EmployeeDialogComponent implements OnInit {
         departmentId: this.data.departmentId ?? '',
         genderId: this.data.genderId ?? '',
         nationalitieId: this.data.nationalitieId ?? '',
+        maritalStatusId: this.data.maritalStatusId ?? '',
+        phoneNumber: this.data.phoneNumber ?? '', // إضافة القيم الافتراضية
+        identityNumber: this.data.identityNumber ?? '', // إضافة القيم الافتراضية
+        hireDate: this.data.hireDate ?? '' // إضافة القيم الافتراضية
       });
     }
   }

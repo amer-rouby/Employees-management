@@ -70,3 +70,8 @@ export const nationalities = [
   { id: 21, arabic: 'موريتانيا', english: 'Mauritania' },
   { id: 22, arabic: 'جزر القمر', english: 'Comoros' },
 ];
+
+export const maritalStatus = [
+  { id: 0, arabic: "متزوج", english: "Married" },
+  { id: 1, arabic: "أعزب", english: "Single" },
+];

@@ -43,6 +43,7 @@
         {{ 'FIELD_REQUIRED' | translate }}
       </mat-error>
     </mat-form-field>
+    
     <mat-form-field appearance="fill">
       <mat-label>{{ 'NATIONALITIE' | translate }}</mat-label>
       <mat-select formControlName="nationalitieId">
@@ -51,6 +52,45 @@
         </mat-option>
       </mat-select>
       <mat-error *ngIf="employeeForm.get('nationalitieId')?.hasError('required')">
+        {{ 'FIELD_REQUIRED' | translate }}
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>{{ 'MARITAL_STATUS' | translate }}</mat-label>
+      <mat-select formControlName="maritalStatusId">
+        <mat-option *ngFor="let m of maritalStatus" [value]="m.id">
+          {{ m.arabic }}
+        </mat-option>
+      </mat-select>
+      <mat-error *ngIf="employeeForm.get('maritalStatusId')?.hasError('required')">
+        {{ 'FIELD_REQUIRED' | translate }}
+      </mat-error>
+    </mat-form-field>
+
+    <!-- Add your new fields here -->
+    <mat-form-field appearance="fill">
+      <mat-label>{{ 'PHONE_NUMBER' | translate }}</mat-label>
+      <input matInput formControlName="phoneNumber" placeholder="{{ 'PHONE_NUMBER' | translate }}" />
+      <mat-error *ngIf="employeeForm.get('phoneNumber')?.hasError('required')">
+        {{ 'FIELD_REQUIRED' | translate }}
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>{{ 'IDENTITY_NUMBER' | translate }}</mat-label>
+      <input matInput formControlName="identityNumber" placeholder="{{ 'IDENTITY_NUMBER' | translate }}" />
+      <mat-error *ngIf="employeeForm.get('identityNumber')?.hasError('required')">
+        {{ 'FIELD_REQUIRED' | translate }}
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>{{ 'HIRE_DATE' | translate }}</mat-label>
+      <input matInput [matDatepicker]="hireDatePicker" formControlName="hireDate" placeholder="{{ 'HIRE_DATE' | translate }}" />
+      <mat-datepicker-toggle matSuffix [for]="hireDatePicker"></mat-datepicker-toggle>
+      <mat-datepicker #hireDatePicker></mat-datepicker>
+      <mat-error *ngIf="employeeForm.get('hireDate')?.hasError('required')">
         {{ 'FIELD_REQUIRED' | translate }}
       </mat-error>
     </mat-form-field>

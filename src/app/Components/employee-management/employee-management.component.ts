@@ -4,11 +4,12 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Employee } from '../../Models/employee.model';
 import { ConfirmDeleteDialogComponent } from '../../Dialogs/confirm-delete-dialog/confirm-delete-dialog.component';
-import { departments, gender, jobTitles, nationalities } from '../../Lookup-code/Lookup-code';
+import { departments, gender, jobTitles, nationalities, maritalStatus } from '../../constants/data.constants';
 import { EmployeeDialogComponent } from './employee-dialog/employee-dialog.component';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { EmployeesService } from '../../Services/employee-management.service';
+import { EmployeeDetailsDialogComponent } from '../../Dialogs/employee-details-dialog/employee-details-dialog.component';
 
 @Component({
   selector: 'app-employee-management',
@@ -17,7 +18,7 @@ import { EmployeesService } from '../../Services/employee-management.service';
 })
 export class EmployeeManagementComponent implements OnInit, AfterViewInit {
   employees: Employee[] = [];
-  displayedColumns: string[] = ['name', 'jobTitle', 'department', 'gender',"nationalities", 'actions'];
+  displayedColumns: string[] = ['name', 'jobTitle', 'department', 'gender',"nationalities", "maritalStatus", 'actions'];
   dataSource = new MatTableDataSource<Employee>(this.employees);
   columnDefinitions = [
     { key: 'name', header: 'NAME', cell: (employee: Employee) => employee.name },
@@ -25,12 +26,14 @@ export class EmployeeManagementComponent implements OnInit, AfterViewInit {
     { key: 'department', header: 'DEPARTMENT', cell: (employee: Employee) => this.getDepartmentById(employee.departmentId) },
     { key: 'gender', header: 'GENDER', cell: (employee: Employee) => this.getGenderById(employee.genderId) },
     { key: 'nationalities', header: 'NATIONALITIE', cell: (employee: Employee) => this.getNationalitieById(employee.nationalitieId) },
+    { key: 'maritalStatus', header: 'MARITAL_STATUS', cell: (employee: Employee) => this.getMaritalStatusById(employee.maritalStatusId) },
     { key: 'actions', header: 'ACTIONS', cell: () => '' }
   ];
   jobTitles = jobTitles;
   departments = departments;
   gender = gender;
   nationalities = nationalities;
+  maritalStatus = maritalStatus;
   isLoading: boolean = false;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -86,7 +89,13 @@ export class EmployeeManagementComponent implements OnInit, AfterViewInit {
       }
     });
   }
-
+  viewEmployeeDetails(employee: Employee): void {
+    this.dialog.open(EmployeeDetailsDialogComponent, {
+      width: '600px',
+      data: employee
+    });
+  }
+  
   private addEmployee(employee: Employee): void {
     this.isLoading = true;
     this.employeesService.addEmployees(employee).subscribe(
@@ -166,6 +175,10 @@ export class EmployeeManagementComponent implements OnInit, AfterViewInit {
 
   private getDepartmentById(id: any): string {
     return this.getLookupValue(this.departments, id);
+  }
+
+  private getMaritalStatusById(id: any): string {
+    return this.getLookupValue(this.maritalStatus, id);
   }
 
   private getLookupValue(lookupArray: any[], id: any): string {

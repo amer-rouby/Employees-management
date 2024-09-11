@@ -1,0 +1,22 @@
+<mat-card class="employee-details-card">
+    <div class="card-header">
+        <button mat-icon-button (click)="closeDialog()" aria-label="Close" class="close-button">
+            <mat-icon>close</mat-icon>
+        </button>
+        <h2>{{ 'EMPLOYEE_DETAILS' | translate }}</h2>
+    </div>
+    <mat-card-content>
+        <div class="employee-details">
+            <p>{{ 'NAME' | translate }}: <strong>{{ employee.name }}</strong></p>
+            <p>{{ 'IDENTITY_NUMBER' | translate }}: <strong>{{ employee.identityNumber }}</strong></p>
+            <p>{{ 'POSITION' | translate }}: <strong>{{ getJobTitleById(employee.jobTitleId) }}</strong></p>
+            <p>{{ 'DEPARTMENT' | translate }}: <strong>{{ getDepartmentById(employee.departmentId) }}</strong></p>
+            <p>{{ 'GENDER' | translate }}: <strong>{{ getGenderById(employee.genderId) }}</strong></p>
+            <p>{{ 'NATIONALITIE' | translate }}: <strong>{{ getNationalitieById(employee.nationalitieId) }}</strong></p>
+            <p>{{ 'MARITAL_STATUS' | translate }}: <strong>{{ getMaritalStatusById(employee.maritalStatusId) }}</strong>
+            </p>
+            <p>{{ 'HIRE_DATE' | translate }}: <strong>{{ employee.hireDate | date: 'dd/MM/yyyy'}}</strong></p>
+            <p>{{ 'PHONE_NUMBER' | translate }}: <strong>{{ employee.phoneNumber }}</strong></p>
+        </div>
+    </mat-card-content>
+</mat-card>
