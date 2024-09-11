@@ -1,42 +1,32 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Employee } from '../../Models/employee.model';
 import { ConfirmDeleteDialogComponent } from '../../Dialogs/confirm-delete-dialog/confirm-delete-dialog.component';
-import { departments, gender, jobTitles, nationalities, maritalStatus } from '../../constants/data.constants';
 import { EmployeeDialogComponent } from './employee-dialog/employee-dialog.component';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { EmployeesService } from '../../Services/employee-management.service';
 import { EmployeeDetailsDialogComponent } from '../../Dialogs/employee-details-dialog/employee-details-dialog.component';
+import { departments, gender, jobTitles, maritalStatus, nationalities } from '../../constants/data.constants';
 
 @Component({
   selector: 'app-employee-management',
   templateUrl: './employee-management.component.html',
   styleUrls: ['./employee-management.component.scss']
 })
-export class EmployeeManagementComponent implements OnInit, AfterViewInit {
+export class EmployeeManagementComponent implements OnInit {
   employees: Employee[] = [];
-  displayedColumns: string[] = ['name', 'jobTitle', 'department', 'gender',"nationalities", "maritalStatus", 'actions'];
+  displayedColumns: string[] = ['name', 'jobTitle', 'department','actions'];
+  // displayedColumns: string[] = ['name', 'jobTitle', 'department', 'gender', 'nationalities', 'maritalStatus', "phoneNumber","identityNumber","hireDate", 'actions'];
   dataSource = new MatTableDataSource<Employee>(this.employees);
-  columnDefinitions = [
-    { key: 'name', header: 'NAME', cell: (employee: Employee) => employee.name },
-    { key: 'jobTitle', header: 'POSITION', cell: (employee: Employee) => this.getJobTitleById(employee.jobTitleId) },
-    { key: 'department', header: 'DEPARTMENT', cell: (employee: Employee) => this.getDepartmentById(employee.departmentId) },
-    { key: 'gender', header: 'GENDER', cell: (employee: Employee) => this.getGenderById(employee.genderId) },
-    { key: 'nationalities', header: 'NATIONALITIE', cell: (employee: Employee) => this.getNationalitieById(employee.nationalitieId) },
-    { key: 'maritalStatus', header: 'MARITAL_STATUS', cell: (employee: Employee) => this.getMaritalStatusById(employee.maritalStatusId) },
-    { key: 'actions', header: 'ACTIONS', cell: () => '' }
-  ];
+  columnDefinitions: any[] = [];
+  isLoading: boolean = false;
   jobTitles = jobTitles;
   departments = departments;
   gender = gender;
   nationalities = nationalities;
   maritalStatus = maritalStatus;
-  isLoading: boolean = false;
-
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(
     private dialog: MatDialog,
@@ -47,12 +37,7 @@ export class EmployeeManagementComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.loadEmployees();
-  }
-
-  ngAfterViewInit(): void {
-    if (this.paginator) {
-      this.dataSource.paginator = this.paginator;
-    }
+    this.setupColumnDefinitions();
   }
 
   private loadEmployees(): void {
@@ -89,13 +74,14 @@ export class EmployeeManagementComponent implements OnInit, AfterViewInit {
       }
     });
   }
+
   viewEmployeeDetails(employee: Employee): void {
     this.dialog.open(EmployeeDetailsDialogComponent, {
       width: '600px',
       data: employee
     });
   }
-  
+
   private addEmployee(employee: Employee): void {
     this.isLoading = true;
     this.employeesService.addEmployees(employee).subscribe(
@@ -103,7 +89,7 @@ export class EmployeeManagementComponent implements OnInit, AfterViewInit {
         this.employees.push(newEmployee);
         this.dataSource.data = [...this.employees];
         this.showSuccess('employeeAdded');
-        this.loadEmployees()
+        this.loadEmployees();
       },
       error => this.handleError('Failed to add employee', error)
     );
@@ -161,28 +147,24 @@ export class EmployeeManagementComponent implements OnInit, AfterViewInit {
       }, 200); 
     }
   }
-  
-  private getJobTitleById(id: any): string {
-    return this.getLookupValue(this.jobTitles, id);
+
+  private setupColumnDefinitions(): void {
+    this.translate.get(['JOB_TITLES', 'DEPARTMENTS', 'GENDERS', 'NATIONALITIES', 'MARITAL_STATUSES']).subscribe(translations => {
+      this.columnDefinitions = [
+        { key: 'name', header: 'NAME', cell: (employee: Employee) => employee.name },
+        { key: 'jobTitle', header: 'POSITION', cell: (employee: Employee) => this.getTranslationForKey('jobTitles', employee.jobTitleId) },
+        { key: 'department', header: 'DEPARTMENT', cell: (employee: Employee) => this.getTranslationForKey('departments', employee.departmentId) },
+        { key: 'gender', header: 'GENDER', cell: (employee: Employee) => this.getTranslationForKey('gender', employee.genderId) },
+        { key: 'nationalities', header: 'NATIONALITIE', cell: (employee: Employee) => this.getTranslationForKey('nationalities', employee.nationalitieId) },
+        { key: 'maritalStatus', header: 'MARITAL_STATUS', cell: (employee: Employee) => this.getTranslationForKey('maritalStatus', employee.maritalStatusId) },
+        { key: 'actions', header: 'ACTIONS', cell: () => '' }
+      ];
+    });
   }
 
-  private getGenderById(id: any): string {
-    return this.getLookupValue(this.gender, id);
-  }
-  private getNationalitieById(id: any): string {
-    return this.getLookupValue(this.nationalities, id);
-  }
-
-  private getDepartmentById(id: any): string {
-    return this.getLookupValue(this.departments, id);
-  }
-
-  private getMaritalStatusById(id: any): string {
-    return this.getLookupValue(this.maritalStatus, id);
-  }
-
-  private getLookupValue(lookupArray: any[], id: any): string {
-    const item = lookupArray.find(i => i.id === id);
-    return item ? item.arabic : 'غير معروف';
+  private getTranslationForKey(key: 'jobTitles' | 'departments' | 'gender' | 'nationalities' | 'maritalStatus', id: any): string {
+    const data = this[key] as { id: any, arabic: string, english: string }[];
+    const item = data.find(i => i.id === id);
+    return item ? this.translate.currentLang === 'ar' ? item.arabic : item.english : 'Unknown';
   }
 }
