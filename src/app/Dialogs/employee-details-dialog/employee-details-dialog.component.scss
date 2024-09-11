@@ -1,49 +1,97 @@
 .employee-details-card {
-    padding: 20px;
-    .card-header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin-bottom: 16px;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 16px;
+  direction: rtl;
+  text-align: right;
+  background-color: #f9f9f9;
+  background-image: 
+  linear-gradient(rgba(255, 255, 255, 0.676), rgba(255, 255, 255, 0.787)), /* شفاف من الأبيض */
+  url('../../../assets/images/Pdf.PNG'); /* Add your image path here */
+  background-size: 100% 100%; /* Adjust dimensions as needed */
+  background-position: center; /* Centers the image */
+  background-repeat: no-repeat; /* Prevents the image from repeating */
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  color: #333; /* Text color for better contrast on the background image */
+}
 
-        h2 {
-            margin: 0;
-            font-size: 18px;
-            font-weight: bold;
-            text-align: center;
-            flex-grow: 1;
-            /* لتوسيط العنوان */
-            text-align: center;
-            /* العنوان في المنتصف */
-        }
 
-        .close-button {
-            margin-right: auto;
-            /* زر الإغلاق إلى أقصى اليسار */
-            color: #555;
-        }
-    }
 
-    mat-card-content {
-        .employee-details {
-            p {
-                margin: 8px 0;
-                font-size: 14px;
-                color: #333;
-                // display: flex;
-                // justify-content: space-between;
-            }
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 8px;
+}
 
-            strong {
-                font-weight: 600;
-                color: #000;
-            }
-        }
-    }
+.card-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #333;
+}
 
-    mat-card-actions {
-        display: flex;
-        justify-content: flex-end;
-        padding: 8px 16px;
-    }
+.close-button {
+  background-color: #ff6a00;
+  border-radius: 50px;
+  color: white;
+}
+
+.close-button:hover {
+  background-color: #b94e01;
+}
+
+.pdf-button {
+  background-color: #056cda;
+  border-radius: 4px;
+  color: white;
+}
+
+.pdf-button:hover {
+  background-color: #0056b3;
+}
+
+.employee-details {
+  p {
+    margin: 12px 0;
+    font-size: 16px;
+    color: #555;
+    display: flex;
+    align-items: center;
+  }
+
+  mat-icon {
+    color: #d45800;
+    font-size: 18px;
+    margin-right: 12px; /* Increased space between icon and text */
+  }
+
+  strong {
+    font-weight: bold;
+    color: #000;
+  }
+
+  .key {
+    margin: 0 8px; /* Space between key and value */
+    font-weight: 500;
+  }
+
+  .value {
+    color: #000;
+    font-weight: 500;
+  }
+}
+
+.employee-details p {
+  margin-bottom: 12px;
+}
+
+
+.header-icon {
+  color: #d45800;
+  font-size: 22px;
+  margin-right: 12px; 
 }

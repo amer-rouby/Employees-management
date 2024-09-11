@@ -1,4 +1,5 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
@@ -13,9 +14,13 @@ export class SharedTableComponent<T> {
   @Output() onEdit = new EventEmitter<T>();
   @Output() onDelete = new EventEmitter<number>();
   @Output() onView = new EventEmitter<any>();
-
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
   constructor() {}
-
+  ngAfterViewInit(): void {
+    if (this.paginator) {
+      this.dataSource.paginator = this.paginator;
+    }
+  }
   openDialog(element?: T): void {
     this.onEdit.emit(element);
   }
