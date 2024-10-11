@@ -60,5 +60,15 @@
   "EMPLOYEE_DETAILS": " Employee Details",
   "PHONE_NUMBER": "Phone Number",
   "IDENTITY_NUMBER": "Identity Number",
-  "HIRE_DATE": "Hire Date"
+  "HIRE_DATE": "Hire Date",
+  "TYPE": "Type",
+  "START_DATE": "Start Date",
+  "END_DATE": "End Date",
+  "STATUS": "Status",
+  "PENDING": "Pending",
+  "APPROVED": "Approved",
+  "REJECTED": "Rejected",
+  "ADD_LEAVE": "Add Leave",
+  "SAVE_CHANGES": "Save Changes"
+  
 }

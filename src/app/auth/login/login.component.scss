@@ -1,3 +1,16 @@
+/* CSS للخلفية الخاصة بصفحة تسجيل الدخول */
+.login-container {
+  background-image: url('../../../assets/images/login-background.png'); /* استبدل المسار بمسار الصورة */
+  background-size: cover; /* لتغطية الخلفية كاملة */
+  background-position: center; /* لتوسيط الصورة */
+  background-repeat: no-repeat; /* منع تكرار الصورة */
+  height: 100vh; /* اجعل الحاوية تغطي الشاشة بالكامل */
+  display: flex; /* لتمركز المحتوى في الوسط */
+  justify-content: center; /* تمركز العناصر أفقيًا */
+  align-items: center; /* تمركز العناصر عموديًا */
+  z-index: 2000;
+}
+
 .container {
   margin-top: 100px;
 }

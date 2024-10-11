@@ -12,24 +12,27 @@ export class SharedTableComponent<T> {
   @Input() displayedColumns: string[] = [];
   @Input() columnDefinitions: any[] = [];
   @Output() onEdit = new EventEmitter<T>();
-  @Output() onDelete = new EventEmitter<number>();
-  @Output() onView = new EventEmitter<any>();
+  @Output() onDelete = new EventEmitter<string>(); // افتراض أن المعرف هو من النوع string
+  @Output() onView = new EventEmitter<T>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+
   constructor() {}
+
   ngAfterViewInit(): void {
     if (this.paginator) {
       this.dataSource.paginator = this.paginator;
     }
   }
+
   openDialog(element?: T): void {
     this.onEdit.emit(element);
   }
 
-  deleteEmployee(id: number): void {
+  deleteItem(id: string): void {
     this.onDelete.emit(id);
   }
 
-  viewEmployeeDetails(employee: any): void {
-    this.onView.emit(employee);  // Correcting the emitted event to onView
+  viewItemDetails(item: T): void {
+    this.onView.emit(item);
   }
 }

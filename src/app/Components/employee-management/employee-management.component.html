@@ -14,8 +14,12 @@
 
   <h2>{{ 'EMPLOYEE_LIST' | translate }}</h2>
 
-  <app-shared-table [dataSource]="dataSource" [displayedColumns]="displayedColumns"
-    [columnDefinitions]="columnDefinitions" (onEdit)="openDialog($event)" (onDelete)="deleteEmployee($event)"
+  <app-shared-table 
+    [dataSource]="dataSource" 
+    [displayedColumns]="displayedColumns"
+    [columnDefinitions]="columnDefinitions" 
+    (onEdit)="openDialog($event)" 
+    (onDelete)="deleteEmployee($event)"
     (onView)="viewEmployeeDetails($event)">
   </app-shared-table>
 </div>

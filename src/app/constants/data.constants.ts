@@ -75,3 +75,9 @@ export const maritalStatus = [
   { id: 0, arabic: "متزوج", english: "Married" },
   { id: 1, arabic: "أعزب", english: "Single" },
 ];
+// src/app/models/leave-status.ts
+export const leaveStatus = [
+  { id: 1, arabic: 'معلق', english: 'Pending' },
+  { id: 2, arabic: 'موافق عليه', english: 'Approved' },
+  { id: 3, arabic: 'مرفوض', english: 'Rejected' }
+];

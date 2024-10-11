@@ -1,12 +1,12 @@
-<div class="container">
+<div class="login-container">
   @if(isLoading){
     <div class="spinner-container">
       <mat-spinner></mat-spinner>
     </div>
   }
-
-  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
-    <mat-card>
+  <div class="container">
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
+      <mat-card>
         <mat-card-header>
           <mat-card-title class="title">{{ 'LOGIN.TITLE' | translate }}</mat-card-title>
           <mat-icon aria-hidden="false" aria-label="Login Icon" class="login-icon">login</mat-icon>
@@ -36,5 +36,6 @@
           <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid">{{ 'LOGIN.SUBMIT' | translate }}</button>
         </mat-card-actions>
       </mat-card>
-  </form>
+    </form>
+  </div>
 </div>

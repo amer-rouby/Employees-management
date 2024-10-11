@@ -62,6 +62,15 @@
   "EMPLOYEE_DETAILS": "بيانات الموظف",
   "PHONE_NUMBER": "رقم الهاتف",
   "IDENTITY_NUMBER": "رقم الهوية",
-  "HIRE_DATE": "تاريخ التعيين"
+  "HIRE_DATE": "تاريخ التعيين",
+  "TYPE": "النوع",
+  "START_DATE": "تاريخ البدء",
+  "END_DATE": "تاريخ الانتهاء",
+  "STATUS": "الحالة",
+  "PENDING": "معلق",
+  "APPROVED": "موافق عليه",
+  "REJECTED": "مرفوض",
+  "ADD_LEAVE": "إضافة إجازة",
+  "SAVE_CHANGES": "حفظ التغييرات"
 
 }

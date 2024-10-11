@@ -18,7 +18,7 @@ import { EmployeeManagementComponent } from './Components/employee-management/em
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
-import { EmployeeDialogComponent } from './Components/employee-management/employee-dialog/employee-dialog.component';
+import { EmployeeDialogComponent } from './Components/employee-management/employee-add-dialog/employee-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { ConfirmDeleteDialogComponent } from './Dialogs/confirm-delete-dialog/confirm-delete-dialog.component';
@@ -39,6 +39,8 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { EmployeeDetailsDialogComponent } from './Dialogs/employee-details-dialog/employee-details-dialog.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { LeaveManagementComponent } from './Components/leave-management/leave-management.component';
+import { LeaveDialogComponent } from './Components/leave-management/leave-add-dialog/leave-dialog.component';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
@@ -56,6 +58,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     RegisterComponent,
     LoginComponent,
     EmployeeDetailsDialogComponent,
+    LeaveManagementComponent,
+    LeaveDialogComponent,
   ],
   imports: [
     BrowserModule,

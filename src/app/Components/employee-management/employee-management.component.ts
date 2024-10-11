@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { Employee } from '../../Models/employee.model';
 import { ConfirmDeleteDialogComponent } from '../../Dialogs/confirm-delete-dialog/confirm-delete-dialog.component';
-import { EmployeeDialogComponent } from './employee-dialog/employee-dialog.component';
+import { EmployeeDialogComponent } from './employee-add-dialog/employee-dialog.component';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { EmployeesService } from '../../Services/employee-management.service';
