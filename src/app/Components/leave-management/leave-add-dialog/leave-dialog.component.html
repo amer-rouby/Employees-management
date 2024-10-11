@@ -1,0 +1,74 @@
+<!-- src/app/Components/leave-management/leave-dialog/leave-dialog.component.html -->
+<h1 mat-dialog-title>{{ data.action === 'add' ? ('ADD_LEAVE' | translate) :
+    ('SAVE_CHANGES' | translate) }}</h1>
+<div mat-dialog-content>
+    <form (ngSubmit)="onSubmit()" #leaveForm="ngForm">
+        <div class="form-row">
+            <mat-form-field appearance="fill">
+                <mat-label>{{ 'EMPLOYEES' | translate }}</mat-label>
+                <mat-select [(ngModel)]="selectedEmployee" name="types" required>
+                    <mat-option *ngFor="let employee of employees" [value]="employee.name">
+                        {{ employee.name }}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="!selectedEmployee">
+                    {{ 'FIELD_REQUIRED' | translate }}
+                </mat-error>
+            </mat-form-field>
+            </div>
+        <div class="form-row">
+            <mat-form-field appearance="fill">
+                <mat-label>{{ 'TYPE' | translate }}</mat-label>
+                <mat-select [(ngModel)]="selectedTyeps" name="types" required>
+                    <mat-option *ngFor="let types of leaveTypes" [value]="types.name">
+                        {{ types.name }}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="!selectedTyeps">
+                    {{ 'FIELD_REQUIRED' | translate }}
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="fill">
+                <mat-label>{{ 'STATUS' | translate }}</mat-label>
+                <mat-select [(ngModel)]="selectedStatus" name="status" required>
+                    <mat-option *ngFor="let status of leaveStatus" [value]="status.name">
+                        {{ status.name }}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="!selectedStatus">
+                    {{ 'FIELD_REQUIRED' | translate }}
+                </mat-error>
+            </mat-form-field>
+        </div>
+        
+        <div class="form-row">
+            <mat-form-field appearance="fill">
+                <mat-label>{{ 'START_DATE' | translate }}</mat-label>
+                <input matInput [matDatepicker]="startDatePicker" placeholder="{{ 'START_DATE' | translate }}"
+                    [(ngModel)]="leave.startDate" name="startDate" required>
+                <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+                <mat-datepicker #startDatePicker></mat-datepicker>
+                <mat-error *ngIf="!leave.startDate">
+                    {{ 'FIELD_REQUIRED' | translate }}
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>{{ 'END_DATE' | translate }}</mat-label>
+                <input matInput [matDatepicker]="endDatePicker" placeholder="{{ 'END_DATE' | translate }}"
+                    [(ngModel)]="leave.endDate" name="endDate" required>
+                <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+                <mat-datepicker #endDatePicker></mat-datepicker>
+                <mat-error *ngIf="!leave.endDate">
+                    {{ 'FIELD_REQUIRED' | translate }}
+                </mat-error>
+            </mat-form-field>
+        </div>
+    </form>
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="onCancel()">{{ 'CANCEL' | translate }}</button>
+    <button mat-raised-button color="primary" (click)="onSubmit()">{{ data.action === 'add' ? ('ADD_LEAVE' | translate)
+        :
+        ('SAVE_CHANGES' | translate) }}</button>
+</div>

@@ -1,4 +1,6 @@
-<div class="container">
+<div class="container px-3">
+  <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+
   <div class="toolbar">
     <button mat-raised-button color="primary" (click)="openDialog()">
       {{ 'ADD_EMPLOYEE' | translate }}
@@ -10,17 +12,14 @@
     </mat-form-field>
   </div>
 
-  <hr />
+  <h2>{{ 'EMPLOYEE_LIST' | translate }}</h2>
 
-  <h3>{{ 'EMPLOYEE_LIST' | translate }}</h3>
-  
-  <app-shared-table
-    [dataSource]="dataSource"
+  <app-shared-table 
+    [dataSource]="dataSource" 
     [displayedColumns]="displayedColumns"
-    [columnDefinitions]="columnDefinitions"
-    (onEdit)="openDialog($event)"
-    (onDelete)="deleteEmployee($event)">
+    [columnDefinitions]="columnDefinitions" 
+    (onEdit)="openDialog($event)" 
+    (onDelete)="deleteEmployee($event)"
+    (onView)="viewEmployeeDetails($event)">
   </app-shared-table>
-
-  <mat-paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons></mat-paginator>
 </div>

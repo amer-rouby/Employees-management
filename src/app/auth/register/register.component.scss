@@ -1,0 +1,62 @@
+.container {
+  margin-top: 100px;
+}
+.register-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+    max-height: 100vh;
+    // background: linear-gradient(135deg, #6a1b9a, #8e24aa);
+  
+    mat-card {
+      width: 400px;
+      padding: 20px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+      border-radius: 10px;
+      background-color: #fff;
+      transition: transform 0.3s, box-shadow 0.3s;
+  
+      &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+      }
+    }
+  
+    mat-card-header {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 20px;
+  
+      .title {
+        font-size: 24px;
+        font-weight: 600;
+        margin-bottom: 10px;
+        color: #8e24aa;
+      }
+  
+      .register-icon {
+        font-size: 18px;
+        color: #8e24aa;
+      }
+    }
+  
+    .full-width {
+      width: 100%;
+    }
+  
+    mat-card-actions {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+  
+      button {
+        padding: 10px 40px;
+        font-size: 16px;
+        font-weight: 600;
+      }
+    }
+  }
+  

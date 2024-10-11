@@ -18,14 +18,29 @@ import { EmployeeManagementComponent } from './Components/employee-management/em
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
-import { EmployeeDialogComponent } from './Components/employee-management/employee-dialog/employee-dialog.component';
+import { EmployeeDialogComponent } from './Components/employee-management/employee-add-dialog/employee-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { ConfirmDeleteDialogComponent } from './Dialogs/confirm-delete-dialog/confirm-delete-dialog.component';
 import { MatSelectModule } from '@angular/material/select';
-import { SharedTableComponent } from './Components/shared-table/shared-table.component';
-
-
+import { SharedTableComponent } from './Components/shared/shared-table/shared-table.component';
+import { ToastrModule } from 'ngx-toastr';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
+import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
+import { environment } from '../environments/environment';
+import { RegisterComponent } from './auth/register/register.component';
+import { LoginComponent } from './auth/login/login.component';
+import { AuthService } from './Services/auth.service';
+import { AuthGuard } from './Guards/auth.guard';
+import { RedirectIfLoggedInGuard } from './Guards/redirect-if-logged-in.guard';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { EmployeeDetailsDialogComponent } from './Dialogs/employee-details-dialog/employee-details-dialog.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { LeaveManagementComponent } from './Components/leave-management/leave-management.component';
+import { LeaveDialogComponent } from './Components/leave-management/leave-add-dialog/leave-dialog.component';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
@@ -39,7 +54,12 @@ export function HttpLoaderFactory(http: HttpClient) {
     EmployeeManagementComponent,
     EmployeeDialogComponent,
     ConfirmDeleteDialogComponent,
-    SharedTableComponent
+    SharedTableComponent,
+    RegisterComponent,
+    LoginComponent,
+    EmployeeDetailsDialogComponent,
+    LeaveManagementComponent,
+    LeaveDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -59,16 +79,25 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatDialogModule,
     MatPaginatorModule,
     MatSelectModule,
+    MatProgressBarModule,
+    MatProgressSpinnerModule,
+    MatNativeDateModule,
+    MatDatepickerModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireAuthModule,
+    AngularFireDatabaseModule,
+    ToastrModule.forRoot(),
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
         deps: [HttpClient]
       }
-    })
+    }),
   ],
   providers: [
-    provideAnimationsAsync()
+    provideAnimationsAsync(),
+   AuthService, AuthGuard, RedirectIfLoggedInGuard,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]
