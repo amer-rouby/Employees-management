@@ -1,48 +1,15 @@
-/* Toolbar and menu styling */
 mat-toolbar {
   display: flex;
-  align-items: center;
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  z-index: 300;
-}
-
-.spacer {
-  flex: 1 1 auto;
-}
-
-.nav-item {
-  display: flex;
   align-items: center;
-}
-
-.hamburger-menu {
-  display: none; /* Hidden by default */
-}
-
-/* Responsive styles for smaller screens */
-@media (max-width: 768px) {
-  .nav-item {
-    display: none; /* Hide regular navigation items */
+  z-index: 300;
+  .spacer {
+    flex: 1 1 auto;
   }
-
-  .hamburger-menu {
-    display: flex; /* Show hamburger menu */
+  .example-form {
+    display: flex;
+    align-items: center;
   }
-
-  mat-toolbar {
-    justify-content: space-between; /* Adjust toolbar layout */
-  }
-}
-
-/* RTL adjustments */
-[dir="rtl"] mat-toolbar {
-  flex-direction: row-reverse;
-}
-
-[dir="rtl"] mat-icon {
-  margin-right: 0;
-  margin-left: 8px;
 }

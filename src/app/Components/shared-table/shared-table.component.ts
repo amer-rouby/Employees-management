@@ -1,5 +1,4 @@
-import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
-import { MatPaginator } from '@angular/material/paginator';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
@@ -12,27 +11,15 @@ export class SharedTableComponent<T> {
   @Input() displayedColumns: string[] = [];
   @Input() columnDefinitions: any[] = [];
   @Output() onEdit = new EventEmitter<T>();
-  @Output() onDelete = new EventEmitter<string>(); // افتراض أن المعرف هو من النوع string
-  @Output() onView = new EventEmitter<T>();
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @Output() onDelete = new EventEmitter<number>();
 
   constructor() {}
-
-  ngAfterViewInit(): void {
-    if (this.paginator) {
-      this.dataSource.paginator = this.paginator;
-    }
-  }
 
   openDialog(element?: T): void {
     this.onEdit.emit(element);
   }
 
-  deleteItem(id: string): void {
+  deleteEmployee(id: number): void {
     this.onDelete.emit(id);
-  }
-
-  viewItemDetails(item: T): void {
-    this.onView.emit(item);
   }
 }

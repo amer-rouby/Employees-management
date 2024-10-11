@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
-import { AuthService } from '../../Services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -8,7 +7,7 @@ import { AuthService } from '../../Services/auth.service';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
-  constructor(private translate: TranslateService, private authService: AuthService) { }
+  constructor(private translate: TranslateService) { }
 
   changeLanguage(lang: string): void {
     this.translate.use(lang);
@@ -19,14 +18,5 @@ export class HeaderComponent {
   private setDirection(lang: string): void {
     const direction = lang === 'ar' ? 'rtl' : 'ltr';
     document.documentElement.dir = direction;
-  }
-
-  logout(): void {
-    this.authService.logout().then(() => {
-      // Redirect to login or any other page after logout
-      window.location.href = '/login'; // Or use Router for navigation
-    }).catch(error => {
-      console.error('Logout failed', error);
-    });
   }
 }
