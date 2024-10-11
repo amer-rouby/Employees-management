@@ -69,6 +69,8 @@
   "APPROVED": "Approved",
   "REJECTED": "Rejected",
   "ADD_LEAVE": "Add Leave",
-  "SAVE_CHANGES": "Save Changes"
-  
+  "SAVE_CHANGES": "Save Changes",
+  "EMPLOYEES": "Employees",
+  "EMPLOYEE": "Employee",
+  "LEAVE_MANAGEMENT": "leave management"
 }

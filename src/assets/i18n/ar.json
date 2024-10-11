@@ -71,6 +71,8 @@
   "APPROVED": "موافق عليه",
   "REJECTED": "مرفوض",
   "ADD_LEAVE": "إضافة إجازة",
-  "SAVE_CHANGES": "حفظ التغييرات"
-
+  "SAVE_CHANGES": "حفظ التغييرات",
+  "EMPLOYEES": "الموظفين",
+  "EMPLOYEE": "الموظف",
+  "LEAVE_MANAGEMENT": "ادارة الاجازات"
 }

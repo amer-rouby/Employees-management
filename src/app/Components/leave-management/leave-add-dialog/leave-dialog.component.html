@@ -5,9 +5,26 @@
     <form (ngSubmit)="onSubmit()" #leaveForm="ngForm">
         <div class="form-row">
             <mat-form-field appearance="fill">
+                <mat-label>{{ 'EMPLOYEES' | translate }}</mat-label>
+                <mat-select [(ngModel)]="selectedEmployee" name="types" required>
+                    <mat-option *ngFor="let employee of employees" [value]="employee.name">
+                        {{ employee.name }}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="!selectedEmployee">
+                    {{ 'FIELD_REQUIRED' | translate }}
+                </mat-error>
+            </mat-form-field>
+            </div>
+        <div class="form-row">
+            <mat-form-field appearance="fill">
                 <mat-label>{{ 'TYPE' | translate }}</mat-label>
-                <input matInput placeholder="{{ 'TYPE' | translate }}" [(ngModel)]="leave.type" name="type" required>
-                <mat-error *ngIf="!leave.type">
+                <mat-select [(ngModel)]="selectedTyeps" name="types" required>
+                    <mat-option *ngFor="let types of leaveTypes" [value]="types.name">
+                        {{ types.name }}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="!selectedTyeps">
                     {{ 'FIELD_REQUIRED' | translate }}
                 </mat-error>
             </mat-form-field>

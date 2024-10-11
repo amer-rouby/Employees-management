@@ -1,6 +1,7 @@
 export interface Leave {
   id?: string;
-  type: string; // تأكد من تطابق هذه الخصائص مع البيانات الفعلية
+  employee: any;
+  types: string;
   startDate: string;
   endDate: string;
   status: string;

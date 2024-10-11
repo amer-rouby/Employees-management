@@ -15,10 +15,11 @@ import { TranslateService } from '@ngx-translate/core';
 export class LeaveManagementComponent {
   dataSource = new MatTableDataSource<Leave>([]);
   leaveRequests: Leave[] = [];
-  displayedColumns: string[] = ['type', 'startDate', 'endDate', 'status', 'actions'];
+  displayedColumns: string[] = ["employee",'types', 'startDate', 'endDate', 'status', 'actions'];
 
   columnDefinitions = [
-    { key: 'type', header: 'TYPE', cell: (element: Leave) => element.type },
+    { key: 'types', header: 'TYPE', cell: (element: Leave) => element.types },
+    { key: 'employee', header: 'EMPLOYEE', cell: (element: Leave) => element.employee },
     { key: 'startDate', header: 'START_DATE', cell: (element: Leave) => element.startDate },
     { key: 'endDate', header: 'END_DATE', cell: (element: Leave) => element.endDate },
     { key: 'status', header: 'STATUS', cell: (element: Leave) => this.translateStatus(element.status) },
