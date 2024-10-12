@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { AuthService } from '../../../Services/auth.service';
 
 @Component({
   selector: 'app-shared-table',
@@ -16,8 +17,9 @@ export class SharedTableComponent<T> {
   @Output() onDelete = new EventEmitter<string>(); // افتراض أن المعرف هو من النوع string
   @Output() onView = new EventEmitter<T>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  heCanTakeAction: any;
   
-  constructor() {}
+  constructor(private authService: AuthService) {}
 
   ngAfterViewInit(): void {
     if (this.paginator) {
@@ -25,6 +27,10 @@ export class SharedTableComponent<T> {
     }
   }
 
+  ngOnInit() {
+    this.heCanTakeAction = this.authService.canRegisterUser();
+  }
+  
   openDialog(element?: T): void {
     this.onEdit.emit(element);
   }

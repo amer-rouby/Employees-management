@@ -8,6 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { EmployeesService } from '../../../Services/employee-management.service';
 import { Employee } from '../../../Models/employee.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from '../../../Services/auth.service';
 
 @Component({
   selector: 'app-leave-dialog',
@@ -28,31 +29,37 @@ export class LeaveDialogComponent implements OnInit {
     status: '',
     id: '',
   };
-
+  heCanTakeAction: any;
   constructor(
     private fb: FormBuilder,
     private leaveService: LeaveService,
     private employeesService: EmployeesService,
+    private authService: AuthService,
     private translate: TranslateService,
     private dialogRef: MatDialogRef<LeaveDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private datePipe: DatePipe
   ) {
-    // Initialize the FormGroup with validators
+    // Initialize the FormGroup with conditional validators
     this.employeeForm = this.fb.group({
       employee: ['', Validators.required],
       types: ['', Validators.required],
-      status: ['', Validators.required],
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
     });
+  
+    this.heCanTakeAction = this.authService.canRegisterUser();
+  
+    if (this.heCanTakeAction) {
+      this.employeeForm.addControl('status', this.fb.control('', Validators.required));
+    }
   }
-
+  
   ngOnInit(): void {
     this.loadStatus();
     this.loadTypes();
     this.loadEmployees();
-
+    this.heCanTakeAction = this.authService.canRegisterUser();
     if (this.data.action === 'edit' && this.data.leave) {
       this.leave = { ...this.data.leave };
       this.employeeForm.patchValue({

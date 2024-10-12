@@ -50,7 +50,7 @@ export class LeaveManagementComponent {
   private getTranslationForKey(key: 'leaveStatus' | 'leaveTypes', id: any): string {
     const data = this[key] as { id: any, arabic: string, english: string }[];
     const item = data.find(i => i.id === id);
-    return item ? (this.translate.currentLang === 'ar' ? item.arabic : item.english) : 'Unknown';
+    return item ? (this.translate.currentLang === 'ar' ? item.arabic : item.english) : 'Pending';
   }
 
   loadLeaveRequests(): void {
