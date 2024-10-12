@@ -17,13 +17,14 @@ export class LeaveManagementComponent {
   dataSource = new MatTableDataSource<Leave>([]);
   leaveRequests: Leave[] = [];
   displayedColumns: string[] = ['employee', 'types', 'startDate', 'endDate', 'status', 'actions'];
+  isLoading = true;
 
-  // Define leaveStatus and leaveTypes as class properties
   leaveStatus = leaveStatus;
   leaveTypes = leaveTypes;
 
   columnDefinitions: any[] = [];
   showViowAction = false;
+
   constructor(
     private leaveService: LeaveService,
     private dialog: MatDialog,
@@ -46,7 +47,6 @@ export class LeaveManagementComponent {
     });
   }
 
-  // Access leaveStatus and leaveTypes through class properties
   private getTranslationForKey(key: 'leaveStatus' | 'leaveTypes', id: any): string {
     const data = this[key] as { id: any, arabic: string, english: string }[];
     const item = data.find(i => i.id === id);
@@ -54,9 +54,14 @@ export class LeaveManagementComponent {
   }
 
   loadLeaveRequests(): void {
+    this.isLoading = true;
+
     this.leaveService.getAllLeaveRequests().subscribe((data) => {
       this.leaveRequests = data;
       this.dataSource.data = data;
+      this.isLoading = false;
+    }, () => {
+      this.isLoading = false;
     });
   }
 
