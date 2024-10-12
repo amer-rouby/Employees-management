@@ -1,8 +1,12 @@
 export interface Employee {
-    id: number;
-    name: string;
-    departmentId?: number; // Add this if it's not already in your model
-    jobTitleId?: number;
-    genderId?: number;
-  }
-  
+  id: string;
+  name: string;
+  departmentId?: string;
+  jobTitleId?: string;
+  genderId?: string;
+  nationalitieId?: string;
+  maritalStatusId?: string;
+  phoneNumber?: string;        // رقم الهاتف
+  identityNumber?: string;     // رقم إثبات الهوية
+  hireDate?: Date;             // تاريخ تعيين الموظف
+}

@@ -14,8 +14,8 @@
 }
 
 .image-container img {
-  width: 250px; /* Set image width */
-  height: 250px; /* Set image height */
+  width: 200px; /* Set image width */
+  height: 200px; /* Set image height */
   border-radius: 50%; /* Circular image */
   object-fit: cover; /* Cover the circle */
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow for visibility */
@@ -25,7 +25,7 @@
 .path-name {
   margin-top: 0.5rem; /* Space between image and text */
   font-size: 1rem; /* Font size for text */
-  color: #333; /* Dark color for readability */
+  color: #0131ab; /* Dark color for readability */
 }
 
 /* Responsive adjustments */
