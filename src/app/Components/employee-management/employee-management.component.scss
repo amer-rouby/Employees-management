@@ -1,7 +1,8 @@
 /* General container styling */
 .container {
-    padding: 20px;
-    margin-top: 60px;
+    // padding: 20px;
+    padding-top: 70px;
+    padding-bottom: 0px !important;
     max-width: 100%;
     box-sizing: border-box;
   }
@@ -11,12 +12,11 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 16px;
   }
   
   /* Adjust search field width */
   .search-employee {
-    max-width: 300px; /* Adjust as needed */
+    max-width: 500px; /* Adjust as needed */
     flex: 1;
     margin-left: 16px;
   }

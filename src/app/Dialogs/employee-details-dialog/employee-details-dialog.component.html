@@ -1,0 +1,32 @@
+<mat-card class="employee-details-card" id="employeeDetails">
+  <div class="card-header">
+    @if(isShow){
+      <button mat-icon-button (click)="closeDialog()" aria-label="Close" class="close-button">
+        <mat-icon>close</mat-icon>
+      </button>
+    }
+   <div class="d-flex">
+    <h2>Employee Details</h2>
+    <mat-icon class="header-icon p-1 mx-1">info</mat-icon>
+   </div>
+    @if(isShow){
+      <button  mat-button class="pdf-button" (click)="printPDF()">
+        Print PDF
+      </button>
+    }
+    
+  </div>
+  <mat-card-content>
+    <div class="employee-details">
+      <p><mat-icon class="mat-icon">person</mat-icon><span class="key">Name:</span> <span class="value">{{ employee.name }}</span></p>
+      <p><mat-icon class="mat-icon">badge</mat-icon><span class="key">Identity Number:</span> <span class="value">{{ employee.identityNumber }}</span></p>
+      <p><mat-icon class="mat-icon">work</mat-icon><span class="key">Position:</span> <span class="value">{{ getJobTitleById(employee.jobTitleId) }}</span></p>
+      <p><mat-icon class="mat-icon">domain</mat-icon><span class="key">Department:</span> <span class="value">{{ getDepartmentById(employee.departmentId) }}</span></p>
+      <p><mat-icon class="mat-icon">transgender</mat-icon><span class="key">Gender:</span> <span class="value">{{ getGenderById(employee.genderId) }}</span></p>
+      <p><mat-icon class="mat-icon">public</mat-icon><span class="key">Nationality:</span> <span class="value">{{ getNationalitieById(employee.nationalitieId) }}</span></p>
+      <p><mat-icon class="mat-icon">favorite</mat-icon><span class="key">Marital Status:</span> <span class="value">{{ getMaritalStatusById(employee.maritalStatusId) }}</span></p>
+      <p><mat-icon class="mat-icon">calendar_today</mat-icon><span class="key">Hire Date:</span> <span class="value">{{ employee.hireDate | date: 'dd/MM/yyyy' }}</span></p>
+      <p><mat-icon class="mat-icon">phone</mat-icon><span class="key">Phone Number:</span> <span class="value">{{ employee.phoneNumber }}</span></p>
+    </div>
+  </mat-card-content>
+</mat-card>
