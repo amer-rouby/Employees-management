@@ -3,20 +3,39 @@
   max-width: 600px;
   margin: 0 auto;
   padding: 16px;
-  direction: rtl;
-  text-align: right;
+  direction: ltr;
+  text-align: left;
   background-color: #f9f9f9;
-  background-image: 
-  linear-gradient(rgba(255, 255, 255, 0.676), rgba(255, 255, 255, 0.787)), /* شفاف من الأبيض */
-  url('../../../assets/images/Pdf.PNG'); /* Add your image path here */
-  background-size: 100% 100%; /* Adjust dimensions as needed */
-  background-position: center; /* Centers the image */
-  background-repeat: no-repeat; /* Prevents the image from repeating */
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  color: #333; /* Text color for better contrast on the background image */
+  color: #333;
+  position: relative;
+  overflow: hidden;
 }
 
+.employee-details-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(rgba(255, 255, 255, 0.676), rgba(255, 255, 255, 0.787)),
+    url('../../../assets/images/Pdf.PNG');
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+  transform: scaleX(-1);
+  border-radius: 8px;
+  z-index: 0;
+}
+
+.employee-details-card mat-card-content,
+.employee-details-card .employee-details {
+  position: relative; 
+  z-index: 1;
+}
 
 
 .card-header {
@@ -26,6 +45,7 @@
   margin-bottom: 16px;
   border-bottom: 1px solid #ddd;
   padding-bottom: 8px;
+  text-align: left;
 }
 
 .card-header h2 {
@@ -61,12 +81,14 @@
     color: #555;
     display: flex;
     align-items: center;
+    flex-direction: row;
   }
 
   mat-icon {
     color: #d45800;
     font-size: 18px;
-    margin-right: 12px; /* Increased space between icon and text */
+    margin-left: 12px;
+    margin-right: 0;
   }
 
   strong {
@@ -75,7 +97,7 @@
   }
 
   .key {
-    margin: 0 8px; /* Space between key and value */
+    margin: 0 8px;
     font-weight: 500;
   }
 
@@ -89,9 +111,9 @@
   margin-bottom: 12px;
 }
 
-
 .header-icon {
   color: #d45800;
   font-size: 22px;
-  margin-right: 12px; 
+  margin-left: 12px;
+  margin-right: 0;
 }

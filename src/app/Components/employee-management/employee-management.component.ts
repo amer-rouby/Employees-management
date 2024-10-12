@@ -22,6 +22,7 @@ export class EmployeeManagementComponent implements OnInit {
   dataSource = new MatTableDataSource<Employee>(this.employees);
   columnDefinitions: any[] = [];
   isLoading: boolean = false;
+  showViowAction: boolean = true;
   jobTitles = jobTitles;
   departments = departments;
   gender = gender;

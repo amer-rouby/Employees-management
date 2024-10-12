@@ -1,7 +1,7 @@
 <div class="container">
     <button mat-raised-button color="primary" (click)="openAddLeaveDialog()">{{ 'ADD_LEAVE' | translate }}</button>
     <app-shared-table [dataSource]="dataSource" [displayedColumns]="displayedColumns"
-        [columnDefinitions]="columnDefinitions" (onEdit)="openEditLeaveDialog($event)"
+        [columnDefinitions]="columnDefinitions" [showViowAction]="showViowAction" (onEdit)="openEditLeaveDialog($event)"
         (onDelete)="deleteLeaveRequest($event)">
     </app-shared-table>
 </div>

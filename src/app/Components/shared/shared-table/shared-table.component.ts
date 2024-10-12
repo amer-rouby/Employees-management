@@ -11,11 +11,12 @@ export class SharedTableComponent<T> {
   @Input() dataSource: MatTableDataSource<T> = new MatTableDataSource<T>([]);
   @Input() displayedColumns: string[] = [];
   @Input() columnDefinitions: any[] = [];
+  @Input() showViowAction: any;
   @Output() onEdit = new EventEmitter<T>();
   @Output() onDelete = new EventEmitter<string>(); // افتراض أن المعرف هو من النوع string
   @Output() onView = new EventEmitter<T>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-
+  
   constructor() {}
 
   ngAfterViewInit(): void {

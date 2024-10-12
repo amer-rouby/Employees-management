@@ -6,6 +6,7 @@ import { Leave } from '../../Models/leave.model';
 import { LeaveDialogComponent } from './leave-add-dialog/leave-dialog.component';
 import { ConfirmDeleteDialogComponent } from '../../Dialogs/confirm-delete-dialog/confirm-delete-dialog.component';
 import { TranslateService } from '@ngx-translate/core';
+import { leaveStatus, leaveTypes } from './../../constants/data.constants';
 
 @Component({
   selector: 'app-leave-management',
@@ -15,41 +16,41 @@ import { TranslateService } from '@ngx-translate/core';
 export class LeaveManagementComponent {
   dataSource = new MatTableDataSource<Leave>([]);
   leaveRequests: Leave[] = [];
-  displayedColumns: string[] = ["employee",'types', 'startDate', 'endDate', 'status', 'actions'];
+  displayedColumns: string[] = ['employee', 'types', 'startDate', 'endDate', 'status', 'actions'];
 
-  columnDefinitions = [
-    { key: 'types', header: 'TYPE', cell: (element: Leave) => element.types },
-    { key: 'employee', header: 'EMPLOYEE', cell: (element: Leave) => element.employee },
-    { key: 'startDate', header: 'START_DATE', cell: (element: Leave) => element.startDate },
-    { key: 'endDate', header: 'END_DATE', cell: (element: Leave) => element.endDate },
-    { key: 'status', header: 'STATUS', cell: (element: Leave) => this.translateStatus(element.status) },
-    { key: 'actions', header: 'ACTIONS', cell: () => '' }
-  ];
-  
-  translateStatus(status: string): string {
-    let translatedStatus = '';
-    switch (status) {
-      case 'Approved':
-        this.translate.get('APPROVED').subscribe((res: string) => translatedStatus = res);
-        break;
-      case 'Pending':
-        this.translate.get('PENDING').subscribe((res: string) => translatedStatus = res);
-        break;
-      case 'Rejected':
-        this.translate.get('REJECTED').subscribe((res: string) => translatedStatus = res);
-        break;
-      default:
-        translatedStatus = status;
-    }
-    return translatedStatus;
-  }
+  // Define leaveStatus and leaveTypes as class properties
+  leaveStatus = leaveStatus;
+  leaveTypes = leaveTypes;
 
+  columnDefinitions: any[] = [];
+  showViowAction = false;
   constructor(
     private leaveService: LeaveService,
     private dialog: MatDialog,
     private translate: TranslateService
   ) {
+    this.setupColumnDefinitions();
     this.loadLeaveRequests();
+  }
+
+  private setupColumnDefinitions(): void {
+    this.translate.get(['TYPE', 'EMPLOYEE', 'START_DATE', 'END_DATE', 'STATUS', 'ACTIONS']).subscribe(translations => {
+      this.columnDefinitions = [
+        { key: 'types', header: translations['TYPE'], cell: (leave: Leave) => this.getTranslationForKey('leaveTypes', leave.types) },
+        { key: 'employee', header: translations['EMPLOYEE'], cell: (leave: Leave) => leave.employee },
+        { key: 'startDate', header: translations['START_DATE'], cell: (leave: Leave) => leave.startDate },
+        { key: 'endDate', header: translations['END_DATE'], cell: (leave: Leave) => leave.endDate },
+        { key: 'status', header: translations['STATUS'], cell: (leave: Leave) => this.getTranslationForKey('leaveStatus', leave.status) },
+        { key: 'actions', header: translations['ACTIONS'], cell: () => '' }
+      ];
+    });
+  }
+
+  // Access leaveStatus and leaveTypes through class properties
+  private getTranslationForKey(key: 'leaveStatus' | 'leaveTypes', id: any): string {
+    const data = this[key] as { id: any, arabic: string, english: string }[];
+    const item = data.find(i => i.id === id);
+    return item ? (this.translate.currentLang === 'ar' ? item.arabic : item.english) : 'Unknown';
   }
 
   loadLeaveRequests(): void {
