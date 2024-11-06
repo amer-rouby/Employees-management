@@ -37,12 +37,12 @@ export class LeaveManagementComponent {
   private setupColumnDefinitions(): void {
     this.translate.get(['TYPE', 'EMPLOYEE', 'START_DATE', 'END_DATE', 'STATUS', 'ACTIONS']).subscribe(translations => {
       this.columnDefinitions = [
-        { key: 'types', header: translations['TYPE'], cell: (leave: Leave) => this.getTranslationForKey('leaveTypes', leave.types) },
-        { key: 'employee', header: translations['EMPLOYEE'], cell: (leave: Leave) => leave.employee },
-        { key: 'startDate', header: translations['START_DATE'], cell: (leave: Leave) => leave.startDate },
-        { key: 'endDate', header: translations['END_DATE'], cell: (leave: Leave) => leave.endDate },
-        { key: 'status', header: translations['STATUS'], cell: (leave: Leave) => this.getTranslationForKey('leaveStatus', leave.status) },
-        { key: 'actions', header: translations['ACTIONS'], cell: () => '' }
+        { key: 'types', header:'TYPE', cell: (leave: Leave) => this.getTranslationForKey('leaveTypes', leave.types) },
+        { key: 'employee', header:'EMPLOYEE', cell: (leave: Leave) => leave.employee },
+        { key: 'startDate', header:'START_DATE', cell: (leave: Leave) => leave.startDate },
+        { key: 'endDate', header: 'END_DATE', cell: (leave: Leave) => leave.endDate },
+        { key: 'status', header:'STATUS', cell: (leave: Leave) => this.getTranslationForKey('leaveStatus', leave.status) },
+        { key: 'actions', header: 'ACTIONS', cell: () => '' }
       ];
     });
   }

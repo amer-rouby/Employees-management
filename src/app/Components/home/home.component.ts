@@ -7,11 +7,11 @@ import { AuthService } from '../../Services/auth.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  canRegisterUser: any;
+  canRegisterUser: boolean = false;
 
   constructor(private authService: AuthService) {}
 
   ngOnInit() {
-    this.canRegisterUser = this.authService.canRegisterUser(); // Get the permissions on init
+    this.canRegisterUser = this.authService.canRegisterUser();
   }
 }

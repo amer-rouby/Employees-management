@@ -4,7 +4,6 @@ import { LeaveService } from '../../../Services/leave.service';
 import { Leave } from '../../../Models/leave.model';
 import { DatePipe } from '@angular/common';
 import { leaveStatus, leaveTypes } from '../../../constants/data.constants';
-import { TranslateService } from '@ngx-translate/core';
 import { EmployeesService } from '../../../Services/employee-management.service';
 import { Employee } from '../../../Models/employee.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -17,8 +16,8 @@ import { AuthService } from '../../../Services/auth.service';
   providers: [DatePipe]
 })
 export class LeaveDialogComponent implements OnInit {
-  leaveStatus: any[] = [];
-  leaveTypes: any[] = [];
+  leaveStatus = leaveStatus;
+  leaveTypes= leaveTypes;
   employees: Employee[] = [];
   employeeForm: FormGroup;
   leave: Leave = {
@@ -35,7 +34,6 @@ export class LeaveDialogComponent implements OnInit {
     private leaveService: LeaveService,
     private employeesService: EmployeesService,
     private authService: AuthService,
-    private translate: TranslateService,
     private dialogRef: MatDialogRef<LeaveDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private datePipe: DatePipe
@@ -56,8 +54,6 @@ export class LeaveDialogComponent implements OnInit {
   }
   
   ngOnInit(): void {
-    this.loadStatus();
-    this.loadTypes();
     this.loadEmployees();
     this.heCanTakeAction = this.authService.canRegisterUser();
     if (this.data.action === 'edit' && this.data.leave) {
@@ -103,21 +99,5 @@ export class LeaveDialogComponent implements OnInit {
 
   onCancel(): void {
     this.dialogRef.close(false);
-  }
-
-  private loadStatus(): void {
-    const currentLang = this.translate.currentLang || 'en';
-    this.leaveStatus = leaveStatus.map(item => ({
-      id: item.id,
-      name: currentLang === 'ar' ? item.arabic : item.english
-    }));
-  }
-
-  private loadTypes(): void {
-    const currentLang = this.translate.currentLang || 'en';
-    this.leaveTypes = leaveTypes.map(item => ({
-      id: item.id,
-      name: currentLang === 'ar' ? item.arabic : item.english
-    }));
   }
 }

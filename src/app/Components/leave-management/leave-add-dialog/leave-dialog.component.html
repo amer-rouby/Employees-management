@@ -22,7 +22,7 @@
                 <mat-label>{{ 'TYPE' | translate }}</mat-label>
                 <mat-select formControlName="types" required>
                     <mat-option *ngFor="let types of leaveTypes" [value]="types.id">
-                        {{ types.name }}
+                        {{ types | translateText }}
                     </mat-option>
                 </mat-select>
                 @if(employeeForm.get('types')?.invalid && employeeForm.get('types')?.touched){
@@ -38,7 +38,7 @@
                 <mat-label>{{ 'STATUS' | translate }}</mat-label>
                 <mat-select formControlName="status">
                     <mat-option *ngFor="let status of leaveStatus" [value]="status.id">
-                        {{ status.name }}
+                        {{ status | translateText }}
                     </mat-option>
                 </mat-select>
                 @if(employeeForm.get('status')?.invalid && employeeForm.get('status')?.touched){
