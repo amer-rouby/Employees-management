@@ -1,9 +1,16 @@
 <form [formGroup]="employeeForm" (ngSubmit)="saveEmployee()" class="employee-form p-3">
   <div class="form-grid">
     <mat-form-field appearance="fill">
-      <mat-label>{{ 'NAME' | translate }}</mat-label>
-      <input matInput formControlName="name" placeholder="{{ 'NAME' | translate }}" />
+      <mat-label>{{ 'EMPLOYEES_ARABIC_NAME' | translate }}</mat-label>
+      <input matInput formControlName="name" placeholder="{{ 'EMPLOYEES_ARABIC_NAME' | translate }}" />
       <mat-error *ngIf="employeeForm.get('name')?.hasError('required')">
+        {{ 'FIELD_REQUIRED' | translate }}
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>{{ 'EMPLOYEES_ENGLISH_NAME' | translate }}</mat-label>
+      <input matInput formControlName="englishName" placeholder="{{ 'EMPLOYEES_ENGLISH_NAME' | translate }}" />
+      <mat-error *ngIf="employeeForm.get('englishName')?.hasError('required')">
         {{ 'FIELD_REQUIRED' | translate }}
       </mat-error>
     </mat-form-field>
@@ -12,7 +19,7 @@
       <mat-label>{{ 'POSITION' | translate }}</mat-label>
       <mat-select formControlName="jobTitleId">
         <mat-option *ngFor="let job of jobTitles" [value]="job.id">
-          {{ job.name }}
+          {{ job | translateText }}
         </mat-option>
       </mat-select>
       <mat-error *ngIf="employeeForm.get('jobTitleId')?.hasError('required')">
@@ -24,7 +31,7 @@
       <mat-label>{{ 'DEPARTMENT' | translate }}</mat-label>
       <mat-select formControlName="departmentId">
         <mat-option *ngFor="let department of departments" [value]="department.id">
-          {{ department.name }}
+          {{ department | translateText}}
         </mat-option>
       </mat-select>
       <mat-error *ngIf="employeeForm.get('departmentId')?.hasError('required')">
@@ -36,7 +43,7 @@
       <mat-label>{{ 'GENDER' | translate }}</mat-label>
       <mat-select formControlName="genderId">
         <mat-option *ngFor="let g of gender" [value]="g.id">
-          {{ g.name }}
+          {{ g |translateText }}
         </mat-option>
       </mat-select>
       <mat-error *ngIf="employeeForm.get('genderId')?.hasError('required')">
@@ -48,7 +55,7 @@
       <mat-label>{{ 'NATIONALITIE' | translate }}</mat-label>
       <mat-select formControlName="nationalitieId">
         <mat-option *ngFor="let n of nationalities" [value]="n.id">
-          {{ n.name }}
+          {{ n | translateText }}
         </mat-option>
       </mat-select>
       <mat-error *ngIf="employeeForm.get('nationalitieId')?.hasError('required')">
@@ -60,7 +67,7 @@
       <mat-label>{{ 'MARITAL_STATUS' | translate }}</mat-label>
       <mat-select formControlName="maritalStatusId">
         <mat-option *ngFor="let m of maritalStatus" [value]="m.id">
-          {{ m.name }}
+          {{ m | translateText }}
         </mat-option>
       </mat-select>
       <mat-error *ngIf="employeeForm.get('maritalStatusId')?.hasError('required')">

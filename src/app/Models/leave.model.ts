@@ -1,6 +1,7 @@
 export interface Leave {
   id?: string;
-  employee: any;
+  name?: any;
+  englishName?: any;
   types: string;
   startDate: string;
   endDate: string;

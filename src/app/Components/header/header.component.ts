@@ -8,12 +8,20 @@ import { AuthService } from '../../Services/auth.service';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
-  constructor(private translate: TranslateService, private authService: AuthService) { }
+  canRegisterUser: boolean = false;
+  constructor(
+    private translate: TranslateService, 
+    private authService: AuthService,
+  ) { }
 
   changeLanguage(lang: string): void {
     this.translate.use(lang);
     this.setDirection(lang);
     localStorage.setItem('lang', lang); // Save selected language to localStorage
+  }
+  
+  ngOnInit() {
+    this.canRegisterUser = this.authService.canRegisterUser();
   }
 
   private setDirection(lang: string): void {

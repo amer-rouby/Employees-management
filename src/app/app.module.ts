@@ -41,6 +41,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { LeaveManagementComponent } from './Components/leave-management/leave-management.component';
 import { LeaveDialogComponent } from './Components/leave-management/leave-add-dialog/leave-dialog.component';
+import { TranslateTextPipe } from './pipes/Transform.pipe';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
@@ -60,6 +61,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     EmployeeDetailsDialogComponent,
     LeaveManagementComponent,
     LeaveDialogComponent,
+    TranslateTextPipe
   ],
   imports: [
     BrowserModule,
@@ -86,6 +88,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
     AngularFireDatabaseModule,
+    
     ToastrModule.forRoot(),
     TranslateModule.forRoot({
       loader: {
@@ -97,7 +100,7 @@ export function HttpLoaderFactory(http: HttpClient) {
   ],
   providers: [
     provideAnimationsAsync(),
-   AuthService, AuthGuard, RedirectIfLoggedInGuard,
+   AuthService, AuthGuard, RedirectIfLoggedInGuard, TranslateTextPipe,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]

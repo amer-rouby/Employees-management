@@ -19,7 +19,6 @@ export class AppComponent implements OnInit, OnDestroy {
     // Set the default language
     const defaultLang = 'en';
     this.translate.setDefaultLang(defaultLang);
-
     // Subscribe to login status
     this.subscribeToLoginStatus();
 

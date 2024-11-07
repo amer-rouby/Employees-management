@@ -16,14 +16,15 @@ import { leaveStatus, leaveTypes } from './../../constants/data.constants';
 export class LeaveManagementComponent {
   dataSource = new MatTableDataSource<Leave>([]);
   leaveRequests: Leave[] = [];
-  displayedColumns: string[] = ['employee', 'types', 'startDate', 'endDate', 'status', 'actions'];
+  displayedColumns: string[] = ['name','englishName', 'types', 'startDate', 'endDate', 'status', 'actions'];
+  isLoading = true;
 
-  // Define leaveStatus and leaveTypes as class properties
   leaveStatus = leaveStatus;
   leaveTypes = leaveTypes;
 
   columnDefinitions: any[] = [];
   showViowAction = false;
+
   constructor(
     private leaveService: LeaveService,
     private dialog: MatDialog,
@@ -34,29 +35,35 @@ export class LeaveManagementComponent {
   }
 
   private setupColumnDefinitions(): void {
-    this.translate.get(['TYPE', 'EMPLOYEE', 'START_DATE', 'END_DATE', 'STATUS', 'ACTIONS']).subscribe(translations => {
+    this.translate.get(['TYPE', 'EMPLOYEES_ARABIC_NAME', 'EMPLOYEES_ENGLISH_NAME','START_DATE', 'END_DATE', 'STATUS', 'ACTIONS']).subscribe(translations => {
       this.columnDefinitions = [
-        { key: 'types', header: translations['TYPE'], cell: (leave: Leave) => this.getTranslationForKey('leaveTypes', leave.types) },
-        { key: 'employee', header: translations['EMPLOYEE'], cell: (leave: Leave) => leave.employee },
-        { key: 'startDate', header: translations['START_DATE'], cell: (leave: Leave) => leave.startDate },
-        { key: 'endDate', header: translations['END_DATE'], cell: (leave: Leave) => leave.endDate },
-        { key: 'status', header: translations['STATUS'], cell: (leave: Leave) => this.getTranslationForKey('leaveStatus', leave.status) },
-        { key: 'actions', header: translations['ACTIONS'], cell: () => '' }
+        { key: 'types', header:'TYPE', cell: (leave: Leave) => this.getTranslationForKey('leaveTypes', leave.types) },
+        { key: 'name', header:'EMPLOYEES_ARABIC_NAME', cell: (leave: Leave) => leave.name },
+        { key: 'englishName', header:'EMPLOYEES_ENGLISH_NAME', cell: (leave: Leave) => leave.englishName },
+        { key: 'startDate', header:'START_DATE', cell: (leave: Leave) => leave.startDate },
+        { key: 'endDate', header: 'END_DATE', cell: (leave: Leave) => leave.endDate },
+        { key: 'status', header:'STATUS', cell: (leave: Leave) => this.getTranslationForKey('leaveStatus', leave.status) },
+        { key: 'actions', header: 'ACTIONS', cell: () => '' }
       ];
     });
   }
 
-  // Access leaveStatus and leaveTypes through class properties
   private getTranslationForKey(key: 'leaveStatus' | 'leaveTypes', id: any): string {
     const data = this[key] as { id: any, arabic: string, english: string }[];
     const item = data.find(i => i.id === id);
-    return item ? (this.translate.currentLang === 'ar' ? item.arabic : item.english) : 'Pending';
+    return item ? (this.translate.currentLang === 'ar' ? item.arabic : item.english) 
+    : (this.translate.currentLang === 'ar' ? this.leaveStatus[0].arabic : this.leaveStatus[0].english);
   }
 
   loadLeaveRequests(): void {
+    this.isLoading = true;
+
     this.leaveService.getAllLeaveRequests().subscribe((data) => {
       this.leaveRequests = data;
       this.dataSource.data = data;
+      this.isLoading = false;
+    }, () => {
+      this.isLoading = false;
     });
   }
 

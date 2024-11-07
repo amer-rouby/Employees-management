@@ -74,5 +74,7 @@
   "SAVE_CHANGES": "حفظ التغييرات",
   "EMPLOYEES": "الموظفين",
   "EMPLOYEE": "الموظف",
-  "LEAVE_MANAGEMENT": "ادارة الاجازات"
+  "LEAVE_MANAGEMENT": "ادارة الاجازات",
+  "EMPLOYEES_ENGLISH_NAME" : "اسم الموظف  باللغه الانجليزية ",
+  "EMPLOYEES_ARABIC_NAME" : "اسم الموظف باللغه العربية"
 }

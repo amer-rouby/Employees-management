@@ -4,11 +4,25 @@
     <mat-icon>home</mat-icon>
     {{ 'HOME' | translate }}
   </a>
+  @if(canRegisterUser){
+    <a mat-button [routerLink]="'/employee-management'" class="nav-item">
+      <mat-icon>group</mat-icon>
+      {{ 'EMPLOYEE_MANAGEMENT' | translate }}
+    </a>
+  }
   
-  <!-- <a mat-button [routerLink]="'/employee-management'" class="nav-item">
-    <mat-icon>group</mat-icon>
-    {{ 'EMPLOYEE_MANAGEMENT' | translate }}
-  </a> -->
+    <a mat-button [routerLink]="'/leave-management'" class="nav-item">
+      <mat-icon>request_quote</mat-icon>
+      {{ 'LEAVE_MANAGEMENT' | translate }}
+    </a>
+  
+  @if(canRegisterUser){
+    <a mat-button [routerLink]="'/register'" class="nav-item">
+      <mat-icon>person_add</mat-icon>
+      {{ 'REGISTER.TITLE' | translate }}
+    </a>
+  }
+
 
   <span class="spacer"></span>
 
@@ -46,13 +60,21 @@
       {{ 'HOME' | translate }}
     </button>
     <button mat-menu-item [routerLink]="'/employee-management'">
-      <mat-icon>group</mat-icon>
+      <mat-icon>people</mat-icon> <!-- أيقونة للموظفين -->
       {{ 'EMPLOYEE_MANAGEMENT' | translate }}
     </button>
-    <button mat-menu-item (click)="changeLanguage('en')">
-      <mat-icon>flag</mat-icon>
-      {{ 'ENGLISH' | translate }}
+    <button mat-menu-item [routerLink]="'/leave-management'">
+      <mat-icon>request_quote</mat-icon> <!-- أيقونة لإدارة الإجازات -->
+      {{ 'LEAVE_MANAGEMENT' | translate }}
     </button>
+    <button mat-menu-item [routerLink]="'/register'">
+      <mat-icon>person_add</mat-icon> <!-- أيقونة للتسجيل -->
+      {{ 'REGISTER.TITLE' | translate }}
+    </button>
+    <button mat-menu-item (click)="changeLanguage('en')">
+      <mat-icon>language</mat-icon> <!-- أيقونة لتغيير اللغة -->
+      {{ 'ENGLISH' | translate }}
+    </button>    
     <button mat-menu-item (click)="changeLanguage('ar')">
       <mat-icon>flag</mat-icon>
       {{ 'ARABIC' | translate }}
