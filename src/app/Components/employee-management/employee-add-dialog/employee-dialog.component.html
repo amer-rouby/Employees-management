@@ -1,9 +1,16 @@
 <form [formGroup]="employeeForm" (ngSubmit)="saveEmployee()" class="employee-form p-3">
   <div class="form-grid">
     <mat-form-field appearance="fill">
-      <mat-label>{{ 'NAME' | translate }}</mat-label>
-      <input matInput formControlName="name" placeholder="{{ 'NAME' | translate }}" />
+      <mat-label>{{ 'EMPLOYEES_ARABIC_NAME' | translate }}</mat-label>
+      <input matInput formControlName="name" placeholder="{{ 'EMPLOYEES_ARABIC_NAME' | translate }}" />
       <mat-error *ngIf="employeeForm.get('name')?.hasError('required')">
+        {{ 'FIELD_REQUIRED' | translate }}
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>{{ 'EMPLOYEES_ENGLISH_NAME' | translate }}</mat-label>
+      <input matInput formControlName="englishName" placeholder="{{ 'EMPLOYEES_ENGLISH_NAME' | translate }}" />
+      <mat-error *ngIf="employeeForm.get('englishName')?.hasError('required')">
         {{ 'FIELD_REQUIRED' | translate }}
       </mat-error>
     </mat-form-field>

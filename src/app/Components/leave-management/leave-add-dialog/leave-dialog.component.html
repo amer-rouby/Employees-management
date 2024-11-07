@@ -3,13 +3,28 @@
     <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()">
         <div class="form-row">
             <mat-form-field appearance="fill">
-                <mat-label>{{ 'EMPLOYEES' | translate }}</mat-label>
-                <mat-select formControlName="employee" required>
+                <mat-label>{{ 'EMPLOYEES_ARABIC_NAME' | translate }}</mat-label>
+                <mat-select formControlName="name" required>
                     <mat-option *ngFor="let employee of employees" [value]="employee.name">
                         {{ employee.name }}
                     </mat-option>
                 </mat-select>
-                @if(employeeForm.get('employee')?.invalid && employeeForm.get('employee')?.touched){
+                @if(employeeForm.get('name')?.invalid && employeeForm.get('name')?.touched){
+                <mat-error>
+                    {{ 'FIELD_REQUIRED' | translate }}
+                </mat-error>
+                }
+            </mat-form-field>
+        </div>
+        <div class="form-row">
+            <mat-form-field appearance="fill">
+                <mat-label>{{ 'EMPLOYEES_ENGLISH_NAME' | translate }}</mat-label>
+                <mat-select formControlName="englishName" required>
+                    <mat-option *ngFor="let employee of employees" [value]="employee.englishName">
+                        {{ employee.englishName }}
+                    </mat-option>
+                </mat-select>
+                @if(employeeForm.get('englishName')?.invalid && employeeForm.get('englishName')?.touched){
                 <mat-error>
                     {{ 'FIELD_REQUIRED' | translate }}
                 </mat-error>

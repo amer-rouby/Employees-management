@@ -27,6 +27,7 @@ export class EmployeeDialogComponent implements OnInit {
     this.employeeForm = this.fb.group({
       id: [''],
       name: ['', Validators.required],
+      englishName: ['', Validators.required],
       departmentId: ['', Validators.required],
       jobTitleId: ['', Validators.required],
       genderId: ['', Validators.required],
@@ -46,6 +47,7 @@ export class EmployeeDialogComponent implements OnInit {
       this.employeeForm.patchValue({
         id: this.data.id,
         name: this.data.name,
+        englishName: this.data.englishName,
         jobTitleId: this.data.jobTitleId ?? '',
         departmentId: this.data.departmentId ?? '',
         genderId: this.data.genderId ?? '',

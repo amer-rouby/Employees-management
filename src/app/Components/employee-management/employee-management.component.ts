@@ -152,7 +152,7 @@ export class EmployeeManagementComponent implements OnInit {
   private setupColumnDefinitions(): void {
     this.translate.get(['JOB_TITLES', 'DEPARTMENTS', 'GENDERS', 'NATIONALITIES', 'MARITAL_STATUSES']).subscribe(translations => {
       this.columnDefinitions = [
-        { key: 'name', header: 'NAME', cell: (employee: Employee) => employee.name },
+        { key: 'name', header: 'NAME', cell: (employee: Employee) => this.translate.currentLang === 'ar' ? employee.name : employee.englishName },
         { key: 'jobTitle', header: 'POSITION', cell: (employee: Employee) => this.getTranslationForKey('jobTitles', employee.jobTitleId) },
         { key: 'department', header: 'DEPARTMENT', cell: (employee: Employee) => this.getTranslationForKey('departments', employee.departmentId) },
         { key: 'gender', header: 'GENDER', cell: (employee: Employee) => this.getTranslationForKey('gender', employee.genderId) },

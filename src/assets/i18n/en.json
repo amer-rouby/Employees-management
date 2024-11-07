@@ -72,5 +72,7 @@
   "SAVE_CHANGES": "Save Changes",
   "EMPLOYEES": "Employees",
   "EMPLOYEE": "Employee",
-  "LEAVE_MANAGEMENT": "leave management"
+  "LEAVE_MANAGEMENT": "leave management",
+  "EMPLOYEES_ENGLISH_NAME" : "Employee Name in English",
+  "EMPLOYEES_ARABIC_NAME" : "Employee name in Arabic"
 }

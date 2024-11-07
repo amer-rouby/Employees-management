@@ -6,7 +6,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class TranslateTextPipe implements PipeTransform {
   transform(textObj: { arabic: string; english: string }): string {
-    const currentLang = localStorage.getItem('lang') || 'en'; // افتراض أن اللغة الافتراضية هي الإنجليزية
+    const currentLang = localStorage.getItem('lang') || 'en';
     return currentLang === 'ar' ? textObj.arabic : textObj.english;
   }
 }

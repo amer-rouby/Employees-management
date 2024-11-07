@@ -8,6 +8,7 @@ import { EmployeesService } from '../../../Services/employee-management.service'
 import { Employee } from '../../../Models/employee.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../../Services/auth.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-leave-dialog',
@@ -21,7 +22,8 @@ export class LeaveDialogComponent implements OnInit {
   employees: Employee[] = [];
   employeeForm: FormGroup;
   leave: Leave = {
-    employee: '',
+    name: '',
+    englishName: '',
     types: '',
     startDate: '',
     endDate: '',
@@ -36,11 +38,13 @@ export class LeaveDialogComponent implements OnInit {
     private authService: AuthService,
     private dialogRef: MatDialogRef<LeaveDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    public translate: TranslateService
   ) {
     // Initialize the FormGroup with conditional validators
     this.employeeForm = this.fb.group({
-      employee: ['', Validators.required],
+      name: ['', Validators.required],
+      englishName: ['', Validators.required],
       types: ['', Validators.required],
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
@@ -59,7 +63,8 @@ export class LeaveDialogComponent implements OnInit {
     if (this.data.action === 'edit' && this.data.leave) {
       this.leave = { ...this.data.leave };
       this.employeeForm.patchValue({
-        employee: this.leave.employee,
+        name: this.leave.name,
+        englishName: this.leave.englishName,
         types: this.leave.types,
         status: this.leave.status,
         startDate: this.leave.startDate,
