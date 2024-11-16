@@ -1,8 +1,23 @@
 <div class="container">
     <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
-    <button class="mt-3" mat-raised-button color="primary" (click)="openAddLeaveDialog()">{{ 'ADD_LEAVE' | translate }}</button>
-    <app-shared-table [dataSource]="dataSource" [displayedColumns]="displayedColumns"
-        [columnDefinitions]="columnDefinitions" [showViowAction]="showViowAction" (onEdit)="openEditLeaveDialog($event)"
+    <div class="toolbar">
+        <button mat-raised-button color="primary" (click)="openAddLeaveDialog()">{{ 'ADD_LEAVE' | translate
+            }}</button>
+
+        <mat-form-field class="search-employee">
+            <mat-label>{{ 'SEARCH_EMPLOYEE' | translate }}</mat-label>
+            <input matInput (keyup)="applyFilter($event)" placeholder="{{ 'ENTER_NAME' | translate }}">
+        </mat-form-field>
+    </div>
+
+    <h2>{{ 'LEAVES_LIST' | translate }}</h2>
+
+    <app-shared-table 
+        [dataSource]="dataSource" 
+        [displayedColumns]="displayedColumns"
+        [columnDefinitions]="columnDefinitions" 
+        [showViowAction]="showViowAction" 
+        (onEdit)="openEditLeaveDialog($event)"
         (onDelete)="deleteLeaveRequest($event)">
     </app-shared-table>
-</div> 
+</div>

@@ -26,6 +26,9 @@
   "employeeAdded": "Employee added successfully!",
   "employeeUpdated": "Employee updated successfully!",
   "employeeDeleted": "Employee deleted successfully!",
+  "leaveAdded": "Leave added successfully!",
+  "leaveUpdated":  "Leave updated successfully!",
+  "leaveeDeleted": "Leave deleted successfully!",
   "LOGOUT": "Logout",
   "LOGIN": {
     "TITLE": "Login",
@@ -74,5 +77,7 @@
   "EMPLOYEE": "Employee",
   "LEAVE_MANAGEMENT": "leave management",
   "EMPLOYEES_ENGLISH_NAME" : "Employee Name in English",
-  "EMPLOYEES_ARABIC_NAME" : "Employee name in Arabic"
+  "EMPLOYEES_ARABIC_NAME" : "Employee name in Arabic",
+  "MANAGEMENT" : "Management",
+  "LEAVES_LIST": "Leavees List"
 }

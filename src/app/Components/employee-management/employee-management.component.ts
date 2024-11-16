@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { Employee } from '../../Models/employee.model';
@@ -18,7 +18,6 @@ import { departments, gender, jobTitles, maritalStatus, nationalities } from '..
 export class EmployeeManagementComponent implements OnInit {
   employees: Employee[] = [];
   displayedColumns: string[] = ['name', 'jobTitle', 'department','actions'];
-  // displayedColumns: string[] = ['name', 'jobTitle', 'department', 'gender', 'nationalities', 'maritalStatus', "phoneNumber","identityNumber","hireDate", 'actions'];
   dataSource = new MatTableDataSource<Employee>(this.employees);
   columnDefinitions: any[] = [];
   isLoading: boolean = false;
@@ -104,8 +103,9 @@ export class EmployeeManagementComponent implements OnInit {
         if (index !== -1) {
           this.employees[index] = updatedEmployee;
           this.dataSource.data = [...this.employees];
+          this.showSuccess('employeeUpdated');
         }
-        this.showSuccess('employeeUpdated');
+        
       },
       error => this.handleError('Failed to update employee', error)
     );
