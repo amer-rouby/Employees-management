@@ -128,13 +128,22 @@ export class LeaveManagementComponent {
           {
             key: 'name',
             header: 'NAME',
-            cell: (employee: Employee) =>
-              this.translate.currentLang === 'ar' ? employee.name : employee.englishName,
+            cell: (employee: Employee) => this.translate.currentLang === 'ar' ? employee.name : employee.englishName,
           },
-          { key: 'startDate', header: 'START_DATE', cell: (leave: Leave) => leave.startDate },
-          { key: 'endDate', header: 'END_DATE', cell: (leave: Leave) => leave.endDate },
-          { key: 'status', header: 'STATUS', cell: (leave: Leave) => this.getTranslationForKey('leaveStatus', leave.status) },
-          { key: 'actions', header: 'ACTIONS', cell: () => '' },
+          {
+            key: 'startDate', 
+            header: 'START_DATE',
+            cell: (leave: Leave) => leave.startDate },
+          { key: 'endDate', 
+            header: 'END_DATE', 
+            cell: (leave: Leave) => leave.endDate },
+          { 
+            key: 'status', 
+            header: 'STATUS', 
+            cell: (leave: Leave) => this.getTranslationForKey('leaveStatus', leave.status) },
+          { 
+            key: 'actions', 
+            header: 'ACTIONS', cell: () => '' },
         ];
       });
   }

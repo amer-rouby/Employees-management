@@ -140,9 +140,18 @@ export class EmployeeManagementComponent implements OnInit {
         'ACTIONS'
       ]).subscribe(translations => {
       this.columnDefinitions = [
-        { key: 'name', header:'NAME', cell: (employee: Employee) => this.translate.currentLang === 'ar' ? employee.name : employee.englishName},
-        { key: 'jobTitle', header: 'POSITION', cell: (employee: Employee) => this.getTranslatedValue('jobTitles', employee.jobTitleId) },
-        { key: 'department', header: 'DEPARTMENT', cell: (employee: Employee) => this.getTranslatedValue('departments', employee.departmentId) },
+        { 
+          key: 'name', 
+          header:'NAME', 
+          cell: (employee: Employee) => this.translate.currentLang === 'ar' ? employee.name : employee.englishName},
+        { 
+          key: 'jobTitle', 
+          header: 'POSITION', 
+          cell: (employee: Employee) => this.getTranslatedValue('jobTitles', employee.jobTitleId) },
+        { 
+          key: 'department', 
+          header: 'DEPARTMENT', 
+          cell: (employee: Employee) => this.getTranslatedValue('departments', employee.departmentId) },
         { key: 'actions', header:'ACTIONS', cell: () => '' }
       ];
     });
