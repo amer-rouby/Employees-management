@@ -15,8 +15,6 @@
                 </mat-error>
                 }
             </mat-form-field>
-        </div>
-        <div class="form-row">
             <mat-form-field appearance="fill">
                 <mat-label>{{ 'EMPLOYEES_ENGLISH_NAME' | translate }}</mat-label>
                 <mat-select formControlName="englishName" required>
@@ -92,12 +90,14 @@
                 }
             </mat-form-field>
         </div>
+        <div class="form-buttons">
+            <button mat-raised-button color="primary" type="submit">
+                {{ data.action === 'add' ? ('ADD_LEAVE' | translate) : ('SAVE_CHANGES' | translate) }}
+            </button>
+            <button mat-button color="warn" (click)="onCancel()">
+              {{ 'CANCEL' | translate }}
+            </button>
+          </div>
     </form>
 </div>
 
-<div mat-dialog-actions>
-    <button mat-button (click)="onCancel()">{{ 'CANCEL' | translate }}</button>
-    <button mat-raised-button color="primary" type="submit" [disabled]="employeeForm.invalid" (click)="onSubmit()">
-        {{ data.action === 'add' ? ('ADD_LEAVE' | translate) : ('SAVE_CHANGES' | translate) }}
-    </button>
-</div>

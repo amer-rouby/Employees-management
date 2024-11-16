@@ -1,5 +1,8 @@
 .container {
-    margin-top: 100px;
+    margin-top: 70px;
+    padding-bottom: 0px !important;
+    max-width: 100%;
+    box-sizing: border-box;
   }
   
   table {
@@ -11,3 +14,17 @@
     margin-right: 10px;
   }
   
+
+    /* Toolbar styling */
+    .toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    /* Adjust search field width */
+    .search-employee {
+      max-width: 500px; /* Adjust as needed */
+      flex: 1;
+      margin-left: 16px;
+    }

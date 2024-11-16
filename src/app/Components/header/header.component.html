@@ -1,21 +1,31 @@
 <mat-toolbar color="primary">
-  <!-- Standard navigation for larger screens -->
+  <!-- Home navigation link -->
   <a mat-button [routerLink]="'/home'" class="nav-item">
     <mat-icon>home</mat-icon>
     {{ 'HOME' | translate }}
   </a>
-  @if(canRegisterUser){
-    <a mat-button [routerLink]="'/employee-management'" class="nav-item">
-      <mat-icon>group</mat-icon>
-      {{ 'EMPLOYEE_MANAGEMENT' | translate }}
-    </a>
-  }
-  
-    <a mat-button [routerLink]="'/leave-management'" class="nav-item">
+
+  <!-- Management dropdown screens -->
+  <button mat-button [matMenuTriggerFor]="managementMenu" class="nav-item">
+    <mat-icon>management</mat-icon>
+    {{ 'MANAGEMENT' | translate }}
+  </button>
+
+  <mat-menu #managementMenu="matMenu">
+    @if(canRegisterUser){
+      <button mat-menu-item [routerLink]="'/employee-management'">
+        <mat-icon>group</mat-icon>
+        {{ 'EMPLOYEE_MANAGEMENT' | translate }}
+      </button>
+    }
+
+    <button mat-menu-item [routerLink]="'/leave-management'">
       <mat-icon>request_quote</mat-icon>
       {{ 'LEAVE_MANAGEMENT' | translate }}
-    </a>
-  
+    </button>
+  </mat-menu>
+
+  <!-- Register button (if user can register) -->
   @if(canRegisterUser){
     <a mat-button [routerLink]="'/register'" class="nav-item">
       <mat-icon>person_add</mat-icon>
@@ -23,16 +33,15 @@
     </a>
   }
 
-
   <span class="spacer"></span>
 
   <!-- Language menu -->
-  <button mat-button [matMenuTriggerFor]="menu" class="nav-item">
+  <button mat-button [matMenuTriggerFor]="languageMenu" class="nav-item">
     <mat-icon>language</mat-icon>
     {{ 'LANGUAGE' | translate }}
   </button>
 
-  <mat-menu #menu="matMenu">
+  <mat-menu #languageMenu="matMenu">
     <button mat-menu-item (click)="changeLanguage('en')">
       <mat-icon>flag</mat-icon>
       {{ 'ENGLISH' | translate }}
@@ -60,21 +69,21 @@
       {{ 'HOME' | translate }}
     </button>
     <button mat-menu-item [routerLink]="'/employee-management'">
-      <mat-icon>people</mat-icon> <!-- أيقونة للموظفين -->
+      <mat-icon>people</mat-icon>
       {{ 'EMPLOYEE_MANAGEMENT' | translate }}
     </button>
     <button mat-menu-item [routerLink]="'/leave-management'">
-      <mat-icon>request_quote</mat-icon> <!-- أيقونة لإدارة الإجازات -->
+      <mat-icon>request_quote</mat-icon>
       {{ 'LEAVE_MANAGEMENT' | translate }}
     </button>
     <button mat-menu-item [routerLink]="'/register'">
-      <mat-icon>person_add</mat-icon> <!-- أيقونة للتسجيل -->
+      <mat-icon>person_add</mat-icon>
       {{ 'REGISTER.TITLE' | translate }}
     </button>
     <button mat-menu-item (click)="changeLanguage('en')">
-      <mat-icon>language</mat-icon> <!-- أيقونة لتغيير اللغة -->
+      <mat-icon>language</mat-icon>
       {{ 'ENGLISH' | translate }}
-    </button>    
+    </button>
     <button mat-menu-item (click)="changeLanguage('ar')">
       <mat-icon>flag</mat-icon>
       {{ 'ARABIC' | translate }}
@@ -85,4 +94,3 @@
     </button>
   </mat-menu>
 </mat-toolbar>
-

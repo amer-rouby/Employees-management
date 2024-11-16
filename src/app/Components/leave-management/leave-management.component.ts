@@ -6,7 +6,9 @@ import { Leave } from '../../Models/leave.model';
 import { LeaveDialogComponent } from './leave-add-dialog/leave-dialog.component';
 import { ConfirmDeleteDialogComponent } from '../../Dialogs/confirm-delete-dialog/confirm-delete-dialog.component';
 import { TranslateService } from '@ngx-translate/core';
+import { ToastrService } from 'ngx-toastr';
 import { leaveStatus, leaveTypes } from './../../constants/data.constants';
+import { Employee } from '../../Models/employee.model';
 
 @Component({
   selector: 'app-leave-management',
@@ -16,7 +18,7 @@ import { leaveStatus, leaveTypes } from './../../constants/data.constants';
 export class LeaveManagementComponent {
   dataSource = new MatTableDataSource<Leave>([]);
   leaveRequests: Leave[] = [];
-  displayedColumns: string[] = ['name','englishName', 'types', 'startDate', 'endDate', 'status', 'actions'];
+  displayedColumns: string[] = ['name', 'types', 'startDate', 'endDate', 'status', 'actions'];
   isLoading = true;
 
   leaveStatus = leaveStatus;
@@ -28,31 +30,11 @@ export class LeaveManagementComponent {
   constructor(
     private leaveService: LeaveService,
     private dialog: MatDialog,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private toastr: ToastrService,
   ) {
     this.setupColumnDefinitions();
     this.loadLeaveRequests();
-  }
-
-  private setupColumnDefinitions(): void {
-    this.translate.get(['TYPE', 'EMPLOYEES_ARABIC_NAME', 'EMPLOYEES_ENGLISH_NAME','START_DATE', 'END_DATE', 'STATUS', 'ACTIONS']).subscribe(translations => {
-      this.columnDefinitions = [
-        { key: 'types', header:'TYPE', cell: (leave: Leave) => this.getTranslationForKey('leaveTypes', leave.types) },
-        { key: 'name', header:'EMPLOYEES_ARABIC_NAME', cell: (leave: Leave) => leave.name },
-        { key: 'englishName', header:'EMPLOYEES_ENGLISH_NAME', cell: (leave: Leave) => leave.englishName },
-        { key: 'startDate', header:'START_DATE', cell: (leave: Leave) => leave.startDate },
-        { key: 'endDate', header: 'END_DATE', cell: (leave: Leave) => leave.endDate },
-        { key: 'status', header:'STATUS', cell: (leave: Leave) => this.getTranslationForKey('leaveStatus', leave.status) },
-        { key: 'actions', header: 'ACTIONS', cell: () => '' }
-      ];
-    });
-  }
-
-  private getTranslationForKey(key: 'leaveStatus' | 'leaveTypes', id: any): string {
-    const data = this[key] as { id: any, arabic: string, english: string }[];
-    const item = data.find(i => i.id === id);
-    return item ? (this.translate.currentLang === 'ar' ? item.arabic : item.english) 
-    : (this.translate.currentLang === 'ar' ? this.leaveStatus[0].arabic : this.leaveStatus[0].english);
   }
 
   loadLeaveRequests(): void {
@@ -75,6 +57,7 @@ export class LeaveManagementComponent {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
+        this.showSuccess('leaveUpdated');
         this.loadLeaveRequests();
       }
     });
@@ -88,6 +71,7 @@ export class LeaveManagementComponent {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
+        this.showSuccess('leaveUpdated');
         this.loadLeaveRequests();
       }
     });
@@ -101,9 +85,48 @@ export class LeaveManagementComponent {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.leaveService.deleteLeaveRequest(id).subscribe(() => {
+          this.showSuccess('leaveeDeleted');
           this.loadLeaveRequests();
         });
       }
     });
+  }
+
+  applyFilter(event: Event): void {
+    this.isLoading = true;
+    if (event) {
+      const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
+      this.dataSource.filter = filterValue;
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 200); 
+    }
+  }
+
+  private showSuccess(key: string): void {
+    this.translate.get(key).subscribe(message => {
+      this.toastr.success(message, 'Success');
+    });
+    this.isLoading = false;
+  }
+
+  private setupColumnDefinitions(): void {
+    this.translate.get(['TYPE', 'EMPLOYEES_ARABIC_NAME', 'EMPLOYEES_ENGLISH_NAME','START_DATE', 'END_DATE', 'STATUS', 'ACTIONS']).subscribe(translations => {
+      this.columnDefinitions = [
+        { key: 'types', header:'TYPE', cell: (leave: Leave) => this.getTranslationForKey('leaveTypes', leave.types) },
+        { key: 'name', header: 'NAME', cell: (employee: Employee) => this.translate.currentLang === 'ar' ? employee.name : employee.englishName },
+        { key: 'startDate', header:'START_DATE', cell: (leave: Leave) => leave.startDate },
+        { key: 'endDate', header: 'END_DATE', cell: (leave: Leave) => leave.endDate },
+        { key: 'status', header:'STATUS', cell: (leave: Leave) => this.getTranslationForKey('leaveStatus', leave.status) },
+        { key: 'actions', header: 'ACTIONS', cell: () => '' }
+      ];
+    });
+  }
+
+  private getTranslationForKey(key: 'leaveStatus' | 'leaveTypes', id: any): string {
+    const data = this[key] as { id: any, arabic: string, english: string }[];
+    const item = data.find(i => i.id === id);
+    return item ? (this.translate.currentLang === 'ar' ? item.arabic : item.english) 
+    : (this.translate.currentLang === 'ar' ? this.leaveStatus[0].arabic : this.leaveStatus[0].english);
   }
 }

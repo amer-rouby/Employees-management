@@ -26,6 +26,9 @@
     "employeeAdded": "تمت إضافة الموظف بنجاح!",
     "employeeUpdated": "تم تحديث الموظف بنجاح!",
     "employeeDeleted": "تم حذف الموظف بنجاح!",
+    "leaveAdded": "تمت إضافة الاجازة بنجاح!",
+    "leaveUpdated": "تم تحديث الاجازة بنجاح!",
+    "leaveeDeleted": "تم حذف الاجازة بنجاح!",
     "formInvalid": "الرجاء ملء جميع الحقول بشكل صحيح.",
     "changesDiscarded": "تم إلغاء التعديلات.",
     "LOGOUT": "تسجيل خروج",
@@ -76,5 +79,7 @@
   "EMPLOYEE": "الموظف",
   "LEAVE_MANAGEMENT": "ادارة الاجازات",
   "EMPLOYEES_ENGLISH_NAME" : "اسم الموظف  باللغه الانجليزية ",
-  "EMPLOYEES_ARABIC_NAME" : "اسم الموظف باللغه العربية"
+  "EMPLOYEES_ARABIC_NAME" : "اسم الموظف باللغه العربية",
+  "MANAGEMENT": "الادارة",
+  "LEAVES_LIST": "قائمة الاجازات"
 }
