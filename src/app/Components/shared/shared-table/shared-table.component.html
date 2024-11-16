@@ -9,7 +9,7 @@
           <ng-container [ngSwitch]="columnDef.key">
             @if(heCanTakeAction){
               <ng-container *ngSwitchCase="'actions'">
-                @if(showViowAction){
+                @if(showViewAction){
                   <button mat-icon-button color="warn" (click)="viewItemDetails(element)" title="View">
                     <mat-icon>visibility</mat-icon>
                   </button>

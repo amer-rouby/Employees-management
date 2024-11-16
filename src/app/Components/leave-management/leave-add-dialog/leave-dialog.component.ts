@@ -1,24 +1,25 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { LeaveService } from '../../../Services/leave.service';
-import { Leave } from '../../../Models/leave.model';
-import { DatePipe } from '@angular/common';
-import { leaveStatus, leaveTypes } from '../../../constants/data.constants';
-import { EmployeesService } from '../../../Services/employee-management.service';
-import { Employee } from '../../../Models/employee.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '../../../Services/auth.service';
+import { Observable } from 'rxjs';
+import { DatePipe } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
+import { LeaveService } from '../../../Services/leave.service';
+import { EmployeesService } from '../../../Services/employee-management.service';
+import { AuthService } from '../../../Services/auth.service';
+import { leaveStatus, leaveTypes } from '../../../constants/data.constants';
+import { Leave } from '../../../Models/leave.model';
+import { Employee } from '../../../Models/employee.model';
 
 @Component({
   selector: 'app-leave-dialog',
   templateUrl: './leave-dialog.component.html',
   styleUrls: ['./leave-dialog.component.scss'],
-  providers: [DatePipe]
+  providers: [DatePipe],
 })
 export class LeaveDialogComponent implements OnInit {
   leaveStatus = leaveStatus;
-  leaveTypes= leaveTypes;
+  leaveTypes = leaveTypes;
   employees: Employee[] = [];
   employeeForm: FormGroup;
   leave: Leave = {
@@ -30,7 +31,8 @@ export class LeaveDialogComponent implements OnInit {
     status: '',
     id: '',
   };
-  heCanTakeAction: any;
+  heCanTakeAction: boolean;
+
   constructor(
     private fb: FormBuilder,
     private leaveService: LeaveService,
@@ -41,7 +43,8 @@ export class LeaveDialogComponent implements OnInit {
     private datePipe: DatePipe,
     public translate: TranslateService
   ) {
-    // Initialize the FormGroup with conditional validators
+    this.heCanTakeAction = this.authService.canRegisterUser();
+
     this.employeeForm = this.fb.group({
       name: ['', Validators.required],
       englishName: ['', Validators.required],
@@ -49,36 +52,25 @@ export class LeaveDialogComponent implements OnInit {
       startDate: ['', Validators.required],
       endDate: ['', Validators.required],
     });
-  
-    this.heCanTakeAction = this.authService.canRegisterUser();
-  
+
     if (this.heCanTakeAction) {
       this.employeeForm.addControl('status', this.fb.control('', Validators.required));
     }
   }
-  
+
   ngOnInit(): void {
     this.loadEmployees();
-    this.heCanTakeAction = this.authService.canRegisterUser();
+
     if (this.data.action === 'edit' && this.data.leave) {
       this.leave = { ...this.data.leave };
-      this.employeeForm.patchValue({
-        name: this.leave.name,
-        englishName: this.leave.englishName,
-        types: this.leave.types,
-        status: this.leave.status,
-        startDate: this.leave.startDate,
-        endDate: this.leave.endDate,
-      });
+      this.employeeForm.patchValue(this.leave);
     }
   }
 
   private loadEmployees(): void {
-    this.employeesService.getAllEmployees().subscribe(
-      (employees: Employee[]) => {
-        this.employees = employees;
-      },
-    );
+    this.employeesService.getAllEmployees().subscribe((employees: Employee[]) => {
+      this.employees = employees;
+    });
   }
 
   onSubmit(): void {
@@ -86,22 +78,27 @@ export class LeaveDialogComponent implements OnInit {
       this.leave = { ...this.leave, ...this.employeeForm.value };
       this.leave.startDate = this.datePipe.transform(this.leave.startDate, 'yyyy-MM-dd') || '';
       this.leave.endDate = this.datePipe.transform(this.leave.endDate, 'yyyy-MM-dd') || '';
-
+  
+      let request$: Observable<any>; // Define the type explicitly
+  
       if (this.data.action === 'add') {
-        this.leaveService.addLeaveRequest(this.leave).subscribe(() => {
-          this.dialogRef.close(true);
-        });
+        request$ = this.leaveService.addLeaveRequest(this.leave);
       } else if (this.data.action === 'edit' && this.leave.id) {
-        this.leaveService.updateLeaveRequest(this.leave.id, this.leave).subscribe(() => {
-          this.dialogRef.close(true);
-        });
+        request$ = this.leaveService.updateLeaveRequest(this.leave.id, this.leave);
+      } else {
+        return; // Exit if no valid action
       }
+  
+      request$.subscribe({
+        next: () => this.dialogRef.close(true),
+        error: (err) => console.error('Error occurred:', err),
+      });
     } else {
       // Trigger validation messages or other feedback for the user
       this.employeeForm.markAllAsTouched(); // Mark all fields as touched to display validation messages
     }
   }
-
+  
   onCancel(): void {
     this.dialogRef.close(false);
   }

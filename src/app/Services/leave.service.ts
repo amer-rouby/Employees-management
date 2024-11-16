@@ -12,46 +12,56 @@ export class LeaveService {
 
   constructor(private db: AngularFireDatabase) { }
 
+  // Get all leave requests from the database
   getAllLeaveRequests(): Observable<Leave[]> {
     return this.db.list<Leave>(this.basePath).snapshotChanges().pipe(
-      map(changes => changes.map(c => {
-        const data = c.payload.val() as Leave;
-        const id = c.payload.key as string;
-        return { ...data, id };
-      })),
-      catchError(error => {
-        console.error('Error fetching leave requests', error);
-        return of([]); 
-      })
+      map(this.mapLeaveChanges),
+      catchError(this.handleError<Leave[]>('fetching leave requests', []))
     );
   }
 
+  // Add a new leave request to the database
   addLeaveRequest(data: Leave): Observable<Leave> {
     return from(this.db.list<Leave>(this.basePath).push(data).then(docRef => {
-      return { ...data, id: docRef.key ?? 'default-id' };
+      return this.addIdToLeaveData(data, docRef.key);
     })).pipe(
-      catchError(error => {
-        console.error('Error adding leave request', error);
-        return of({ ...data, id: 'default-id' });
-      })
+      catchError(this.handleError<Leave>('adding leave request', { ...data, id: 'default-id' }))
     );
   }
 
+  // Update an existing leave request in the database
   updateLeaveRequest(id: string, data: Leave): Observable<void> {
     return from(this.db.object<Leave>(`${this.basePath}/${id}`).update(data)).pipe(
-      catchError(error => {
-        console.error('Error updating leave request', error);
-        return of();
-      })
+      catchError(this.handleError<void>('updating leave request'))
     );
   }
 
+  // Delete a leave request from the database
   deleteLeaveRequest(id: string): Observable<void> {
     return from(this.db.object(`${this.basePath}/${id}`).remove()).pipe(
-      catchError(error => {
-        console.error('Error deleting leave request', error);
-        return of(); 
-      })
+      catchError(this.handleError<void>('deleting leave request'))
     );
+  }
+
+  // Helper function to map changes to leave data
+  private mapLeaveChanges(changes: any[]): Leave[] {
+    return changes.map(c => {
+      const data = c.payload.val() as Leave;
+      const id = c.payload.key as string;
+      return { ...data, id };
+    });
+  }
+
+  // Helper function to handle errors
+  private handleError<T>(operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+      console.error(`${operation} failed: ${error.message}`);
+      return of(result as T);
+    };
+  }
+
+  // Helper function to add an id to leave data
+  private addIdToLeaveData(data: Leave, id: string | null): Leave {
+    return { ...data, id: id ?? 'default-id' };
   }
 }

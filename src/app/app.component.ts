@@ -13,23 +13,33 @@ export class AppComponent implements OnInit, OnDestroy {
   isLoggedIn = false;
   private loginSubscription!: Subscription;
 
-  constructor(public translate: TranslateService, private authService: AuthService) { }
+  constructor(
+    public translate: TranslateService,
+    private authService: AuthService
+  ) { }
 
   ngOnInit(): void {
-    // Set the default language
-    const defaultLang = 'en';
-    this.translate.setDefaultLang(defaultLang);
-    // Subscribe to login status
+    this.setDefaultLanguage();
     this.subscribeToLoginStatus();
-
-    // Get the language from localStorage or fallback to the default
-    const storedLang = this.getLanguageFromStorage() || defaultLang;
-    this.setLanguage(storedLang);
   }
 
   changeLanguage(lang: string): void {
     this.setLanguage(lang);
     localStorage.setItem('lang', lang); // Save selected language to localStorage
+  }
+
+  ngOnDestroy(): void {
+    this.loginSubscription.unsubscribe(); // Unsubscribe on destroy to prevent memory leaks
+  }
+
+  // Private helper methods
+
+  private setDefaultLanguage(): void {
+    const defaultLang = 'en';
+    this.translate.setDefaultLang(defaultLang);
+
+    const storedLang = this.getLanguageFromStorage() || defaultLang;
+    this.setLanguage(storedLang);
   }
 
   private setLanguage(lang: string): void {
@@ -39,7 +49,6 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   private setDirection(direction: string): void {
-    // Set the direction attribute on the HTML element
     document.documentElement.setAttribute('dir', direction);
   }
 
@@ -51,19 +60,10 @@ export class AppComponent implements OnInit, OnDestroy {
     // Subscribe to authentication status from the AuthService
     this.loginSubscription = this.authService.isAuthenticated().subscribe(isLoggedIn => {
       this.isLoggedIn = isLoggedIn;
-
-      // Store login status in localStorage
-      localStorage.setItem('isLoggedIn', String(isLoggedIn));
+      localStorage.setItem('isLoggedIn', String(isLoggedIn)); // Store login status in localStorage
     });
 
     // Retrieve login status from localStorage on app init
-    const storedLoginStatus = localStorage.getItem('isLoggedIn');
-    this.isLoggedIn = storedLoginStatus === 'true';
-  }
-
-  ngOnDestroy(): void {
-    if (this.loginSubscription) {
-      this.loginSubscription.unsubscribe(); // Unsubscribe on component destroy to avoid leaks
-    }
+    this.isLoggedIn = localStorage.getItem('isLoggedIn') === 'true';
   }
 }

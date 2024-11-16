@@ -17,45 +17,47 @@ import { Employee } from '../../Models/employee.model';
 })
 export class LeaveManagementComponent {
   dataSource = new MatTableDataSource<Leave>([]);
-  leaveRequests: Leave[] = [];
   displayedColumns: string[] = ['name', 'types', 'startDate', 'endDate', 'status', 'actions'];
-  isLoading = true;
+  leaveRequests: Leave[] = [];
+  isLoading = false;
 
   leaveStatus = leaveStatus;
   leaveTypes = leaveTypes;
 
   columnDefinitions: any[] = [];
-  showViowAction = false;
+  showViewAction = false;
 
   constructor(
     private leaveService: LeaveService,
     private dialog: MatDialog,
     private translate: TranslateService,
-    private toastr: ToastrService,
+    private toastr: ToastrService
   ) {
     this.setupColumnDefinitions();
     this.loadLeaveRequests();
   }
 
   loadLeaveRequests(): void {
-    this.isLoading = true;
-
-    this.leaveService.getAllLeaveRequests().subscribe((data) => {
-      this.leaveRequests = data;
-      this.dataSource.data = data;
-      this.isLoading = false;
-    }, () => {
-      this.isLoading = false;
+    this.toggleLoading(true);
+    this.leaveService.getAllLeaveRequests().subscribe({
+      next: (data) => {
+        this.leaveRequests = data;
+        this.dataSource.data = data;
+        this.toggleLoading(false);
+      },
+      error: () => {
+        this.toggleLoading(false);
+      },
     });
   }
 
   openAddLeaveDialog(): void {
     const dialogRef = this.dialog.open(LeaveDialogComponent, {
       width: '600px',
-      data: { action: 'add' }
+      data: { action: 'add' },
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.showSuccess('leaveUpdated');
         this.loadLeaveRequests();
@@ -63,13 +65,13 @@ export class LeaveManagementComponent {
     });
   }
 
-  openEditLeaveDialog(leave: Leave): void {
+  openDialog(leave: Leave): void {
     const dialogRef = this.dialog.open(LeaveDialogComponent, {
       width: '600px',
-      data: { action: 'edit', leave }
+      data: { action: 'edit', leave },
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.showSuccess('leaveUpdated');
         this.loadLeaveRequests();
@@ -77,56 +79,76 @@ export class LeaveManagementComponent {
     });
   }
 
-  deleteLeaveRequest(id: string): void {
+  confirmDelete(id: string): void {
     const dialogRef = this.dialog.open(ConfirmDeleteDialogComponent, {
-      width: '400px'
+      width: '400px',
     });
 
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.leaveService.deleteLeaveRequest(id).subscribe(() => {
-          this.showSuccess('leaveeDeleted');
-          this.loadLeaveRequests();
+        this.leaveService.deleteLeaveRequest(id).subscribe({
+          next: () => {
+            this.showSuccess('leaveDeleted');
+            this.loadLeaveRequests();
+          },
         });
       }
     });
   }
 
   applyFilter(event: Event): void {
-    this.isLoading = true;
-    if (event) {
-      const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
-      this.dataSource.filter = filterValue;
-      setTimeout(() => {
-        this.isLoading = false;
-      }, 200); 
-    }
+    const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
+    this.dataSource.filter = filterValue;
   }
 
   private showSuccess(key: string): void {
-    this.translate.get(key).subscribe(message => {
+    this.translate.get(key).subscribe((message) => {
       this.toastr.success(message, 'Success');
     });
-    this.isLoading = false;
   }
 
   private setupColumnDefinitions(): void {
-    this.translate.get(['TYPE', 'EMPLOYEES_ARABIC_NAME', 'EMPLOYEES_ENGLISH_NAME','START_DATE', 'END_DATE', 'STATUS', 'ACTIONS']).subscribe(translations => {
-      this.columnDefinitions = [
-        { key: 'types', header:'TYPE', cell: (leave: Leave) => this.getTranslationForKey('leaveTypes', leave.types) },
-        { key: 'name', header: 'NAME', cell: (employee: Employee) => this.translate.currentLang === 'ar' ? employee.name : employee.englishName },
-        { key: 'startDate', header:'START_DATE', cell: (leave: Leave) => leave.startDate },
-        { key: 'endDate', header: 'END_DATE', cell: (leave: Leave) => leave.endDate },
-        { key: 'status', header:'STATUS', cell: (leave: Leave) => this.getTranslationForKey('leaveStatus', leave.status) },
-        { key: 'actions', header: 'ACTIONS', cell: () => '' }
-      ];
-    });
+    this.translate
+      .get([
+        'TYPE',
+        'EMPLOYEES_ARABIC_NAME',
+        'EMPLOYEES_ENGLISH_NAME',
+        'START_DATE',
+        'END_DATE',
+        'STATUS',
+        'ACTIONS',
+      ])
+      .subscribe((translations) => {
+        this.columnDefinitions = [
+          {
+            key: 'types',
+            header: translations['TYPE'],
+            cell: (leave: Leave) => this.getTranslationForKey('leaveTypes', leave.types),
+          },
+          {
+            key: 'name',
+            header: translations['EMPLOYEES_ENGLISH_NAME'],
+            cell: (employee: Employee) =>
+              this.translate.currentLang === 'ar' ? employee.name : employee.englishName,
+          },
+          { key: 'startDate', header:'START_DATE', cell: (leave: Leave) => leave.startDate },
+          { key: 'endDate', header: 'END_DATE', cell: (leave: Leave) => leave.endDate },
+          { key: 'status', header: 'STATUS', cell: (leave: Leave) => this.getTranslationForKey('leaveStatus', leave.status) },
+          { key: 'actions', header:'ACTIONS', cell: () => '' },
+        ];
+      });
   }
 
   private getTranslationForKey(key: 'leaveStatus' | 'leaveTypes', id: any): string {
-    const data = this[key] as { id: any, arabic: string, english: string }[];
-    const item = data.find(i => i.id === id);
-    return item ? (this.translate.currentLang === 'ar' ? item.arabic : item.english) 
-    : (this.translate.currentLang === 'ar' ? this.leaveStatus[0].arabic : this.leaveStatus[0].english);
+    const data = this[key] as { id: any; arabic: string; english: string }[];
+    const item = data.find((i) => i.id === id);
+    return item
+      ? this.translate.currentLang === 'ar'
+        ? item.arabic
+        : item.english
+      : '';
+  }
+  private toggleLoading(state: boolean): void {
+    this.isLoading = state;
   }
 }

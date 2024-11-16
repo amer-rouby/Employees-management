@@ -1,9 +1,7 @@
 <div class="login-container">
-  @if(isLoading){
-    <div class="spinner-container">
-      <mat-spinner></mat-spinner>
-    </div>
-  }
+  <div *ngIf="isLoading" class="spinner-container">
+    <mat-spinner></mat-spinner>
+  </div>
   <div class="container">
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="login-form">
       <mat-card>
@@ -15,17 +13,27 @@
           <mat-form-field appearance="fill" class="full-width">
             <mat-label>{{ 'LOGIN.EMAIL' | translate }}</mat-label>
             <mat-icon matPrefix>email</mat-icon>
-            <input matInput formControlName="email" type="email" placeholder="{{ 'LOGIN.EMAIL_PLACEHOLDER' | translate }}" />
+            <input
+              matInput
+              formControlName="email"
+              type="email"
+              placeholder="{{ 'LOGIN.EMAIL_PLACEHOLDER' | translate }}"
+            />
             <mat-error *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
               <span *ngIf="loginForm.get('email')?.errors?.['required']">{{ 'LOGIN.EMAIL_REQUIRED' | translate }}</span>
               <span *ngIf="loginForm.get('email')?.errors?.['email']">{{ 'LOGIN.INVALID_EMAIL' | translate }}</span>
             </mat-error>
           </mat-form-field>
-    
+
           <mat-form-field appearance="fill" class="full-width">
             <mat-label>{{ 'LOGIN.PASSWORD' | translate }}</mat-label>
             <mat-icon matPrefix>lock</mat-icon>
-            <input matInput formControlName="password" type="password" placeholder="{{ 'LOGIN.PASSWORD_PLACEHOLDER' | translate }}" />
+            <input
+              matInput
+              formControlName="password"
+              type="password"
+              placeholder="{{ 'LOGIN.PASSWORD_PLACEHOLDER' | translate }}"
+            />
             <mat-error *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
               <span *ngIf="loginForm.get('password')?.errors?.['required']">{{ 'LOGIN.PASSWORD_REQUIRED' | translate }}</span>
               <span *ngIf="loginForm.get('password')?.errors?.['minlength']">{{ 'LOGIN.PASSWORD_MIN_LENGTH' | translate }}</span>
@@ -33,7 +41,14 @@
           </mat-form-field>
         </mat-card-content>
         <mat-card-actions>
-          <button mat-raised-button color="primary" type="submit" [disabled]="loginForm.invalid">{{ 'LOGIN.SUBMIT' | translate }}</button>
+          <button
+            mat-raised-button
+            color="primary"
+            type="submit"
+            [disabled]="loginForm.invalid"
+          >
+            {{ 'LOGIN.SUBMIT' | translate }}
+          </button>
         </mat-card-actions>
       </mat-card>
     </form>

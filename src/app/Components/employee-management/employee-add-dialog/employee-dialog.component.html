@@ -8,6 +8,7 @@
         {{ 'FIELD_REQUIRED' | translate }}
       </mat-error>
     </mat-form-field>
+
     <mat-form-field appearance="fill">
       <mat-label>{{ 'EMPLOYEES_ENGLISH_NAME' | translate }}</mat-label>
       <input matInput formControlName="englishName" placeholder="{{ 'EMPLOYEES_ENGLISH_NAME' | translate }}" />
@@ -19,9 +20,7 @@
     <mat-form-field appearance="fill">
       <mat-label>{{ 'POSITION' | translate }}</mat-label>
       <mat-select formControlName="jobTitleId">
-        <mat-option *ngFor="let job of jobTitles" [value]="job.id">
-          {{ job | translateText }}
-        </mat-option>
+        <mat-option *ngFor="let job of jobTitles" [value]="job.id">{{ job | translateText }}</mat-option>
       </mat-select>
       <mat-error *ngIf="employeeForm.get('jobTitleId')?.hasError('required')">
         {{ 'FIELD_REQUIRED' | translate }}
@@ -31,9 +30,7 @@
     <mat-form-field appearance="fill">
       <mat-label>{{ 'DEPARTMENT' | translate }}</mat-label>
       <mat-select formControlName="departmentId">
-        <mat-option *ngFor="let department of departments" [value]="department.id">
-          {{ department | translateText}}
-        </mat-option>
+        <mat-option *ngFor="let department of departments" [value]="department.id">{{ department | translateText }}</mat-option>
       </mat-select>
       <mat-error *ngIf="employeeForm.get('departmentId')?.hasError('required')">
         {{ 'FIELD_REQUIRED' | translate }}
@@ -43,21 +40,17 @@
     <mat-form-field appearance="fill">
       <mat-label>{{ 'GENDER' | translate }}</mat-label>
       <mat-select formControlName="genderId">
-        <mat-option *ngFor="let g of gender" [value]="g.id">
-          {{ g |translateText }}
-        </mat-option>
+        <mat-option *ngFor="let g of gender" [value]="g.id">{{ g | translateText }}</mat-option>
       </mat-select>
       <mat-error *ngIf="employeeForm.get('genderId')?.hasError('required')">
         {{ 'FIELD_REQUIRED' | translate }}
       </mat-error>
     </mat-form-field>
-    
+
     <mat-form-field appearance="fill">
-      <mat-label>{{ 'NATIONALITIE' | translate }}</mat-label>
+      <mat-label>{{ 'NATIONALITY' | translate }}</mat-label>
       <mat-select formControlName="nationalitieId">
-        <mat-option *ngFor="let n of nationalities" [value]="n.id">
-          {{ n | translateText }}
-        </mat-option>
+        <mat-option *ngFor="let n of nationalities" [value]="n.id">{{ n | translateText }}</mat-option>
       </mat-select>
       <mat-error *ngIf="employeeForm.get('nationalitieId')?.hasError('required')">
         {{ 'FIELD_REQUIRED' | translate }}
@@ -67,16 +60,13 @@
     <mat-form-field appearance="fill">
       <mat-label>{{ 'MARITAL_STATUS' | translate }}</mat-label>
       <mat-select formControlName="maritalStatusId">
-        <mat-option *ngFor="let m of maritalStatus" [value]="m.id">
-          {{ m | translateText }}
-        </mat-option>
+        <mat-option *ngFor="let m of maritalStatus" [value]="m.id">{{ m | translateText }}</mat-option>
       </mat-select>
       <mat-error *ngIf="employeeForm.get('maritalStatusId')?.hasError('required')">
         {{ 'FIELD_REQUIRED' | translate }}
       </mat-error>
     </mat-form-field>
 
-    <!-- Add your new fields here -->
     <mat-form-field appearance="fill">
       <mat-label>{{ 'PHONE_NUMBER' | translate }}</mat-label>
       <input matInput formControlName="phoneNumber" placeholder="{{ 'PHONE_NUMBER' | translate }}" />
@@ -95,7 +85,7 @@
 
     <mat-form-field appearance="fill">
       <mat-label>{{ 'HIRE_DATE' | translate }}</mat-label>
-      <input matInput [matDatepicker]="hireDatePicker" formControlName="hireDate" placeholder="{{ 'HIRE_DATE' | translate }}" />
+      <input matInput [matDatepicker]="hireDatePicker" formControlName="hireDate" />
       <mat-datepicker-toggle matSuffix [for]="hireDatePicker"></mat-datepicker-toggle>
       <mat-datepicker #hireDatePicker></mat-datepicker>
       <mat-error *ngIf="employeeForm.get('hireDate')?.hasError('required')">
@@ -108,8 +98,6 @@
     <button mat-raised-button color="primary" type="submit">
       {{ isEditMode ? ('UPDATE' | translate) : ('ADD' | translate) }}
     </button>
-    <button mat-button color="warn" (click)="cancel()">
-      {{ 'CANCEL' | translate }}
-    </button>
+    <button mat-button color="warn" (click)="cancel()">{{ 'CANCEL' | translate }}</button>
   </div>
 </form>

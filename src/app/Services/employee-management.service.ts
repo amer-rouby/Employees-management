@@ -12,48 +12,56 @@ export class EmployeesService {
 
   constructor(private db: AngularFireDatabase) { }
 
+  // Fetch all employees from the database
   getAllEmployees(): Observable<Employee[]> {
     return this.db.list<Employee>(this.basePath).snapshotChanges().pipe(
-      map(changes => changes.map(c => {
-        const data = c.payload.val() as Employee;
-        const id = c.payload.key as string;
-        return { ...data, id };
-      })),
-      catchError(error => {
-        console.error('Error fetching employees', error);
-        return of([]);
-      })
+      map(this.mapEmployeeChanges),
+      catchError(this.handleError<Employee[]>('fetching employees', []))
     );
   }
-  
-  
 
-  addEmployees(data: Employee): Observable<Employee> {
+  // Add a new employee to the database
+  addEmployee(data: Employee): Observable<Employee> {
     return from(this.db.list<Employee>(this.basePath).push(data).then(docRef => {
-      return { ...data, id: docRef.key ?? 'default-id' }; // Add id to data
+      return this.addIdToEmployeeData(data, docRef.key);
     })).pipe(
-      catchError(error => {
-        console.error('Error adding employee', error);
-        return of({ ...data, id: 'default-id' }); // Return default object on error
-      })
+      catchError(this.handleError<Employee>('adding employee', { ...data, id: 'default-id' }))
     );
   }
 
-  updateEmployees(id: string, data: Employee): Observable<void> {
+  // Update an existing employee in the database
+  updateEmployee(id: string, data: Employee): Observable<void> {
     return from(this.db.object<Employee>(`${this.basePath}/${id}`).update(data)).pipe(
-      catchError(error => {
-        console.error('Error updating employee', error);
-        return of(); // Return empty observable on error
-      })
+      catchError(this.handleError<void>('updating employee'))
     );
   }
 
-  deleteEmployees(id: string): Observable<void> {
+  // Delete an employee from the database
+  deleteEmployee(id: string): Observable<void> {
     return from(this.db.object(`${this.basePath}/${id}`).remove()).pipe(
-      catchError(error => {
-        console.error('Error deleting employee', error);
-        return of(); // Return empty observable on error
-      })
+      catchError(this.handleError<void>('deleting employee'))
     );
+  }
+
+  // Helper function to map changes to employee data
+  private mapEmployeeChanges(changes: any[]): Employee[] {
+    return changes.map(c => {
+      const data = c.payload.val() as Employee;
+      const id = c.payload.key as string;
+      return { ...data, id };
+    });
+  }
+
+  // Helper function to handle errors
+  private handleError<T>(operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+      console.error(`${operation} failed: ${error.message}`);
+      return of(result as T);
+    };
+  }
+
+  // Helper function to add an id to employee data
+  private addIdToEmployeeData(data: Employee, id: string | null): Employee {
+    return { ...data, id: id ?? 'default-id' };
   }
 }
