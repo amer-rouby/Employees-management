@@ -1,7 +1,9 @@
 <div class="container">
-  <div *ngIf="isLoading" class="loading-overlay">
-    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
-  </div>
+  @if (isLoading) {
+    <div class="loading-overlay">
+      <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    </div>
+  }
   <form [formGroup]="registrationForm" (ngSubmit)="onSubmit()" class="register-form">
     <mat-card>
       <mat-card-header>
@@ -17,65 +19,83 @@
             formControlName="email"
             type="email"
             placeholder="{{ 'REGISTER.EMAIL_PLACEHOLDER' | translate }}"
-          />
-          <mat-error *ngIf="email?.invalid && email?.touched">
-            <span *ngIf="email?.errors?.['required']">
-              {{ 'REGISTER.EMAIL_REQUIRED' | translate }}
-            </span>
-            <span *ngIf="email?.errors?.['email']">
-              {{ 'REGISTER.INVALID_EMAIL' | translate }}
-            </span>
-          </mat-error>
-        </mat-form-field>
+            />
+            @if (email?.invalid && email?.touched) {
+              <mat-error>
+                @if (email?.errors?.['required']) {
+                  <span>
+                    {{ 'REGISTER.EMAIL_REQUIRED' | translate }}
+                  </span>
+                }
+                @if (email?.errors?.['email']) {
+                  <span>
+                    {{ 'REGISTER.INVALID_EMAIL' | translate }}
+                  </span>
+                }
+              </mat-error>
+            }
+          </mat-form-field>
 
-        <mat-form-field appearance="fill" class="full-width">
-          <mat-label>{{ 'REGISTER.PASSWORD' | translate }}</mat-label>
-          <mat-icon matPrefix>lock</mat-icon>
-          <input
-            matInput
-            formControlName="password"
-            type="password"
-            placeholder="{{ 'REGISTER.PASSWORD_PLACEHOLDER' | translate }}"
-          />
-          <mat-error *ngIf="password?.invalid && password?.touched">
-            <span *ngIf="password?.errors?.['required']">
-              {{ 'REGISTER.PASSWORD_REQUIRED' | translate }}
-            </span>
-            <span *ngIf="password?.errors?.['minlength']">
-              {{ 'REGISTER.PASSWORD_MIN_LENGTH' | translate }}
-            </span>
-          </mat-error>
-        </mat-form-field>
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>{{ 'REGISTER.PASSWORD' | translate }}</mat-label>
+            <mat-icon matPrefix>lock</mat-icon>
+            <input
+              matInput
+              formControlName="password"
+              type="password"
+              placeholder="{{ 'REGISTER.PASSWORD_PLACEHOLDER' | translate }}"
+              />
+              @if (password?.invalid && password?.touched) {
+                <mat-error>
+                  @if (password?.errors?.['required']) {
+                    <span>
+                      {{ 'REGISTER.PASSWORD_REQUIRED' | translate }}
+                    </span>
+                  }
+                  @if (password?.errors?.['minlength']) {
+                    <span>
+                      {{ 'REGISTER.PASSWORD_MIN_LENGTH' | translate }}
+                    </span>
+                  }
+                </mat-error>
+              }
+            </mat-form-field>
 
-        <mat-form-field appearance="fill" class="full-width">
-          <mat-label>{{ 'REGISTER.CONFIRM_PASSWORD' | translate }}</mat-label>
-          <mat-icon matPrefix>lock</mat-icon>
-          <input
-            matInput
-            formControlName="confirmPassword"
-            type="password"
-            placeholder="{{ 'REGISTER.CONFIRM_PASSWORD_PLACEHOLDER' | translate }}"
-          />
-          <mat-error *ngIf="confirmPassword?.invalid && confirmPassword?.touched">
-            <span *ngIf="confirmPassword?.errors?.['required']">
-              {{ 'REGISTER.CONFIRM_PASSWORD_REQUIRED' | translate }}
-            </span>
-            <span *ngIf="registrationForm.errors?.['passwordMismatch']">
-              {{ 'REGISTER.PASSWORD_MISMATCH' | translate }}
-            </span>
-          </mat-error>
-        </mat-form-field>
-      </mat-card-content>
-      <mat-card-actions>
-        <button
-          mat-raised-button
-          color="primary"
-          type="submit"
-          [disabled]="registrationForm.invalid"
-        >
-          {{ 'REGISTER.SUBMIT' | translate }}
-        </button>
-      </mat-card-actions>
-    </mat-card>
-  </form>
-</div>
+            <mat-form-field appearance="fill" class="full-width">
+              <mat-label>{{ 'REGISTER.CONFIRM_PASSWORD' | translate }}</mat-label>
+              <mat-icon matPrefix>lock</mat-icon>
+              <input
+                matInput
+                formControlName="confirmPassword"
+                type="password"
+                placeholder="{{ 'REGISTER.CONFIRM_PASSWORD_PLACEHOLDER' | translate }}"
+                />
+                @if (confirmPassword?.invalid && confirmPassword?.touched) {
+                  <mat-error>
+                    @if (confirmPassword?.errors?.['required']) {
+                      <span>
+                        {{ 'REGISTER.CONFIRM_PASSWORD_REQUIRED' | translate }}
+                      </span>
+                    }
+                    @if (registrationForm.errors?.['passwordMismatch']) {
+                      <span>
+                        {{ 'REGISTER.PASSWORD_MISMATCH' | translate }}
+                      </span>
+                    }
+                  </mat-error>
+                }
+              </mat-form-field>
+            </mat-card-content>
+            <mat-card-actions>
+              <button
+                mat-raised-button
+                color="primary"
+                type="submit"
+                [disabled]="registrationForm.invalid"
+                >
+                {{ 'REGISTER.SUBMIT' | translate }}
+              </button>
+            </mat-card-actions>
+          </mat-card>
+        </form>
+      </div>

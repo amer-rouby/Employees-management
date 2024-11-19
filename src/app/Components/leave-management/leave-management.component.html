@@ -1,23 +1,25 @@
 <div class="container">
-    <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
-    <div class="toolbar">
-        <button mat-raised-button color="primary" (click)="openAddLeaveDialog()">
-            {{ 'ADD_LEAVE' | translate }}
-        </button>
-        <mat-form-field class="search-employee">
-            <mat-label>{{ 'SEARCH_EMPLOYEE' | translate }}</mat-label>
-            <input matInput (keyup)="applyFilter($event)" placeholder="{{ 'ENTER_NAME' | translate }}">
-        </mat-form-field>
-    </div>
+  @if (isLoading) {
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  }
+  <div class="toolbar">
+    <button mat-raised-button color="primary" (click)="openAddLeaveDialog()">
+      {{ 'ADD_LEAVE' | translate }}
+    </button>
+    <mat-form-field class="search-employee">
+      <mat-label>{{ 'SEARCH_EMPLOYEE' | translate }}</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="{{ 'ENTER_NAME' | translate }}">
+    </mat-form-field>
+  </div>
 
-    <h2>{{ 'LEAVES_LIST' | translate }}</h2>
+  <h2>{{ 'LEAVES_LIST' | translate }}</h2>
 
-    <app-shared-table 
-        [dataSource]="dataSource" 
-        [displayedColumns]="displayedColumns"
-        [columnDefinitions]="columnDefinitions" 
-        [showViewAction]="showViewAction" 
-        (onEdit)="openDialog($event)"
-        (onDelete)="confirmDelete($event)">
-    </app-shared-table>
+  <app-shared-table
+    [dataSource]="dataSource"
+    [displayedColumns]="displayedColumns"
+    [columnDefinitions]="columnDefinitions"
+    [showViewAction]="showViewAction"
+    (onEdit)="openDialog($event)"
+    (onDelete)="confirmDelete($event)">
+  </app-shared-table>
 </div>
