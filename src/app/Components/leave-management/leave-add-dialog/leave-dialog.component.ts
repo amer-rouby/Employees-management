@@ -10,6 +10,7 @@ import { AuthService } from '../../../Services/auth.service';
 import { leaveStatus, leaveTypes } from '../../../constants/data.constants';
 import { Leave } from '../../../Models/leave.model';
 import { Employee } from '../../../Models/employee.model';
+import { PermissionsService } from '../../../Services/permissions.service';
 
 @Component({
   selector: 'app-leave-dialog',
@@ -37,13 +38,13 @@ export class LeaveDialogComponent implements OnInit {
     private fb: FormBuilder,
     private leaveService: LeaveService,
     private employeesService: EmployeesService,
-    private authService: AuthService,
+    private permissionsService: PermissionsService,
     private dialogRef: MatDialogRef<LeaveDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private datePipe: DatePipe,
     public translate: TranslateService
   ) {
-    this.heCanTakeAction = this.authService.canRegisterUser();
+    this.heCanTakeAction = this.permissionsService.canRegisterUser();
 
     this.employeeForm = this.fb.group({
       name: ['', Validators.required],

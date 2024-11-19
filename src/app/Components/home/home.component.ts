@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../Services/auth.service';
+import { PermissionsService } from '../../Services/permissions.service';
 
 @Component({
   selector: 'app-home',
@@ -9,9 +9,9 @@ import { AuthService } from '../../Services/auth.service';
 export class HomeComponent implements OnInit {
   canRegisterUser: boolean = false;
 
-  constructor(private authService: AuthService) {}
+  constructor(private permissionsService: PermissionsService) {}
 
   ngOnInit() {
-    this.canRegisterUser = this.authService.canRegisterUser();
+    this.canRegisterUser = this.permissionsService.canRegisterUser();
   }
 }

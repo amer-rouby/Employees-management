@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../Services/auth.service';
 import { LanguageService } from '../../Services/language.service';
+import { PermissionsService } from '../../Services/permissions.service';
 
 @Component({
   selector: 'app-header',
@@ -12,11 +13,12 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     private authService: AuthService,
-    private languageService: LanguageService
+    private permissionsService: PermissionsService,
+    private languageService: LanguageService,
   ) {}
 
   ngOnInit(): void {
-    this.canRegisterUser = this.authService.canRegisterUser();
+    this.canRegisterUser = this.permissionsService.canRegisterUser();
   }
 
   changeLanguage(lang: string): void {
