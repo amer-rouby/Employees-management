@@ -1,5 +1,7 @@
 <div class="container px-3">
-  <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+  @if (isLoading) {
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  }
 
   <div class="toolbar">
     <button mat-raised-button color="primary" (click)="openDialog()">
@@ -14,13 +16,14 @@
 
   <h2>{{ 'EMPLOYEE_LIST' | translate }}</h2>
 
-  <app-shared-table 
-    [dataSource]="dataSource" 
+  <app-shared-table
+    [dataSource]="dataSource"
     [displayedColumns]="displayedColumns"
-    [columnDefinitions]="columnDefinitions" 
-    (onEdit)="openDialog($event)" 
-    (onDelete)="deleteEmployee($event)"
-    [showViowAction]="showViowAction"
+    [columnDefinitions]="columnDefinitions"
+    (onEdit)="openDialog($event)"
+    (onDelete)="confirmDelete($event)"
+    [showViewAction]="showViewAction"
     (onView)="viewEmployeeDetails($event)">
   </app-shared-table>
 </div>
+

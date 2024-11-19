@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { AuthService } from '../../../Services/auth.service';
+import { PermissionsService } from '../../../Services/permissions.service';
 
 @Component({
   selector: 'app-shared-table',
@@ -12,14 +12,14 @@ export class SharedTableComponent<T> {
   @Input() dataSource: MatTableDataSource<T> = new MatTableDataSource<T>([]);
   @Input() displayedColumns: string[] = [];
   @Input() columnDefinitions: any[] = [];
-  @Input() showViowAction: any;
+  @Input() showViewAction: any;
   @Output() onEdit = new EventEmitter<T>();
   @Output() onDelete = new EventEmitter<string>(); // افتراض أن المعرف هو من النوع string
   @Output() onView = new EventEmitter<T>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   heCanTakeAction: any;
   
-  constructor(private authService: AuthService) {}
+  constructor(private permissionsService: PermissionsService) {}
 
   ngAfterViewInit(): void {
     if (this.paginator) {
@@ -28,7 +28,7 @@ export class SharedTableComponent<T> {
   }
 
   ngOnInit() {
-    this.heCanTakeAction = this.authService.canRegisterUser();
+    this.heCanTakeAction = this.permissionsService.canRegisterUser();
   }
   
   openDialog(element?: T): void {

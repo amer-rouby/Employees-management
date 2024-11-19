@@ -2,8 +2,8 @@ export interface Employee {
   id: string;
   name: string;
   englishName?: string;
-  departmentId?: string;
-  jobTitleId?: string;
+  jobTitleId: number;
+  departmentId: number;
   genderId?: string;
   nationalitieId?: string;
   maritalStatusId?: string;

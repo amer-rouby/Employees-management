@@ -1,103 +1,116 @@
 <h1 mat-dialog-title>{{ data.action === 'add' ? ('ADD_LEAVE' | translate) : ('SAVE_CHANGES' | translate) }}</h1>
 <div mat-dialog-content>
-    <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()">
-        <div class="form-row">
-            <mat-form-field appearance="fill">
-                <mat-label>{{ 'EMPLOYEES_ARABIC_NAME' | translate }}</mat-label>
-                <mat-select formControlName="name" required>
-                    <mat-option *ngFor="let employee of employees" [value]="employee.name">
-                        {{ employee.name }}
-                    </mat-option>
-                </mat-select>
-                @if(employeeForm.get('name')?.invalid && employeeForm.get('name')?.touched){
-                <mat-error>
-                    {{ 'FIELD_REQUIRED' | translate }}
-                </mat-error>
-                }
-            </mat-form-field>
-            <mat-form-field appearance="fill">
-                <mat-label>{{ 'EMPLOYEES_ENGLISH_NAME' | translate }}</mat-label>
-                <mat-select formControlName="englishName" required>
-                    <mat-option *ngFor="let employee of employees" [value]="employee.englishName">
-                        {{ employee.englishName }}
-                    </mat-option>
-                </mat-select>
-                @if(employeeForm.get('englishName')?.invalid && employeeForm.get('englishName')?.touched){
-                <mat-error>
-                    {{ 'FIELD_REQUIRED' | translate }}
-                </mat-error>
-                }
-            </mat-form-field>
-        </div>
+  <form [formGroup]="employeeForm" (ngSubmit)="onSubmit()">
+    <div class="form-row">
+      <!-- Arabic Name -->
+      <mat-form-field appearance="fill">
+        <mat-label>{{ 'EMPLOYEES_ARABIC_NAME' | translate }}</mat-label>
+        <mat-select formControlName="name" required>
+          @for (employee of employees; track employee) {
+            <mat-option [value]="employee.name">
+              {{ employee.name }}
+            </mat-option>
+          }
+        </mat-select>
+        @if (employeeForm.get('name')?.invalid && employeeForm.get('name')?.touched) {
+          <mat-error>
+            {{ 'FIELD_REQUIRED' | translate }}
+          </mat-error>
+        }
+      </mat-form-field>
 
-        <div class="form-row">
-            <mat-form-field appearance="fill">
-                <mat-label>{{ 'TYPE' | translate }}</mat-label>
-                <mat-select formControlName="types" required>
-                    <mat-option *ngFor="let types of leaveTypes" [value]="types.id">
-                        {{ types | translateText }}
-                    </mat-option>
-                </mat-select>
-                @if(employeeForm.get('types')?.invalid && employeeForm.get('types')?.touched){
-                <mat-error>
-                    {{ 'FIELD_REQUIRED' | translate }}
-                </mat-error>
-                }
+      <!-- English Name -->
+      <mat-form-field appearance="fill">
+        <mat-label>{{ 'EMPLOYEES_ENGLISH_NAME' | translate }}</mat-label>
+        <mat-select formControlName="englishName" required>
+          @for (employee of employees; track employee) {
+            <mat-option [value]="employee.englishName">
+              {{ employee.englishName }}
+            </mat-option>
+          }
+        </mat-select>
+        @if (employeeForm.get('englishName')?.invalid && employeeForm.get('englishName')?.touched) {
+          <mat-error>
+            {{ 'FIELD_REQUIRED' | translate }}
+          </mat-error>
+        }
+      </mat-form-field>
+    </div>
 
-            </mat-form-field>
+    <div class="form-row">
+      <!-- Leave Type -->
+      <mat-form-field appearance="fill">
+        <mat-label>{{ 'TYPE' | translate }}</mat-label>
+        <mat-select formControlName="types" required>
+          @for (type of leaveTypes; track type) {
+            <mat-option [value]="type.id">
+              {{ type | translateText }}
+            </mat-option>
+          }
+        </mat-select>
+        @if (employeeForm.get('types')?.invalid && employeeForm.get('types')?.touched) {
+          <mat-error>
+            {{ 'FIELD_REQUIRED' | translate }}
+          </mat-error>
+        }
+      </mat-form-field>
 
-            @if(heCanTakeAction) {
-            <mat-form-field appearance="fill">
-                <mat-label>{{ 'STATUS' | translate }}</mat-label>
-                <mat-select formControlName="status">
-                    <mat-option *ngFor="let status of leaveStatus" [value]="status.id">
-                        {{ status | translateText }}
-                    </mat-option>
-                </mat-select>
-                @if(employeeForm.get('status')?.invalid && employeeForm.get('status')?.touched){
-                <mat-error>
-                    {{ 'FIELD_REQUIRED' | translate }}
-                </mat-error>
-                }
-            </mat-form-field>
+      <!-- Status -->
+      @if (heCanTakeAction) {
+        <mat-form-field appearance="fill">
+          <mat-label>{{ 'STATUS' | translate }}</mat-label>
+          <mat-select formControlName="status">
+            @for (status of leaveStatus; track status) {
+              <mat-option [value]="status.id">
+                {{ status | translateText }}
+              </mat-option>
             }
-        </div>
+          </mat-select>
+          @if (employeeForm.get('status')?.invalid && employeeForm.get('status')?.touched) {
+            <mat-error>
+              {{ 'FIELD_REQUIRED' | translate }}
+            </mat-error>
+          }
+        </mat-form-field>
+      }
+    </div>
 
-        <div class="form-row">
-            <mat-form-field appearance="fill">
-                <mat-label>{{ 'START_DATE' | translate }}</mat-label>
-                <input matInput [matDatepicker]="startDatePicker" placeholder="{{ 'START_DATE' | translate }}"
-                    formControlName="startDate" required>
-                <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
-                <mat-datepicker #startDatePicker></mat-datepicker>
-                @if(employeeForm.get('startDate')?.invalid && employeeForm.get('startDate')?.touched){
-                <mat-error>
-                    {{ 'FIELD_REQUIRED' | translate }}
-                </mat-error>
-                }
-            </mat-form-field>
+    <div class="form-row">
+      <!-- Start Date -->
+      <mat-form-field appearance="fill">
+        <mat-label>{{ 'START_DATE' | translate }}</mat-label>
+        <input matInput [matDatepicker]="startDatePicker" placeholder="{{ 'START_DATE' | translate }}" formControlName="startDate" required>
+        <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #startDatePicker></mat-datepicker>
+        @if (employeeForm.get('startDate')?.invalid && employeeForm.get('startDate')?.touched) {
+          <mat-error>
+            {{ 'FIELD_REQUIRED' | translate }}
+          </mat-error>
+        }
+      </mat-form-field>
 
-            <mat-form-field appearance="fill">
-                <mat-label>{{ 'END_DATE' | translate }}</mat-label>
-                <input matInput [matDatepicker]="endDatePicker" placeholder="{{ 'END_DATE' | translate }}"
-                    formControlName="endDate" required>
-                <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
-                <mat-datepicker #endDatePicker></mat-datepicker>
-                @if(employeeForm.get('endDate')?.invalid && employeeForm.get('endDate')?.touched){
-                <mat-error>
-                    {{ 'FIELD_REQUIRED' | translate }}
-                </mat-error>
-                }
-            </mat-form-field>
-        </div>
-        <div class="form-buttons">
-            <button mat-raised-button color="primary" type="submit">
-                {{ data.action === 'add' ? ('ADD_LEAVE' | translate) : ('SAVE_CHANGES' | translate) }}
-            </button>
-            <button mat-button color="warn" (click)="onCancel()">
-              {{ 'CANCEL' | translate }}
-            </button>
-          </div>
-    </form>
+      <!-- End Date -->
+      <mat-form-field appearance="fill">
+        <mat-label>{{ 'END_DATE' | translate }}</mat-label>
+        <input matInput [matDatepicker]="endDatePicker" placeholder="{{ 'END_DATE' | translate }}" formControlName="endDate" required>
+        <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #endDatePicker></mat-datepicker>
+        @if (employeeForm.get('endDate')?.invalid && employeeForm.get('endDate')?.touched) {
+          <mat-error>
+            {{ 'FIELD_REQUIRED' | translate }}
+          </mat-error>
+        }
+      </mat-form-field>
+    </div>
+
+    <!-- Buttons -->
+    <div class="form-buttons">
+      <button mat-raised-button color="primary" type="submit">
+        {{ data.action === 'add' ? ('ADD_LEAVE' | translate) : ('SAVE_CHANGES' | translate) }}
+      </button>
+      <button mat-button color="warn" (click)="onCancel()">
+        {{ 'CANCEL' | translate }}
+      </button>
+    </div>
+  </form>
 </div>
-

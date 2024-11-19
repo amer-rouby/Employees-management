@@ -1,38 +1,33 @@
-import { Component } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../Services/auth.service';
+import { LanguageService } from '../../Services/language.service';
+import { PermissionsService } from '../../Services/permissions.service';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent {
-  canRegisterUser: boolean = false;
+export class HeaderComponent implements OnInit {
+  canRegisterUser = false;
+
   constructor(
-    private translate: TranslateService, 
     private authService: AuthService,
-  ) { }
+    private permissionsService: PermissionsService,
+    private languageService: LanguageService,
+  ) {}
+
+  ngOnInit(): void {
+    this.canRegisterUser = this.permissionsService.canRegisterUser();
+  }
 
   changeLanguage(lang: string): void {
-    this.translate.use(lang);
-    this.setDirection(lang);
-    localStorage.setItem('lang', lang); // Save selected language to localStorage
-  }
-  
-  ngOnInit() {
-    this.canRegisterUser = this.authService.canRegisterUser();
-  }
-
-  private setDirection(lang: string): void {
-    const direction = lang === 'ar' ? 'rtl' : 'ltr';
-    document.documentElement.dir = direction;
+    this.languageService.changeLanguage(lang);
   }
 
   logout(): void {
     this.authService.logout().then(() => {
-      // Redirect to login or any other page after logout
-      window.location.href = '/login'; // Or use Router for navigation
+      window.location.href = '/login';
     }).catch(error => {
       console.error('Logout failed', error);
     });

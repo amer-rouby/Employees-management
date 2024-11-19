@@ -58,7 +58,7 @@
     "PASSWORD_MISMATCH": "Passwords do not match.",
     "SUBMIT": "Register"
   },
-  "NATIONALITIE": "nationalities",
+  "NATIONALITY": "nationalities",
   "MARITAL_STATUS": "Marital Status",
   "EMPLOYEE_DETAILS": " Employee Details",
   "PHONE_NUMBER": "Phone Number",

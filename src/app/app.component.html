@@ -1,21 +1,16 @@
 <div class="app-container">
-    <!-- Show the login component if the user is not logged in -->
-    <app-login *ngIf="!isLoggedIn"></app-login>
+  <!-- Show the login component if the user is not logged in -->
+  @if (!isLoggedIn) {
+    <app-login></app-login>
+  }
 
-    <!-- Show the rest of the application if the user is logged in -->
-    <div *ngIf="isLoggedIn">
-        <app-header></app-header>
-        <div class="main-content">
-            <router-outlet></router-outlet>
-        </div>
-
+  <!-- Show the rest of the application if the user is logged in -->
+  @if (isLoggedIn) {
+    <div>
+      <app-header></app-header>
+      <div class="main-content">
+        <router-outlet></router-outlet>
+      </div>
     </div>
+  }
 </div>
-<!-- <mat-toolbar *ngIf="isLoggedIn" color="primary" class="footer-toolbar">
-    <span class="footer-text">
-        {{ 'COPYRIGHT' | translate }}
-        <a mat-button href="https://github.com/amer-rouby" class="footer-link">
-            {{ 'FOOTER_LINK_TEXT' | translate }}
-        </a>
-    </span>
-</mat-toolbar> -->

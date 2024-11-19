@@ -8,48 +8,38 @@ body {
     height: 100%;
     width: 100%;
     background-image: 
-    linear-gradient(rgba(255, 255, 255, 0.497), rgba(255, 255, 255, 0.394)), /* شفاف من الأبيض */
-    url('../src/assets/images/Pdf.PNG'); /* Add your image path here */
-    background-size: 100% 100%; /* Adjust dimensions as needed */
-    background-position: center; /* Centers the image */
-    background-repeat: no-repeat; /* Prevents the image from repeating */
+    linear-gradient(rgba(255, 255, 255, 0.497), rgba(255, 255, 255, 0.394)),
+    url('../src/assets/images/Pdf.PNG');
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    background-attachment: fixed;
+    color: #fff;
 }
 
 body {
     font-family: Roboto, "Helvetica Neue", sans-serif;
     direction: inherit;
-    /* Ensure this is overridden by Angular logic */
 }
-
-html, body {
-    height: 100%;
-    margin: 0;
-    // background-image: url('assets/images/carbon-fiber-hd-widescreen-for-laptop-wallpaper-preview.jpg'); /* Use url() and correct path */
-    background-size: cover; /* Scale the background image to cover the entire container */
-    background-position: center center; /* Center the image horizontally and vertically */
-    background-repeat: no-repeat; /* Prevent the image from repeating */
-    background-attachment: fixed; /* Fix the background image in place during scrolling */
-    color: #fff; /* Ensure text color contrasts well with the background */
-  }
-  
 
 .app-container {
     display: flex;
     flex-direction: column;
-    min-height: 100vh; /* تأكد من أن العنصر الرئيسي يمتد إلى طول الشاشة */
+    min-height: 100vh;
 }
 
 .main-content {
-    flex: 1; /* يجعل المحتوى يأخذ المساحة المتبقية */
+    flex: 1;
 }
 
 .footer-toolbar {
-    background-color: #3f51b5; /* اللون الأساسي لـ Angular Material */
+    background-color: #3f51b5;
     color: #fff;
     text-align: center;
     padding: 1rem;
     width: 100%;
-    box-sizing: border-box; /* تأكد من تضمين الحشو في عرض الفوتر */
+    box-sizing: border-box;
 }
 
 .footer-text {

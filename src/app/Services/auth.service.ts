@@ -2,54 +2,58 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { PermissionsService } from './permissions.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private userPermissions: boolean = false;
+  constructor(
+    private afAuth: AngularFireAuth,
+    private permissionsService: PermissionsService
+  ) {
+    this.setAuthPersistence();
+  }
 
-  constructor(private afAuth: AngularFireAuth) {
+  private setAuthPersistence(): void {
     this.afAuth.setPersistence('session')
       .then(() => {
         this.afAuth.authState.subscribe(user => {
           if (user) {
-            this.loadUserPermissions(user.uid);
+            this.permissionsService.loadPermissions(user.uid);
             this.setLoginStatus(true);
           } else {
-            this.setLoginStatus(false);
-            this.userPermissions = false; // Reset user permissions when logged out
+            this.resetLoginStatus();
           }
         });
       })
-      .catch((error) => {
+      .catch(error => {
         console.error('Error setting persistence:', error);
       });
-
-    // Retrieve user permissions from sessionStorage on initialization
-    const storedPermissions = sessionStorage.getItem('userPermissions');
-    if (storedPermissions) {
-      this.userPermissions = JSON.parse(storedPermissions);
-    }
   }
 
   register(email: string, password: string): Promise<any> {
-    return this.afAuth.createUserWithEmailAndPassword(email, password);
+    return this.afAuth.createUserWithEmailAndPassword(email, password).then(userCredential => {
+      const userId = userCredential.user?.uid;
+      if (userId) {
+        this.permissionsService.loadPermissions(userId);
+      }
+      return userCredential;
+    });
   }
 
   login(email: string, password: string): Promise<any> {
-    return this.afAuth.signInWithEmailAndPassword(email, password)
-      .then(() => {
-        this.setLoginStatus(true);
-      });
+    return this.afAuth.signInWithEmailAndPassword(email, password).then(userCredential => {
+      const userId = userCredential.user?.uid;
+      if (userId) {
+        this.permissionsService.loadPermissions(userId);
+      }
+      return userCredential;
+    });
   }
 
   logout(): Promise<void> {
-    return this.afAuth.signOut().then(() => {
-      this.setLoginStatus(false);
-      this.userPermissions = false; // Reset user permissions on logout
-      sessionStorage.removeItem('userPermissions'); // Clear stored permissions
-    });
+    return this.afAuth.signOut().then(() => this.resetLoginStatus());
   }
 
   getUserState(): Observable<firebase.default.User | null> {
@@ -57,25 +61,15 @@ export class AuthService {
   }
 
   isAuthenticated(): Observable<boolean> {
-    return this.afAuth.authState.pipe(
-      map(user => !!user)
-    );
+    return this.afAuth.authState.pipe(map(user => !!user));
   }
 
-  getLoginStatus(): boolean {
-    return sessionStorage.getItem('isLoggedIn') === 'true';
-  }
-
-  setLoginStatus(isLoggedIn: boolean): void {
+  private setLoginStatus(isLoggedIn: boolean): void {
     sessionStorage.setItem('isLoggedIn', String(isLoggedIn));
   }
 
-  loadUserPermissions(userId: string): void {
-    this.userPermissions = userId === "W7JBBlBDgmfekGnc6imbK9U9czL2" || userId === "RYxN9sPhcUNmACxmRtgeBcCUQ4h2";
-    sessionStorage.setItem('userPermissions', JSON.stringify(this.userPermissions)); // Store permissions
-  }
-
-  canRegisterUser(): boolean {
-    return this.userPermissions;
+  private resetLoginStatus(): void {
+    this.setLoginStatus(false);
+    this.permissionsService.clearPermissions();
   }
 }
