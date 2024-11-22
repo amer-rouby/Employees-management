@@ -42,7 +42,10 @@
     "PASSWORD_PLACEHOLDER": "أدخل كلمة المرور",
     "PASSWORD_REQUIRED": "كلمة المرور مطلوبة.",
     "PASSWORD_MIN_LENGTH": "يجب أن تكون كلمة المرور لا تقل عن 6 أحرف.",
-    "SUBMIT": "تسجيل الدخول"
+    "SUBMIT": "تسجيل الدخول",
+    "SUCCESS": "تم تسجيل الدخول بنجاح",
+    "FAILURE": "فشل تسجيل الدخول",
+    "WARNING": "يرجى ملء جميع الحقول المطلوبة بشكل صحيح"
   },
   "REGISTER": {
     "TITLE": "تسجيل المستخدمين ",
@@ -58,7 +61,10 @@
     "CONFIRM_PASSWORD_PLACEHOLDER": "أكد كلمة المرور",
     "CONFIRM_PASSWORD_REQUIRED": "تأكيد كلمة المرور مطلوب.",
     "PASSWORD_MISMATCH": "كلمات المرور لا تتطابق.",
-    "SUBMIT": "تسجيل"
+    "SUBMIT": "تسجيل",
+    "SUCCESS": "تم التسجيل بنجاح",
+    "FAILURE": "فشل التسجيل",
+    "WARNING": "يرجى ملء جميع الحقول المطلوبة بشكل صحيح"
   },
   "NATIONALITY": "الجنسيه",
   "MARITAL_STATUS": "الحالة الاجتماعيه",
@@ -81,5 +87,6 @@
   "EMPLOYEES_ENGLISH_NAME" : "اسم الموظف  باللغه الانجليزية ",
   "EMPLOYEES_ARABIC_NAME" : "اسم الموظف باللغه العربية",
   "MANAGEMENT": "الادارة",
-  "LEAVES_LIST": "قائمة الاجازات"
+  "LEAVES_LIST": "قائمة الاجازات",
+  "INVALID_EMAIL_COM": "البريد الإلكتروني يجب أن ينتهي بـ .com"
 }

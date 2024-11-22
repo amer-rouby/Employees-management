@@ -79,7 +79,7 @@ export class EmployeeDetailsDialogComponent {
           }
   
           // Generate the file name using the employee's name
-          const fileName = `${this.employee.name.replace(/ /g, '_')}_details.pdf`;
+          const fileName = `${this.employee.englishName!.replace(/ /g, '_')}_details.pdf`;
           pdf.save(fileName);
         }).catch(err => console.error('Error generating PDF:', err));
       }

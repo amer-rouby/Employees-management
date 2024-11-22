@@ -20,16 +20,21 @@
             type="email"
             placeholder="{{ 'REGISTER.EMAIL_PLACEHOLDER' | translate }}"
             />
-            @if (email?.invalid && email?.touched) {
+            @if (registrationForm.get('email')?.invalid && email?.touched) {
               <mat-error>
-                @if (email?.errors?.['required']) {
+                @if (registrationForm.get('email')?.errors?.['required']) {
                   <span>
                     {{ 'REGISTER.EMAIL_REQUIRED' | translate }}
                   </span>
                 }
-                @if (email?.errors?.['email']) {
+                @if (registrationForm.get('email')?.errors?.['email']) {
                   <span>
                     {{ 'REGISTER.INVALID_EMAIL' | translate }}
+                  </span>
+                }
+                @if (registrationForm.get('email')?.hasError('invalidEmail')) {
+                  <span>
+                    {{ 'INVALID_EMAIL_COM' | translate }}
                   </span>
                 }
               </mat-error>
@@ -45,14 +50,14 @@
               type="password"
               placeholder="{{ 'REGISTER.PASSWORD_PLACEHOLDER' | translate }}"
               />
-              @if (password?.invalid && password?.touched) {
+              @if (registrationForm.get('password')?.invalid && password?.touched) {
                 <mat-error>
-                  @if (password?.errors?.['required']) {
+                  @if (registrationForm.get('password')?.errors?.['required']) {
                     <span>
                       {{ 'REGISTER.PASSWORD_REQUIRED' | translate }}
                     </span>
                   }
-                  @if (password?.errors?.['minlength']) {
+                  @if (registrationForm.get('password')?.errors?.['minlength']) {
                     <span>
                       {{ 'REGISTER.PASSWORD_MIN_LENGTH' | translate }}
                     </span>

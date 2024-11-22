@@ -29,6 +29,11 @@
                   @if (loginForm.get('email')?.errors?.['email']) {
                     <span>{{ 'LOGIN.INVALID_EMAIL' | translate }}</span>
                   }
+                  @if (loginForm.get('email')?.hasError('invalidEmail')) {
+                    <span>
+                      {{ 'INVALID_EMAIL_COM' | translate }}
+                    </span>
+                  }
                 </mat-error>
               }
             </mat-form-field>

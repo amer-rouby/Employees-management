@@ -6,10 +6,11 @@ import { Injectable } from '@angular/core';
 export class PermissionsService {
   private userPermissions: boolean = false;
   private userPermissionsKey: string = 'userPermissions';
-  private usersList = ['W7JBBlBDgmfekGnc6imbK9U9czL2', 'RYxN9sPhcUNmACxmRtgeBcCUQ4h2'];
+
+  private usersToken = ['W7JBBlBDgmfekGnc6imbK9U9czL2', 'RYxN9sPhcUNmACxmRtgeBcCUQ4h2'];
 
   loadPermissions(userId: string): void {
-    this.userPermissions = this.usersList.includes(userId);
+    this.userPermissions = this.usersToken.includes(userId);
     sessionStorage.setItem(this.userPermissionsKey, JSON.stringify(this.userPermissions));
   }
 
@@ -25,7 +26,6 @@ export class PermissionsService {
   }
 
   canRegisterUser(): boolean {
-    console.log(this.hasPermission());
     return this.hasPermission();
   }
 }
