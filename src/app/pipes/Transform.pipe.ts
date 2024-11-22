@@ -1,12 +1,14 @@
-// import { AddDentalClinicComponent } from './../Components/Dental-clinic/add-dental-clinic/add-dental-clinic.component';
 import { Pipe, PipeTransform } from '@angular/core';
+import { LocalStorageService } from '../Services/local-storage.service';
 
 @Pipe({
   name: 'translateText'
 })
 export class TranslateTextPipe implements PipeTransform {
+  constructor(private localStorage: LocalStorageService) {}
+
   transform(textObj: { arabic: string; english: string }): string {
-    const currentLang = localStorage.getItem('lang') || 'en';
+    const currentLang = this.localStorage.getItem('lang') || 'en';
     return currentLang === 'ar' ? textObj.arabic : textObj.english;
   }
 }

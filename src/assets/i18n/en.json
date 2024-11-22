@@ -40,7 +40,10 @@
     "PASSWORD_PLACEHOLDER": "Enter your password",
     "PASSWORD_REQUIRED": "Password is required.",
     "PASSWORD_MIN_LENGTH": "Password must be at least 6 characters long.",
-    "SUBMIT": "Login"
+    "SUBMIT": "Login",
+    "SUCCESS": "Login successful",
+    "FAILURE": "Login failed",
+    "WARNING": "Please fill in all required fields correctly"
   },
   "REGISTER": {
     "TITLE": "User Registration",
@@ -56,7 +59,10 @@
     "CONFIRM_PASSWORD_PLACEHOLDER": "Confirm your password",
     "CONFIRM_PASSWORD_REQUIRED": "Confirm Password is required.",
     "PASSWORD_MISMATCH": "Passwords do not match.",
-    "SUBMIT": "Register"
+    "SUBMIT": "Register",
+    "SUCCESS": "Registration successful",
+    "FAILURE": "Registration failed",
+    "WARNING": "Please fill in all required fields correctly"
   },
   "NATIONALITY": "nationalities",
   "MARITAL_STATUS": "Marital Status",
@@ -79,5 +85,6 @@
   "EMPLOYEES_ENGLISH_NAME" : "Employee Name in English",
   "EMPLOYEES_ARABIC_NAME" : "Employee name in Arabic",
   "MANAGEMENT" : "Management",
-  "LEAVES_LIST": "Leavees List"
+  "LEAVES_LIST": "Leavees List",
+  "INVALID_EMAIL_COM": "Email must end in .com"
 }

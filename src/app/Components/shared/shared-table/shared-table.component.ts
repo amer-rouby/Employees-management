@@ -12,12 +12,12 @@ export class SharedTableComponent<T> {
   @Input() dataSource: MatTableDataSource<T> = new MatTableDataSource<T>([]);
   @Input() displayedColumns: string[] = [];
   @Input() columnDefinitions: any[] = [];
-  @Input() showViewAction: any;
+  @Input() showViewAction: boolean= false;
   @Output() onEdit = new EventEmitter<T>();
-  @Output() onDelete = new EventEmitter<string>(); // افتراض أن المعرف هو من النوع string
+  @Output() onDelete = new EventEmitter<string>();
   @Output() onView = new EventEmitter<T>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  heCanTakeAction: any;
+  heCanTakeAction: boolean= false;
   
   constructor(private permissionsService: PermissionsService) {}
 
