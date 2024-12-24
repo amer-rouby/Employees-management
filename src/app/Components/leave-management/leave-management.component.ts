@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { LeaveService } from '../../Services/leave.service';
 import { Leave } from '../../Models/leave.model';
@@ -9,6 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { leaveStatus, leaveTypes } from './../../constants/data.constants';
 import { Employee } from '../../Models/employee.model';
+import { DialogService } from '../../Services/dialog.service';
 
 @Component({
   selector: 'app-leave-management',
@@ -29,7 +29,7 @@ export class LeaveManagementComponent {
 
   constructor(
     private leaveService: LeaveService,
-    private dialog: MatDialog,
+    private dialogService: DialogService,
     private translate: TranslateService,
     private toastr: ToastrService
   ) {
@@ -52,12 +52,7 @@ export class LeaveManagementComponent {
   }
 
   openAddLeaveDialog(): void {
-    const dialogRef = this.dialog.open(LeaveDialogComponent, {
-      width: '600px',
-      data: { action: 'add' },
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
+    this.dialogService.openDialog(LeaveDialogComponent, { action: 'add' }).subscribe((result) => {
       if (result) {
         this.showSuccess('leaveUpdated');
         this.loadLeaveRequests();
@@ -66,12 +61,7 @@ export class LeaveManagementComponent {
   }
 
   openDialog(leave: Leave): void {
-    const dialogRef = this.dialog.open(LeaveDialogComponent, {
-      width: '600px',
-      data: { action: 'edit', leave },
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
+    this.dialogService.openDialog(LeaveDialogComponent, { action: 'edit', leave }).subscribe((result) => {
       if (result) {
         this.showSuccess('leaveUpdated');
         this.loadLeaveRequests();
@@ -80,11 +70,7 @@ export class LeaveManagementComponent {
   }
 
   confirmDelete(id: string): void {
-    const dialogRef = this.dialog.open(ConfirmDeleteDialogComponent, {
-      width: '400px',
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
+    this.dialogService.openDialog(ConfirmDeleteDialogComponent, {}, '400px').subscribe((result) => {
       if (result) {
         this.leaveService.deleteLeaveRequest(id).subscribe({
           next: () => {
@@ -128,22 +114,17 @@ export class LeaveManagementComponent {
           {
             key: 'name',
             header: 'NAME',
-            cell: (employee: Employee) => this.translate.currentLang === 'ar' ? employee.name : employee.englishName,
+            cell: (employee: Employee) =>
+              this.translate.currentLang === 'ar' ? employee.name : employee.englishName,
           },
+          { key: 'startDate', header: 'START_DATE', cell: (leave: Leave) => leave.startDate },
+          { key: 'endDate', header: 'END_DATE', cell: (leave: Leave) => leave.endDate },
           {
-            key: 'startDate', 
-            header: 'START_DATE',
-            cell: (leave: Leave) => leave.startDate },
-          { key: 'endDate', 
-            header: 'END_DATE', 
-            cell: (leave: Leave) => leave.endDate },
-          { 
-            key: 'status', 
-            header: 'STATUS', 
-            cell: (leave: Leave) => this.getTranslationForKey('leaveStatus', leave.status) },
-          { 
-            key: 'actions', 
-            header: 'ACTIONS', cell: () => '' },
+            key: 'status',
+            header: 'STATUS',
+            cell: (leave: Leave) => this.getTranslationForKey('leaveStatus', leave.status),
+          },
+          { key: 'actions', header: 'ACTIONS', cell: () => '' },
         ];
       });
   }

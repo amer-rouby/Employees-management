@@ -1,7 +1,7 @@
 export interface Leave {
   id?: string;
-  name?: any;
-  englishName?: any;
+  name?: string;
+  englishName?: string;
   types: string;
   startDate: string;
   endDate: string;

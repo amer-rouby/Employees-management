@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { Employee } from '../../Models/employee.model';
+import { DialogService } from '../../Services/dialog.service';
 import { EmployeeDialogComponent } from './employee-add-dialog/employee-dialog.component';
 import { EmployeeDetailsDialogComponent } from '../../Dialogs/employee-details-dialog/employee-details-dialog.component';
 import { ConfirmDeleteDialogComponent } from '../../Dialogs/confirm-delete-dialog/confirm-delete-dialog.component';
@@ -21,12 +21,12 @@ export class EmployeeManagementComponent implements OnInit {
   dataSource = new MatTableDataSource<Employee>(this.employees);
   columnDefinitions: any[] = [];
   isLoading = false;
-  showViewAction = true;
+  showViewAction: boolean = true;
 
   constants = { jobTitles, departments, gender, nationalities, maritalStatus };
 
   constructor(
-    private dialog: MatDialog,
+    private dialogService: DialogService,
     private toastr: ToastrService,
     private translate: TranslateService,
     private employeesService: EmployeesService
@@ -52,12 +52,7 @@ export class EmployeeManagementComponent implements OnInit {
   }
 
   openDialog(employee?: Employee): void {
-    const dialogRef = this.dialog.open(EmployeeDialogComponent, {
-      width: '600px',
-      data: employee || null
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
+    this.dialogService.openDialog(EmployeeDialogComponent, employee || null).subscribe(result => {
       if (result) {
         employee ? this.updateEmployee(result) : this.addEmployee(result);
       }
@@ -65,10 +60,7 @@ export class EmployeeManagementComponent implements OnInit {
   }
 
   viewEmployeeDetails(employee: Employee): void {
-    this.dialog.open(EmployeeDetailsDialogComponent, {
-      width: '600px',
-      data: employee
-    });
+    this.dialogService.openDialog(EmployeeDetailsDialogComponent, employee).subscribe();
   }
 
   private addEmployee(employee: Employee): void {
@@ -103,18 +95,16 @@ export class EmployeeManagementComponent implements OnInit {
   }
 
   confirmDelete(id: string): void {
-    const dialogRef = this.dialog.open(ConfirmDeleteDialogComponent, { width: '400px' });
-  
-    dialogRef.afterClosed().subscribe(result => {
+    this.dialogService.openDialog(ConfirmDeleteDialogComponent, {}, '400px').subscribe(result => {
       if (result) {
-        this.deleteEmployee(+id); // Convert string to number
+        this.deleteEmployee(+id);
       }
     });
   }
-  
+
   deleteEmployee(id: number): void {
     this.toggleLoading(true);
-    this.employeesService.deleteEmployee(id.toString()).subscribe( // Convert number to string
+    this.employeesService.deleteEmployee(id.toString()).subscribe(
       () => {
         this.employees = this.employees.filter(emp => emp.id !== id.toString());
         this.dataSource.data = [...this.employees];
@@ -123,7 +113,6 @@ export class EmployeeManagementComponent implements OnInit {
       error => this.handleError('Failed to delete employee', error)
     );
   }
-  
 
   applyFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
@@ -132,29 +121,27 @@ export class EmployeeManagementComponent implements OnInit {
 
   private setupColumnDefinitions(): void {
     this.translate
-    .get([
-        'NAME', 
-        'POSITION', 
-        'DEPARTMENT', 
-        'GENDER', 
-        'ACTIONS'
-      ]).subscribe(translations => {
-      this.columnDefinitions = [
-        { 
-          key: 'name', 
-          header:'NAME', 
-          cell: (employee: Employee) => this.translate.currentLang === 'ar' ? employee.name : employee.englishName},
-        { 
-          key: 'jobTitle', 
-          header: 'POSITION', 
-          cell: (employee: Employee) => this.getTranslatedValue('jobTitles', employee.jobTitleId) },
-        { 
-          key: 'department', 
-          header: 'DEPARTMENT', 
-          cell: (employee: Employee) => this.getTranslatedValue('departments', employee.departmentId) },
-        { key: 'actions', header:'ACTIONS', cell: () => '' }
-      ];
-    });
+      .get(['NAME', 'POSITION', 'DEPARTMENT', 'GENDER', 'ACTIONS'])
+      .subscribe(translations => {
+        this.columnDefinitions = [
+          {
+            key: 'name',
+            header: 'NAME',
+            cell: (employee: Employee) => this.translate.currentLang === 'ar' ? employee.name : employee.englishName
+          },
+          {
+            key: 'jobTitle',
+            header: 'POSITION',
+            cell: (employee: Employee) => this.getTranslatedValue('jobTitles', employee.jobTitleId)
+          },
+          {
+            key: 'department',
+            header: 'DEPARTMENT',
+            cell: (employee: Employee) => this.getTranslatedValue('departments', employee.departmentId)
+          },
+          { key: 'actions', header: 'ACTIONS', cell: () => '' }
+        ];
+      });
   }
 
   private getTranslatedValue(key: keyof typeof this.constants, id: number): string {
