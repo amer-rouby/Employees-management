@@ -1,0 +1,24 @@
+.shared-form {
+    display: flex;
+    flex-wrap: wrap;
+    width: 80%;
+    margin: auto;
+  }
+  
+  .shared-form mat-form-field {
+    width: 48%;
+    margin: 10px;
+    margin-bottom: 16px;
+  }
+  
+  .form-buttons {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+  
+  .form-buttons button {
+    width: 10%;
+    margin: 0 8px;
+  }
+  

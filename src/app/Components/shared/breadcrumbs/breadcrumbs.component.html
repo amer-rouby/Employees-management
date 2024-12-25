@@ -1,0 +1,10 @@
+<ul class="breadcrumbs" [dir]="currentDirection">
+  <li *ngFor="let breadcrumb of breadcrumbs; let last = last">
+    <a *ngIf="!last && breadcrumb.link; else current" [routerLink]="breadcrumb.link">
+      {{ breadcrumb.label | translate }}
+    </a>
+    <ng-template #current>
+      <a class="current">{{ breadcrumb.label | translate }}</a>
+    </ng-template>
+  </li>
+</ul>

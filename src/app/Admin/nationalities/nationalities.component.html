@@ -1,0 +1,17 @@
+<app-breadcrumbs [breadcrumbs]="breadcrumbs"></app-breadcrumbs>
+<div class="container-nationalities">
+  <fieldset>
+    <legend>{{ 'MANAGEMENT_NATIONALITIES' | translate }}</legend>
+    <app-shared-form [formGroup]="nationalityForm" [fields]="nationalityFields" [isEditing]="isEditing"
+      (submitForm)="isEditing ? updateNationality() : addNationality()" (cancelForm)="resetForm()">
+    </app-shared-form>
+  </fieldset>
+
+  <fieldset>
+    <legend>{{ 'DATA_LIST' | translate }}</legend>
+    <app-shared-table [dataSource]="nationalities" [displayedColumns]="displayedColumns"
+      [columnDefinitions]="columnDefinitions" [showViewAction]="false" (onEdit)="editNationality($event)"
+      (onDelete)="deleteNationality($event)">
+    </app-shared-table>
+  </fieldset>
+</div>

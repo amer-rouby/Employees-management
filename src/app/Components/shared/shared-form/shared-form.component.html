@@ -1,0 +1,18 @@
+<form [formGroup]="formGroup" (ngSubmit)="onSubmit()" class="shared-form">
+    <ng-container *ngFor="let field of fields">
+      <mat-form-field *ngIf="field.type === 'text'" class="full-width">
+        <mat-label>{{ field.label | translate }}</mat-label>
+        <input matInput [formControlName]="field.controlName" [required]="field.required" />
+      </mat-form-field>
+    </ng-container>
+  
+    <div class="form-buttons">
+      <button mat-raised-button color="primary" type="submit" [disabled]="formGroup.invalid">
+        {{ isEditing ? ('UPDATE' | translate) : ('ADD' | translate) }}
+      </button>
+      <button mat-button color="warn" type="button" (click)="onCancel()">
+        {{ 'CANCEL' | translate }}
+      </button>
+    </div>
+  </form>
+  

@@ -46,30 +46,6 @@ export const gender = [
   { id: 1, arabic: "انثي", english: "female" },
 ]
 
-export const nationalities = [
-  { id: 1, arabic: 'مصر', english: 'Egypt' },
-  { id: 2, arabic: 'السعودية', english: 'Saudi Arabia' },
-  { id: 3, arabic: 'الإمارات', english: 'United Arab Emirates' },
-  { id: 4, arabic: 'الكويت', english: 'Kuwait' },
-  { id: 5, arabic: 'البحرين', english: 'Bahrain' },
-  { id: 6, arabic: 'عمان', english: 'Oman' },
-  { id: 7, arabic: 'قطر', english: 'Qatar' },
-  { id: 8, arabic: 'الأردن', english: 'Jordan' },
-  { id: 9, arabic: 'لبنان', english: 'Lebanon' },
-  { id: 10, arabic: 'سوريا', english: 'Syria' },
-  { id: 11, arabic: 'فلسطين', english: 'Palestine' },
-  { id: 12, arabic: 'العراق', english: 'Iraq' },
-  { id: 13, arabic: 'اليمن', english: 'Yemen' },
-  { id: 14, arabic: 'تونس', english: 'Tunisia' },
-  { id: 15, arabic: 'الجزائر', english: 'Algeria' },
-  { id: 16, arabic: 'المغرب', english: 'Morocco' },
-  { id: 17, arabic: 'ليبيا', english: 'Libya' },
-  { id: 18, arabic: 'السودان', english: 'Sudan' },
-  { id: 19, arabic: 'جيبوتي', english: 'Djibouti' },
-  { id: 20, arabic: 'الصومال', english: 'Somalia' },
-  { id: 21, arabic: 'موريتانيا', english: 'Mauritania' },
-  { id: 22, arabic: 'جزر القمر', english: 'Comoros' },
-];
 
 export const maritalStatus = [
   { id: 0, arabic: "متزوج", english: "Married" },

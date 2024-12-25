@@ -8,7 +8,8 @@ import { EmployeeDialogComponent } from './employee-add-dialog/employee-dialog.c
 import { EmployeeDetailsDialogComponent } from '../../Dialogs/employee-details-dialog/employee-details-dialog.component';
 import { ConfirmDeleteDialogComponent } from '../../Dialogs/confirm-delete-dialog/confirm-delete-dialog.component';
 import { EmployeesService } from '../../Services/employee-management.service';
-import { departments, gender, jobTitles, maritalStatus, nationalities } from '../../constants/data.constants';
+import { departments, gender, maritalStatus } from '../../constants/data.constants';
+import { JobTitlesService } from '../../Services/JobTitles.service';
 
 @Component({
   selector: 'app-employee-management',
@@ -22,21 +23,28 @@ export class EmployeeManagementComponent implements OnInit {
   columnDefinitions: any[] = [];
   isLoading = false;
   showViewAction: boolean = true;
-
-  constants = { jobTitles, departments, gender, nationalities, maritalStatus };
+  jobTitles:any;
+  constants = { departments, gender, maritalStatus};
 
   constructor(
     private dialogService: DialogService,
     private toastr: ToastrService,
     private translate: TranslateService,
-    private employeesService: EmployeesService
+    private employeesService: EmployeesService,
+    private jobTitlesService: JobTitlesService,
   ) {}
 
   ngOnInit(): void {
     this.loadEmployees();
     this.setupColumnDefinitions();
+    this.fetchJobTitles();
   }
-
+  
+  fetchJobTitles(): void {
+    this.jobTitlesService.getAllJobTitlesRequests().subscribe(data => {
+      this.jobTitles = data;
+    });
+  }
   private loadEmployees(): void {
     this.toggleLoading(true);
     this.employeesService.getAllEmployees().subscribe(
@@ -132,7 +140,7 @@ export class EmployeeManagementComponent implements OnInit {
           {
             key: 'jobTitle',
             header: 'POSITION',
-            cell: (employee: Employee) => this.getTranslatedValue('jobTitles', employee.jobTitleId)
+            cell: (employee: Employee) => this.getTranslatedValue('jobTitles' , employee.jobTitleId)
           },
           {
             key: 'department',
@@ -144,10 +152,13 @@ export class EmployeeManagementComponent implements OnInit {
       });
   }
 
-  private getTranslatedValue(key: keyof typeof this.constants, id: number): string {
-    const item = this.constants[key].find(i => i.id === id);
+  private getTranslatedValue(key: keyof typeof this.constants | 'jobTitles', id: number): string {
+    const collection = key === 'jobTitles' ? this.jobTitles : this.constants[key];
+    if (!collection || !Array.isArray(collection)) return 'Unknown';
+    const item = collection.find(i => i.id === id);
     return item ? (this.translate.currentLang === 'ar' ? item.arabic : item.english) : 'Unknown';
   }
+  
 
   private handleError(message: string, error: any): void {
     console.error(error);

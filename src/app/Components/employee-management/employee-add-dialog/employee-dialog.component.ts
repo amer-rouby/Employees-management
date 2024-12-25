@@ -2,7 +2,9 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Employee } from '../../../Models/employee.model';
-import { jobTitles, departments, gender, nationalities, maritalStatus } from '../../../constants/data.constants';
+import { jobTitles, departments, gender, maritalStatus } from '../../../constants/data.constants';
+import { NationalitiesService } from '../../../Services/nationalities.service';
+import { JobTitlesService } from '../../../Services/JobTitles.service';
 
 @Component({
   selector: 'app-employee-dialog',
@@ -13,14 +15,16 @@ export class EmployeeDialogComponent implements OnInit {
   employeeForm: FormGroup;
   isEditMode: boolean;
 
-  jobTitles = jobTitles;
+  jobTitles :any;
   departments = departments;
   gender = gender;
-  nationalities = nationalities;
+  nationalities:any;
   maritalStatus = maritalStatus;
 
   constructor(
     private fb: FormBuilder,
+    private nationalitiesService: NationalitiesService,
+    private jobTitlesService: JobTitlesService,
     private dialogRef: MatDialogRef<EmployeeDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Employee,
   ) {
@@ -41,9 +45,25 @@ export class EmployeeDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.fetchNationalities()
+    this.fetchJobTitles()
     if (this.isEditMode && this.data) {
       this.employeeForm.patchValue(this.data);
     }
+  }
+
+  fetchNationalities(): void {
+    this.nationalitiesService.getAllNationalitiesRequests().subscribe(data => {
+      this.nationalities = data;
+      console.log(this.nationalities);
+      
+    });
+  }
+
+  fetchJobTitles(): void {
+    this.jobTitlesService.getAllJobTitlesRequests().subscribe(data => {
+      this.jobTitles = data;
+    });
   }
 
   saveEmployee(): void {

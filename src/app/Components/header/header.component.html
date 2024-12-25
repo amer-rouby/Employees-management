@@ -24,6 +24,26 @@
       {{ 'LEAVE_MANAGEMENT' | translate }}
     </button>
   </mat-menu>
+  <!-- System administration dropdown screens -->
+   
+  <button mat-button [matMenuTriggerFor]="SYSTEM_ADMINISTRATION_MENU" class="nav-item">
+    <mat-icon>management</mat-icon>
+    {{ 'SYSTEM_ADMINISTRATION' | translate }}
+  </button>
+  <mat-menu #SYSTEM_ADMINISTRATION_MENU="matMenu">
+    @if(canRegisterUser){
+      <button mat-menu-item [routerLink]="'/nationalities'">
+        <mat-icon>request_quote</mat-icon>
+        {{ 'NATIONALITYS' | translate }}
+      </button>
+  
+      <button mat-menu-item [routerLink]="'/job-names'">
+        <mat-icon>request_quote</mat-icon>
+        {{ 'JOB_NAMES' | translate }}
+      </button>
+    }
+
+  </mat-menu>
 
   <!-- Register button (if user can register) -->
   @if(canRegisterUser){

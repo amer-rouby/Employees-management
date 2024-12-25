@@ -1,0 +1,27 @@
+<app-breadcrumbs [breadcrumbs]="breadcrumbs"></app-breadcrumbs>
+<div class="container-nationalities">
+    <fieldset>
+      <legend>{{ 'MANAGEMENT_JOB_TITLES' | translate }}</legend>
+      <app-shared-form
+        [formGroup]="jobTitlesForm"
+        [fields]="jobTitlesFields"
+        [isEditing]="isEditing"
+        (submitForm)="isEditing ? updateJobTitles() : addJobTitles()"
+        (cancelForm)="resetForm()">
+      </app-shared-form>
+    </fieldset>
+  
+    <fieldset>
+      <legend>{{ 'DATA_LIST' | translate }}</legend>
+      <app-shared-table
+        [dataSource]="jobTitles"
+        [displayedColumns]="displayedColumns"
+        [columnDefinitions]="columnDefinitions"
+        [showViewAction]="false"
+        (onEdit)="editJobTitles($event)"
+        (onDelete)="deleteJobTitles($event)">
+      </app-shared-table>
+    </fieldset>
+  </div>
+  
+
