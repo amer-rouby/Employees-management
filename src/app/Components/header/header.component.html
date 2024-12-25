@@ -7,32 +7,58 @@
 
   <!-- Management dropdown screens -->
   <button mat-button [matMenuTriggerFor]="managementMenu" class="nav-item">
-    <mat-icon>management</mat-icon>
+    <mat-icon>settings</mat-icon>
     {{ 'MANAGEMENT' | translate }}
   </button>
 
   <mat-menu #managementMenu="matMenu">
     @if(canRegisterUser){
+    <ng-container>
       <button mat-menu-item [routerLink]="'/employee-management'">
         <mat-icon>group</mat-icon>
         {{ 'EMPLOYEE_MANAGEMENT' | translate }}
       </button>
+    </ng-container>
     }
 
     <button mat-menu-item [routerLink]="'/leave-management'">
-      <mat-icon>request_quote</mat-icon>
+      <mat-icon>event_note</mat-icon>
       {{ 'LEAVE_MANAGEMENT' | translate }}
     </button>
   </mat-menu>
 
-  <!-- Register button (if user can register) -->
+  <!-- System Administration dropdown screens -->
   @if(canRegisterUser){
-    <a mat-button [routerLink]="'/register'" class="nav-item">
-      <mat-icon>person_add</mat-icon>
-      {{ 'REGISTER.TITLE' | translate }}
-    </a>
-  }
+  <button mat-button [matMenuTriggerFor]="systemAdminMenu" class="nav-item">
+    <mat-icon>admin_panel_settings</mat-icon>
+    {{ 'SYSTEM_ADMINISTRATION' | translate }}
+  </button>
 
+  <mat-menu #systemAdminMenu="matMenu">
+
+    <ng-container>
+      <button mat-menu-item [routerLink]="'/nationalities'">
+        <mat-icon>flag</mat-icon>
+        {{ 'NATIONALITIES' | translate }}
+      </button>
+      <button mat-menu-item [routerLink]="'/job-names'">
+        <mat-icon>work</mat-icon>
+        {{ 'JOB_NAMES' | translate }}
+      </button>
+      <button mat-menu-item [routerLink]="'/departments'">
+        <mat-icon>business</mat-icon>
+        {{ 'MANAGEMENT_DEPARTMENTS' | translate }}
+      </button>
+      <button mat-menu-item [routerLink]="'/register'">
+        <mat-icon>person_add_alt</mat-icon>
+        {{ 'REGISTER.TITLE' | translate }}
+      </button>
+    </ng-container>
+
+
+  </mat-menu>
+  }
+  <!-- Spacer to push other items to the right -->
   <span class="spacer"></span>
 
   <!-- Language menu -->
@@ -68,20 +94,26 @@
       <mat-icon>home</mat-icon>
       {{ 'HOME' | translate }}
     </button>
+    @if(canRegisterUser){
     <button mat-menu-item [routerLink]="'/employee-management'">
-      <mat-icon>people</mat-icon>
+      <mat-icon>group</mat-icon>
       {{ 'EMPLOYEE_MANAGEMENT' | translate }}
     </button>
+    }
+
     <button mat-menu-item [routerLink]="'/leave-management'">
-      <mat-icon>request_quote</mat-icon>
+      <mat-icon>event_note</mat-icon>
       {{ 'LEAVE_MANAGEMENT' | translate }}
     </button>
+    @if(canRegisterUser){
     <button mat-menu-item [routerLink]="'/register'">
-      <mat-icon>person_add</mat-icon>
+      <mat-icon>person_add_alt</mat-icon>
       {{ 'REGISTER.TITLE' | translate }}
     </button>
+    }
+
     <button mat-menu-item (click)="changeLanguage('en')">
-      <mat-icon>language</mat-icon>
+      <mat-icon>flag</mat-icon>
       {{ 'ENGLISH' | translate }}
     </button>
     <button mat-menu-item (click)="changeLanguage('ar')">

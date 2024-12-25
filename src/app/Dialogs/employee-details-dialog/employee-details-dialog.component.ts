@@ -1,52 +1,67 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Employee } from '../../Models/employee.model';
-import { jobTitles, departments, gender, nationalities, maritalStatus } from '../../constants/data.constants';
-import html2canvas from 'html2canvas';
-import { jsPDF } from 'jspdf';
+import {gender, maritalStatus } from '../../constants/data.constants';
+import { PdfService } from '../../Services/pdf.service';
+import { NationalitiesService } from '../../Services/nationalities.service';
+import { JobTitlesService } from '../../Services/JobTitles.service';
+import { DepartmentsService } from '../../Services/departments.service';
+import { JobTitles } from '../../Models/JobTitles.model';
+import { Departments } from '../../Models/departments.model';
+import { Nationalities } from '../../Models/nationalities.model';
 
 @Component({
   selector: 'app-employee-details-dialog',
   templateUrl: './employee-details-dialog.component.html',
   styleUrls: ['./employee-details-dialog.component.scss']
 })
-export class EmployeeDetailsDialogComponent {
-  jobTitles = jobTitles;
-  departments = departments;
+export class EmployeeDetailsDialogComponent implements OnInit{
+  jobTitles : JobTitles[]=[];
+  departments : Departments[]=[];
   gender = gender;
-  nationalities = nationalities;
+  nationalities :Nationalities[]=[];
   maritalStatus = maritalStatus;
-  isShow:boolean = true;
+  isShow = true;
+  ngOnInit(): void {
+    this.fetchNationalities()
+    this.fetchJobTitles()
+    this.fetchDepartments()
+  }
   constructor(
     @Inject(MAT_DIALOG_DATA) public employee: Employee,
-    private dialogRef: MatDialogRef<EmployeeDetailsDialogComponent>
-  ) { }
+    private dialogRef: MatDialogRef<EmployeeDetailsDialogComponent>,
+    private pdfService: PdfService,
+    private nationalitiesService: NationalitiesService,
+    private jobTitlesService: JobTitlesService,
+    private departmentsService: DepartmentsService,
+  ) {}
 
-  getJobTitleById(id: any): string {
-    return this.getLookupValue(this.jobTitles, id);
+  getLookupValueById(lookupArray: any[], id: any, language = 'english'): string {
+    if (!Array.isArray(lookupArray)) {
+      return '';
+    }
+    const item = lookupArray.find((i) => i.id === id);
+    return item ? item[language] : '';
   }
+  
 
-  getDepartmentById(id: any): string {
-    return this.getLookupValue(this.departments, id);
+  fetchNationalities(): void {
+    this.nationalitiesService.getAllNationalitiesRequests().subscribe(data => {
+      this.nationalities = data;
+      console.log(this.nationalities);
+      
+    });
   }
-
-  getGenderById(id: any): string {
-    return this.getLookupValue(this.gender, id);
+  fetchJobTitles(): void {
+    this.jobTitlesService.getAllJobTitlesRequests().subscribe(data => {
+      this.jobTitles = data;
+    });
   }
-
-  getNationalitieById(id: any): string {
-    return this.getLookupValue(this.nationalities, id);
+  fetchDepartments(): void {
+    this.departmentsService.getAllDepartmentsRequests().subscribe(data => {
+      this.departments = data;
+    });
   }
-
-  getMaritalStatusById(id: any): string {
-    return this.getLookupValue(this.maritalStatus, id);
-  }
-
-  private getLookupValue(lookupArray: any[], id: any): string {
-    const item = lookupArray.find(i => i.id === id);
-    return item ? item.english : 'غير معروف';
-  }
-
   closeDialog(): void {
     this.dialogRef.close();
   }
@@ -54,37 +69,9 @@ export class EmployeeDetailsDialogComponent {
   printPDF(): void {
     this.isShow = false;
     setTimeout(() => {
-      const data = document.getElementById('employeeDetails');
-      if (data) {
-        html2canvas(data, { 
-          scale: 2,
-          useCORS: true,
-          scrollY: -window.scrollY 
-        }).then(canvas => {
-          const imgWidth = 190;
-          const pageHeight = 290; 
-          const imgHeight = canvas.height * imgWidth / canvas.width;
-          let heightLeft = imgHeight;
-          const imgData = canvas.toDataURL('image/png');
-          const pdf = new jsPDF('p', 'mm', 'a4');
-  
-          const margin = 10;
-          pdf.addImage(imgData, 'PNG', margin, margin, imgWidth, imgHeight);
-          heightLeft -= pageHeight;
-  
-          while (heightLeft >= 0) {
-            pdf.addPage();
-            pdf.addImage(imgData, 'PNG', margin, margin, imgWidth, imgHeight);
-            heightLeft -= pageHeight;
-          }
-  
-          // Generate the file name using the employee's name
-          const fileName = `${this.employee.englishName!.replace(/ /g, '_')}_details.pdf`;
-          pdf.save(fileName);
-        }).catch(err => console.error('Error generating PDF:', err));
-      }
+      const fileName = `${this.employee.englishName?.replace(/ /g, '_') || 'employee'}_details.pdf`;
+      this.pdfService.generatePdf('employeeDetails', fileName);
       this.closeDialog();
-    }, 200);
+    }, 100);
   }
-  
 }

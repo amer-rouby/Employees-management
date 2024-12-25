@@ -7,9 +7,9 @@ html,
 body {
     height: 100%;
     width: 100%;
-    background-image: 
-    linear-gradient(rgba(255, 255, 255, 0.497), rgba(255, 255, 255, 0.394)),
-    url('../src/assets/images/Pdf.PNG');
+    // background-image:
+    //     linear-gradient(rgba(255, 255, 255, 0.497), rgba(255, 255, 255, 0.394)),
+    //     url('../src/assets/images/Pdf.PNG');
     background-size: 100% 100%;
     background-repeat: no-repeat;
     background-size: cover;
@@ -49,7 +49,30 @@ body {
 .footer-link {
     color: #fff;
     text-decoration: none;
+
     &:hover {
         text-decoration: underline;
     }
 }
+
+.main-section {
+    margin-top: 60px !important;
+}
+
+fieldset {
+    position: relative;
+    width: 100% !important;
+    margin: 1.125rem 0 !important;
+    padding-bottom: 1.25rem !important;
+  }
+  
+  legend {
+    position: absolute;
+    top:-20px !important;
+    background: #fff;
+    color: #052c65 !important;
+    font-size: 14px !important;
+    font-weight: bold;
+    margin: 0px 10px !important;
+    padding: 0 0.1875rem;
+  }

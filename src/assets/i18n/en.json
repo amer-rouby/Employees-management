@@ -64,7 +64,7 @@
     "FAILURE": "Registration failed",
     "WARNING": "Please fill in all required fields correctly"
   },
-  "NATIONALITY": "nationalities",
+  "NATIONALITY": "nationalitie",
   "MARITAL_STATUS": "Marital Status",
   "EMPLOYEE_DETAILS": " Employee Details",
   "PHONE_NUMBER": "Phone Number",
@@ -86,5 +86,15 @@
   "EMPLOYEES_ARABIC_NAME" : "Employee name in Arabic",
   "MANAGEMENT" : "Management",
   "LEAVES_LIST": "Leavees List",
-  "INVALID_EMAIL_COM": "Email must end in .com"
+  "INVALID_EMAIL_COM": "Email must end in .com",
+  "JOB_NAMES": "Job Names",
+  "NATIONALITIES": "Nationalities",
+  "MANAGEMENT_NATIONALITIES": "Nationalities Management",
+  "ARABIC_NAME": "Arabic Name",
+  "ENGLISH_NAME": "English Name",
+  "SYSTEM_ADMINISTRATION": "System administration",
+  "DATA_LIST": "Data list",
+  "MANAGEMENT_JOB_TITLES": "Job Titiles Management",
+  "ADD_JOB_TITLES": "Add Job Titles",
+  "MANAGEMENT_DEPARTMENTS": "Management Departments"
 }

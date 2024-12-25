@@ -2,7 +2,10 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Employee } from '../../../Models/employee.model';
-import { jobTitles, departments, gender, nationalities, maritalStatus } from '../../../constants/data.constants';
+import { gender, maritalStatus } from '../../../constants/data.constants';
+import { NationalitiesService } from '../../../Services/nationalities.service';
+import { JobTitlesService } from '../../../Services/JobTitles.service';
+import { DepartmentsService } from '../../../Services/departments.service';
 
 @Component({
   selector: 'app-employee-dialog',
@@ -13,14 +16,17 @@ export class EmployeeDialogComponent implements OnInit {
   employeeForm: FormGroup;
   isEditMode: boolean;
 
-  jobTitles = jobTitles;
-  departments = departments;
+  jobTitles :any;
+  departments :any;
   gender = gender;
-  nationalities = nationalities;
+  nationalities:any;
   maritalStatus = maritalStatus;
 
   constructor(
     private fb: FormBuilder,
+    private nationalitiesService: NationalitiesService,
+    private jobTitlesService: JobTitlesService,
+    private departmentsService: DepartmentsService,
     private dialogRef: MatDialogRef<EmployeeDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Employee,
   ) {
@@ -41,11 +47,32 @@ export class EmployeeDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.fetchNationalities()
+    this.fetchJobTitles()
+    this.fetchDepartments()
     if (this.isEditMode && this.data) {
       this.employeeForm.patchValue(this.data);
     }
   }
 
+  fetchNationalities(): void {
+    this.nationalitiesService.getAllNationalitiesRequests().subscribe(data => {
+      this.nationalities = data;
+      console.log(this.nationalities);
+      
+    });
+  }
+
+  fetchJobTitles(): void {
+    this.jobTitlesService.getAllJobTitlesRequests().subscribe(data => {
+      this.jobTitles = data;
+    });
+  }
+  fetchDepartments(): void {
+    this.departmentsService.getAllDepartmentsRequests().subscribe(data => {
+      this.departments = data;
+    });
+  }
   saveEmployee(): void {
     if (this.employeeForm.valid) {
       this.dialogRef.close(this.employeeForm.value);

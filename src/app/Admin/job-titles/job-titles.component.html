@@ -1,0 +1,23 @@
+<app-breadcrumbs [breadcrumbs]="breadcrumbs"></app-breadcrumbs>
+<div class="container-job-titles">
+  <fieldset>
+    <legend>
+      <mat-icon color="primary">work</mat-icon>
+      {{ 'MANAGEMENT_JOB_TITLES' | translate }}
+    </legend>
+    <app-shared-form [formGroup]="jobTitlesForm" [fields]="jobTitlesFields" [isEditing]="isEditing"
+      (submitForm)="isEditing ? updateJobTitles() : addJobTitles()" (cancelForm)="resetForm()">
+    </app-shared-form>
+  </fieldset>
+
+  <fieldset>
+    <legend>
+      <mat-icon color="primary">list_alt</mat-icon>
+      {{ 'DATA_LIST' | translate }}
+    </legend>
+    <app-shared-table [dataSource]="jobTitles" [displayedColumns]="displayedColumns"
+      [columnDefinitions]="columnDefinitions" [showViewAction]="false" (onEdit)="editJobTitles($event)"
+      (onDelete)="deleteJobTitles($event)">
+    </app-shared-table>
+  </fieldset>
+</div>

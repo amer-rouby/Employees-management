@@ -42,6 +42,13 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { LeaveManagementComponent } from './Components/leave-management/leave-management.component';
 import { LeaveDialogComponent } from './Components/leave-management/leave-add-dialog/leave-dialog.component';
 import { TranslateTextPipe } from './pipes/Transform.pipe';
+import { CountDirective } from './Directives/count.directive';
+import { NationalitiesComponent } from './Admin/nationalities/nationalities.component';
+import { JobTitlesComponent } from './Admin/job-titles/job-titles.component';
+import { ValidateLanguageDirective } from './Directives/validate-language.directive';
+import { SharedFormComponent } from './Components/shared/shared-form/shared-form.component';
+import { BreadcrumbsComponent } from './Components/shared/breadcrumbs/breadcrumbs.component';
+import { DepartmentsComponent } from './Admin/departments/departments.component';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
@@ -61,7 +68,14 @@ export function HttpLoaderFactory(http: HttpClient) {
     EmployeeDetailsDialogComponent,
     LeaveManagementComponent,
     LeaveDialogComponent,
-    TranslateTextPipe
+    TranslateTextPipe,
+    CountDirective,
+    NationalitiesComponent,
+    JobTitlesComponent,
+    ValidateLanguageDirective,
+    SharedFormComponent,
+    BreadcrumbsComponent,
+    DepartmentsComponent
   ],
   imports: [
     BrowserModule,
@@ -100,7 +114,7 @@ export function HttpLoaderFactory(http: HttpClient) {
   ],
   providers: [
     provideAnimationsAsync(),
-   AuthService, AuthGuard, RedirectIfLoggedInGuard, TranslateTextPipe,
+   AuthService, AuthGuard, RedirectIfLoggedInGuard, TranslateTextPipe,ValidateLanguageDirective
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]

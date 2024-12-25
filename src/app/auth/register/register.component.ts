@@ -11,6 +11,11 @@ import { ValidationAuthService } from '../../Services/validationAuth.service';
   styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent {
+  breadcrumbs = [
+    { label: 'HOME', link: '/' },
+    { label: 'SYSTEM_ADMINISTRATION'},
+    { label: 'REGISTER.TITLE' }
+  ];
   registrationForm: FormGroup;
   isLoading = false;
 
