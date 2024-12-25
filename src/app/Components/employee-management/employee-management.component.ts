@@ -8,8 +8,11 @@ import { EmployeeDialogComponent } from './employee-add-dialog/employee-dialog.c
 import { EmployeeDetailsDialogComponent } from '../../Dialogs/employee-details-dialog/employee-details-dialog.component';
 import { ConfirmDeleteDialogComponent } from '../../Dialogs/confirm-delete-dialog/confirm-delete-dialog.component';
 import { EmployeesService } from '../../Services/employee-management.service';
-import { departments, gender, maritalStatus } from '../../constants/data.constants';
+import { gender, maritalStatus } from '../../constants/data.constants';
 import { JobTitlesService } from '../../Services/JobTitles.service';
+import { DepartmentsService } from '../../Services/departments.service';
+import { JobTitles } from '../../Models/JobTitles.model';
+import { Departments } from '../../Models/departments.model';
 
 @Component({
   selector: 'app-employee-management',
@@ -17,14 +20,20 @@ import { JobTitlesService } from '../../Services/JobTitles.service';
   styleUrls: ['./employee-management.component.scss']
 })
 export class EmployeeManagementComponent implements OnInit {
+  breadcrumbs = [
+    { label: 'HOME', link: '/' },
+    { label: 'MANAGEMENT' },
+    { label: 'EMPLOYEE_MANAGEMENT' }
+  ];
   employees: Employee[] = [];
+  showViewAction: boolean = true;
   displayedColumns: string[] = ['name', 'jobTitle', 'department', 'actions'];
   dataSource = new MatTableDataSource<Employee>(this.employees);
-  columnDefinitions: any[] = [];
   isLoading = false;
-  showViewAction: boolean = true;
-  jobTitles:any;
-  constants = { departments, gender, maritalStatus};
+  jobTitles: JobTitles[] = [];
+  departments: Departments[] = [];
+  constants = { gender, maritalStatus };
+  columnDefinitions: any[] = [];
 
   constructor(
     private dialogService: DialogService,
@@ -32,17 +41,25 @@ export class EmployeeManagementComponent implements OnInit {
     private translate: TranslateService,
     private employeesService: EmployeesService,
     private jobTitlesService: JobTitlesService,
+    private departmentsService: DepartmentsService,
   ) {}
 
   ngOnInit(): void {
     this.loadEmployees();
-    this.setupColumnDefinitions();
     this.fetchJobTitles();
+    this.fetchDepartments();
+    this.setupColumnDefinitions();
   }
-  
-  fetchJobTitles(): void {
-    this.jobTitlesService.getAllJobTitlesRequests().subscribe(data => {
-      this.jobTitles = data;
+
+  private fetchJobTitles(): void {
+    this.jobTitlesService.getAllJobTitlesRequests().subscribe(
+      data => this.jobTitles = data,
+      error => this.handleError('Failed to load job titles', error)
+    );
+  }
+  fetchDepartments(): void {
+    this.departmentsService.getAllDepartmentsRequests().subscribe(data => {
+      this.departments = data;
     });
   }
   private loadEmployees(): void {
@@ -74,11 +91,7 @@ export class EmployeeManagementComponent implements OnInit {
   private addEmployee(employee: Employee): void {
     this.toggleLoading(true);
     this.employeesService.addEmployee(employee).subscribe(
-      newEmployee => {
-        this.employees.push(newEmployee);
-        this.dataSource.data = [...this.employees];
-        this.showToast('employeeAdded');
-      },
+      newEmployee => this.handleEmployeeAdded(newEmployee),
       error => this.handleError('Failed to add employee', error)
     );
   }
@@ -86,41 +99,56 @@ export class EmployeeManagementComponent implements OnInit {
   private updateEmployee(updatedEmployee: Employee): void {
     this.toggleLoading(true);
     this.employeesService.updateEmployee(updatedEmployee.id, updatedEmployee).subscribe(
-      () => {
-        this.updateEmployeeList(updatedEmployee);
-        this.showToast('employeeUpdated');
-      },
+      () => this.handleEmployeeUpdated(updatedEmployee),
       error => this.handleError('Failed to update employee', error)
     );
   }
 
-  private updateEmployeeList(updatedEmployee: Employee): void {
+  private handleEmployeeAdded(newEmployee: Employee): void {
+    // التأكد من عدم تكرار الموظف
+    if (!this.employees.find(emp => emp.id === newEmployee.id)) {
+      this.employees.push(newEmployee);
+      this.dataSource.data = [...this.employees];  // تحديث dataSource بشكل صحيح
+      this.showToast('employeeAdded');
+    }
+  }
+  
+
+  private handleEmployeeUpdated(updatedEmployee: Employee): void {
     const index = this.employees.findIndex(emp => emp.id === updatedEmployee.id);
     if (index !== -1) {
       this.employees[index] = updatedEmployee;
       this.dataSource.data = [...this.employees];
     }
+    this.showToast('employeeUpdated');
   }
 
   confirmDelete(id: string): void {
+    debugger
     this.dialogService.openDialog(ConfirmDeleteDialogComponent, {}, '400px').subscribe(result => {
       if (result) {
-        this.deleteEmployee(+id);
+        this.deleteEmployee(id);
       }
     });
   }
 
-  deleteEmployee(id: number): void {
+  deleteEmployee(id: string): void {
+    debugger
     this.toggleLoading(true);
     this.employeesService.deleteEmployee(id.toString()).subscribe(
-      () => {
-        this.employees = this.employees.filter(emp => emp.id !== id.toString());
-        this.dataSource.data = [...this.employees];
-        this.showToast('employeeDeleted');
-      },
+      () => this.handleEmployeeDeleted(id),
       error => this.handleError('Failed to delete employee', error)
     );
   }
+  
+  private handleEmployeeDeleted(id: string): void {
+    debugger
+    // التأكد من حذف العنصر من المصفوفة
+    this.employees = this.employees.filter(emp => emp.id !== id.toString());
+    this.dataSource.data = [...this.employees];
+    this.showToast('employeeDeleted');
+  }
+  
 
   applyFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
@@ -132,30 +160,17 @@ export class EmployeeManagementComponent implements OnInit {
       .get(['NAME', 'POSITION', 'DEPARTMENT', 'GENDER', 'ACTIONS'])
       .subscribe(translations => {
         this.columnDefinitions = [
-          {
-            key: 'name',
-            header: 'NAME',
-            cell: (employee: Employee) => this.translate.currentLang === 'ar' ? employee.name : employee.englishName
-          },
-          {
-            key: 'jobTitle',
-            header: 'POSITION',
-            cell: (employee: Employee) => this.getTranslatedValue('jobTitles' , employee.jobTitleId)
-          },
-          {
-            key: 'department',
-            header: 'DEPARTMENT',
-            cell: (employee: Employee) => this.getTranslatedValue('departments', employee.departmentId)
-          },
-          { key: 'actions', header: 'ACTIONS', cell: () => '' }
+          { key: 'name', header: translations['NAME'],cell: (employee: Employee) => this.translate.currentLang === 'ar' ? employee.name : employee.englishName},
+          { key: 'jobTitle', header: translations['POSITION'], cell: (employee: Employee) => this.getTranslatedValue('jobTitles', employee.jobTitleId) },
+          { key: 'department', header: translations['DEPARTMENT'], cell: (employee: Employee) => this.getTranslatedValue('departments', employee.departmentId) },
+          { key: 'actions', header: translations['ACTIONS'], cell: () => '' }
         ];
       });
   }
 
-  private getTranslatedValue(key: keyof typeof this.constants | 'jobTitles', id: number): string {
-    const collection = key === 'jobTitles' ? this.jobTitles : this.constants[key];
-    if (!collection || !Array.isArray(collection)) return 'Unknown';
-    const item = collection.find(i => i.id === id);
+  private getTranslatedValue(key: 'gender' | 'maritalStatus' | 'jobTitles' | 'departments', id: number): any {
+    const collection = key === 'jobTitles' ? this.jobTitles : key === 'departments' ? this.departments : this.constants[key];
+    const item = collection?.find(i => i.id === id);
     return item ? (this.translate.currentLang === 'ar' ? item.arabic : item.english) : 'Unknown';
   }
   

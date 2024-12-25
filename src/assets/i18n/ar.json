@@ -90,12 +90,13 @@
   "LEAVES_LIST": "قائمة الاجازات",
   "INVALID_EMAIL_COM": "البريد الإلكتروني يجب أن ينتهي بـ .com",
   "JOB_NAMES": "اسماء الوظائف",
-  "NATIONALITYS": "الجنسيات",
+  "NATIONALITIES": "الجنسيات",
   "MANAGEMENT_NATIONALITIES": "إدارة الجنسيات",
   "ARABIC_NAME": "الاسم بالعربية",
   "ENGLISH_NAME": "الاسم بالإنجليزية",
   "SYSTEM_ADMINISTRATION": "أدارة النظام",
   "DATA_LIST": "قائمة البيانات",
   "MANAGEMENT_JOB_TITLES": "ادارة اسماء الوظائف",
-  "ADD_JOB_TITLES": "إضافة اسماء الوظائف"
+  "ADD_JOB_TITLES": "إضافة اسماء الوظائف",
+  "MANAGEMENT_DEPARTMENTS": "ادارة الاقسام"
 }

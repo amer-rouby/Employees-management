@@ -9,7 +9,7 @@
     border: 1px solid #ddd;
     border-radius: 3px;
     text-align: right;
-    direction: ltr; /* Default direction for LTR */
+    direction: ltr;
     margin-top: 60px;
   }
   
@@ -21,6 +21,7 @@
     text-decoration: none;
     color: #2ba6cb;
     font-size: .8rem;
+    font-weight: bold;
   }
   
   .breadcrumbs a:hover {

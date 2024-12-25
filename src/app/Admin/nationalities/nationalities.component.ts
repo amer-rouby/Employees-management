@@ -5,6 +5,7 @@ import { NationalitiesService } from '../../Services/nationalities.service';
 import { ConfirmDeleteDialogComponent } from '../../Dialogs/confirm-delete-dialog/confirm-delete-dialog.component';
 import { DialogService } from '../../Services/dialog.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FieldsAdminModel } from '../../Models/FieldsAdmin.model';
 
 @Component({
   selector: 'app-nationalities',
@@ -14,9 +15,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class NationalitiesComponent implements OnInit {
   breadcrumbs = [
     { label: 'HOME', link: '/' },
-    { label: 'SYSTEM_ADMINISTRATION'},
+    { label: 'SYSTEM_ADMINISTRATION' },
     { label: 'MANAGEMENT_NATIONALITIES' }
   ];
+  
   nationalities: MatTableDataSource<Nationalities> = new MatTableDataSource<Nationalities>();
   displayedColumns: string[] = ['arabic', 'english', 'actions'];
   columnDefinitions = [
@@ -24,18 +26,18 @@ export class NationalitiesComponent implements OnInit {
     { key: 'english', header: 'ENGLISH_NAME', cell: (element: Nationalities) => `${element.english}` },
     { key: 'actions', header: 'ACTIONS' }
   ];
-  
-  nationalityFields = [
-    { label: 'ARABIC_NAME', controlName: 'arabic', type: 'text', required: true },
-    { label: 'ENGLISH_NAME', controlName: 'english', type: 'text', required: true },
+
+  nationalityFields: FieldsAdminModel[] = [
+    { label: 'ARABIC_NAME', controlName: 'arabic', type: 'text', required: true, languageType: 'arabic' },
+    { label: 'ENGLISH_NAME', controlName: 'english', type: 'text', required: true, languageType: 'english' },
   ];
-  
+
   nationalityForm: FormGroup;
   isEditing: boolean = false;
   selectedId: string | null = null;
-  
+
   constructor(
-    private nationalitiesService: NationalitiesService, 
+    private nationalitiesService: NationalitiesService,
     private dialogService: DialogService,
     private fb: FormBuilder
   ) {

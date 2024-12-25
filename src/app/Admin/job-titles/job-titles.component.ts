@@ -6,6 +6,7 @@ import { DialogService } from '../../Services/dialog.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { JobTitles } from '../../Models/JobTitles.model';
 import { JobTitlesService } from '../../Services/JobTitles.service';
+import { FieldsAdminModel } from '../../Models/FieldsAdmin.model';
 
 @Component({
   selector: 'app-job-titles',
@@ -26,9 +27,9 @@ export class JobTitlesComponent implements OnInit {
     { key: 'actions', header: 'ACTIONS' }
   ];
   
-  jobTitlesFields = [
-    { label: 'ARABIC_NAME', controlName: 'arabic', type: 'text', required: true },
-    { label: 'ENGLISH_NAME', controlName: 'english', type: 'text', required: true },
+  jobTitlesFields:FieldsAdminModel[] = [
+    { label: 'ARABIC_NAME', controlName: 'arabic', type: 'text', required: true, languageType: 'arabic'},
+    { label: 'ENGLISH_NAME', controlName: 'english', type: 'text', required: true, languageType: 'english' },
   ];
   
   jobTitlesForm: FormGroup;

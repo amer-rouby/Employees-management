@@ -8,7 +8,7 @@ import { FormGroup } from '@angular/forms';
 })
 export class SharedFormComponent {
   @Input() formGroup!: FormGroup;
-  @Input() fields!: { label: string; controlName: string; type: string; required: boolean }[];
+  @Input() fields!: { label: string; controlName: string; type: string; required: boolean, languageType: 'arabic' | 'english'}[];
   @Input() isEditing = false;
 
   @Output() submitForm = new EventEmitter<void>();

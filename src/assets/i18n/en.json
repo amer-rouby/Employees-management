@@ -88,12 +88,13 @@
   "LEAVES_LIST": "Leavees List",
   "INVALID_EMAIL_COM": "Email must end in .com",
   "JOB_NAMES": "Job Names",
-  "NATIONALITYS": "Nationalities",
+  "NATIONALITIES": "Nationalities",
   "MANAGEMENT_NATIONALITIES": "Nationalities Management",
   "ARABIC_NAME": "Arabic Name",
   "ENGLISH_NAME": "English Name",
   "SYSTEM_ADMINISTRATION": "System administration",
   "DATA_LIST": "Data list",
   "MANAGEMENT_JOB_TITLES": "Job Titiles Management",
-  "ADD_JOB_TITLES": "Add Job Titles"
+  "ADD_JOB_TITLES": "Add Job Titles",
+  "MANAGEMENT_DEPARTMENTS": "Management Departments"
 }

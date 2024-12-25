@@ -1,0 +1,23 @@
+<app-breadcrumbs [breadcrumbs]="breadcrumbs"></app-breadcrumbs>
+<div class="container-departments">
+  <fieldset>
+    <legend>
+      <mat-icon aria-hidden="true" color="primary" class="icon-spacing">corporate_fare</mat-icon>
+      {{ 'MANAGEMENT_DEPARTMENTS' | translate }}
+    </legend>
+    <app-shared-form [formGroup]="DepartmentsForm" [fields]="DepartmentsFields" [isEditing]="isEditing"
+      (submitForm)="isEditing ? updateDepartments() : addDepartments()" (cancelForm)="resetForm()">
+    </app-shared-form>
+  </fieldset>
+
+  <fieldset>
+    <legend>
+      <mat-icon aria-hidden="true" color="primary" class="icon-spacing">view_list</mat-icon>
+      {{ 'DATA_LIST' | translate }}
+    </legend>
+    <app-shared-table [dataSource]="departments" [displayedColumns]="displayedColumns"
+      [columnDefinitions]="columnDefinitions" [showViewAction]="false" (onEdit)="editDepartments($event)"
+      (onDelete)="deleteDepartments($event)">
+    </app-shared-table>
+  </fieldset>
+</div>

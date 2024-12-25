@@ -16,6 +16,11 @@ import { DialogService } from '../../Services/dialog.service';
   styleUrls: ['./leave-management.component.scss'],
 })
 export class LeaveManagementComponent {
+  breadcrumbs = [
+    { label: 'HOME', link: '/' },
+    { label: 'MANAGEMENT'},
+    { label: 'LEAVE_MANAGEMENT' }
+  ];
   dataSource = new MatTableDataSource<Leave>([]);
   displayedColumns: string[] = ['name', 'types', 'startDate', 'endDate', 'status', 'actions'];
   leaveRequests: Leave[] = [];
