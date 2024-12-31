@@ -98,5 +98,18 @@
   "DATA_LIST": "قائمة البيانات",
   "MANAGEMENT_JOB_TITLES": "ادارة اسماء الوظائف",
   "ADD_JOB_TITLES": "إضافة اسماء الوظائف",
-  "MANAGEMENT_DEPARTMENTS": "ادارة الاقسام"
+  "MANAGEMENT_DEPARTMENTS": "ادارة الاقسام",
+  "DEPARTMENT_ADDED_SUCCESS": "تم إضافة القسم بنجاح",
+  "DEPARTMENT_UPDATED_SUCCESS": "تم تحديث القسم بنجاح",
+  "DEPARTMENT_DELETED_SUCCESS": "تم حذف القسم بنجاح",
+  "ADD_JOB_TITLES_SUCCESS": "تمت إضافة المسمى الوظيفي بنجاح.",
+  "ADD_JOB_TITLES_ERROR": "فشل في إضافة المسمى الوظيفي.",
+  "UPDATE_JOB_TITLES_SUCCESS": "تم تحديث المسمى الوظيفي بنجاح.",
+  "UPDATE_JOB_TITLES_ERROR": "فشل في تحديث المسمى الوظيفي.",
+  "DELETE_JOB_TITLES_SUCCESS": "تم حذف المسمى الوظيفي بنجاح.",
+  "DELETE_JOB_TITLES_ERROR": "فشل في حذف المسمى الوظيفي.",
+  "FETCH_JOB_TITLES_ERROR": "فشل في تحميل المسميات الوظيفية.",
+  "NATIONALITY_ADDED_SUCCESS": "تم إضافة الجنسية بنجاح",
+  "NATIONALITY_UPDATED_SUCCESS": "تم تحديث الجنسية بنجاح",
+  "NATIONALITY_DELETED_SUCCESS": "تم حذف الجنسية بنجاح"
 }

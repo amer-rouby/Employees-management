@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-
 import { ConfirmDeleteDialogComponent } from '../../Dialogs/confirm-delete-dialog/confirm-delete-dialog.component';
 import { DialogService } from '../../Services/dialog.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Departments } from '../../Models/departments.model';
 import { DepartmentsService } from '../../Services/departments.service';
 import { FieldsAdminModel } from '../../Models/FieldsAdmin.model';
-
+import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-job-titles',
@@ -17,9 +17,10 @@ import { FieldsAdminModel } from '../../Models/FieldsAdmin.model';
 export class DepartmentsComponent implements OnInit {
   breadcrumbs = [
     { label: 'HOME', link: '/' },
-    { label: 'SYSTEM_ADMINISTRATION'},
+    { label: 'SYSTEM_ADMINISTRATION' },
     { label: 'MANAGEMENT_DEPARTMENTS' }
   ];
+
   departments: MatTableDataSource<Departments> = new MatTableDataSource<Departments>();
   displayedColumns: string[] = ['arabic', 'english', 'actions'];
   columnDefinitions = [
@@ -27,22 +28,25 @@ export class DepartmentsComponent implements OnInit {
     { key: 'english', header: 'ENGLISH_NAME', cell: (element: Departments) => `${element.english}` },
     { key: 'actions', header: 'ACTIONS' }
   ];
-  
-  DepartmentsFields: FieldsAdminModel[] = [
-    { label: 'ARABIC_NAME', controlName: 'arabic', type: 'text', required: true, languageType: 'arabic'},
+
+  departmentsFields: FieldsAdminModel[] = [
+    { label: 'ARABIC_NAME', controlName: 'arabic', type: 'text', required: true, languageType: 'arabic' },
     { label: 'ENGLISH_NAME', controlName: 'english', type: 'text', required: true, languageType: 'english' },
   ];
-  
-  DepartmentsForm: FormGroup;
-  isEditing: boolean = false;
+
+  departmentsForm: FormGroup;
+  isEditing = false;
   selectedId: string | null = null;
-  
+  isLoading = false;
+
   constructor(
-    private departmentsService: DepartmentsService, 
+    private departmentsService: DepartmentsService,
     private dialogService: DialogService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private toastr: ToastrService,
+    private translate: TranslateService
   ) {
-    this.DepartmentsForm = this.fb.group({
+    this.departmentsForm = this.fb.group({
       arabic: ['', Validators.required],
       english: ['', Validators.required]
     });
@@ -52,53 +56,82 @@ export class DepartmentsComponent implements OnInit {
     this.fetchDepartments();
   }
 
-  fetchDepartments(): void {
-    this.departmentsService.getAllDepartmentsRequests().subscribe(data => {
-      this.departments.data = data;
-    });
+  private fetchDepartments(): void {
+    this.toggleLoading(true);
+    this.departmentsService.getAllDepartmentsRequests().subscribe(
+      data => {
+        this.departments.data = data;
+        this.toggleLoading(false);
+      },
+      error => this.handleError('FAILED_TO_LOAD_DEPARTMENTS', error)
+    );
   }
 
-  addDepartments(): void {
-    if (this.DepartmentsForm.invalid) return;
+  addDepartment(): void {
+    if (this.departmentsForm.invalid) return;
 
-    const newDepartments: Departments = this.DepartmentsForm.value;
-    this.departmentsService.addDepartmentsRequest(newDepartments).subscribe(() => {
-      this.fetchDepartments();
-      this.resetForm();
-    });
+    this.toggleLoading(true);
+    const newDepartment: Departments = this.departmentsForm.value;
+    this.departmentsService.addDepartmentsRequest(newDepartment).subscribe(
+      () => this.handleSuccess('DEPARTMENT_ADDED_SUCCESS'),
+      error => this.handleError('FAILED_TO_ADD_DEPARTMENT', error)
+    );
   }
 
-  editDepartments(Departments: Departments): void {
-    this.DepartmentsForm.patchValue(Departments);
+  editDepartment(department: Departments): void {
+    this.departmentsForm.patchValue(department);
     this.isEditing = true;
-    this.selectedId = Departments.id;
+    this.selectedId = department.id;
   }
 
-  updateDepartments(): void {
-    if (this.DepartmentsForm.invalid || !this.selectedId) return;
+  updateDepartment(): void {
+    if (this.departmentsForm.invalid || !this.selectedId) return;
 
-    this.departmentsService.updateDepartmentsRequest(this.selectedId, this.DepartmentsForm.value).subscribe(() => {
-      this.fetchDepartments();
-      this.resetForm();
-    });
+    this.toggleLoading(true);
+    this.departmentsService.updateDepartmentsRequest(this.selectedId, this.departmentsForm.value).subscribe(
+      () => this.handleSuccess('DEPARTMENT_UPDATED_SUCCESS'),
+      error => this.handleError('FAILED_TO_UPDATE_DEPARTMENT', error)
+    );
   }
 
-  deleteDepartments(id: string): void {
-    this.dialogService.openDialog(ConfirmDeleteDialogComponent, {}, '400px').subscribe((result) => {
+  deleteDepartment(id: string): void {
+    this.dialogService.openDialog(ConfirmDeleteDialogComponent, {}, '400px').subscribe(result => {
       if (result) {
-        this.departmentsService.deleteDepartmentsRequest(id).subscribe(() => {
-          this.fetchDepartments();
-          this.resetForm();
-        });
+        this.toggleLoading(true);
+        this.departmentsService.deleteDepartmentsRequest(id).subscribe(
+          () => this.handleSuccess('DEPARTMENT_DELETED_SUCCESS'),
+          error => this.handleError('FAILED_TO_DELETE_DEPARTMENT', error)
+        );
       }
     });
   }
 
   resetForm(): void {
-    this.DepartmentsForm.reset();
+    this.departmentsForm.reset();
     this.isEditing = false;
     this.selectedId = null;
   }
 
-}
+  private toggleLoading(state: boolean): void {
+    this.isLoading = state;
+  }
 
+  private handleError(messageKey: string, error: any): void {
+    console.error(error);
+    this.toastr.error(messageKey, 'Error');
+    this.toggleLoading(false);
+  }
+
+  private handleSuccess(messageKey: string): void {
+    this.fetchDepartments();
+    this.resetForm();
+    this.showToast(messageKey);
+  }
+
+  private showToast(key: string): void {
+    this.translate.get(key).subscribe(message => {
+      this.toastr.success(message);
+    });
+    this.toggleLoading(false);
+  }
+}

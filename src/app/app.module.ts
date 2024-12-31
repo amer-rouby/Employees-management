@@ -49,6 +49,7 @@ import { ValidateLanguageDirective } from './Directives/validate-language.direct
 import { SharedFormComponent } from './Components/shared/shared-form/shared-form.component';
 import { BreadcrumbsComponent } from './Components/shared/breadcrumbs/breadcrumbs.component';
 import { DepartmentsComponent } from './Admin/departments/departments.component';
+import { GenericFormComponent } from './Components/shared/generic-form/generic-form.component';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
@@ -75,7 +76,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ValidateLanguageDirective,
     SharedFormComponent,
     BreadcrumbsComponent,
-    DepartmentsComponent
+    DepartmentsComponent,
+    GenericFormComponent
   ],
   imports: [
     BrowserModule,

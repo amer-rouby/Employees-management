@@ -1,0 +1,44 @@
+<form [formGroup]="genericForm" (ngSubmit)="onSubmit()" class="shared-form">
+  <div class="form-grid">
+    <div *ngFor="let field of fields" class="form-field">
+      <!-- الحقول النصية -->
+      <mat-form-field appearance="fill" *ngIf="field.type !== 'select' && field.type !== 'date'">
+        <mat-label>{{ field.label | translate }}</mat-label>
+        <input matInput [type]="field.type || 'text'" [formControlName]="field.name"
+          [placeholder]="field.label | translate" />
+        <mat-error *ngIf="genericForm.get(field.name)?.hasError('required')">
+          {{ 'FIELD_REQUIRED' | translate }}
+        </mat-error>
+      </mat-form-field>
+
+      <!-- الحقول المنسدلة -->
+      <mat-form-field appearance="fill" *ngIf="field.type === 'select'">
+        <mat-label>{{ field.label | translate }}</mat-label>
+        <mat-select [formControlName]="field.name">
+          <mat-option *ngFor="let option of field.options" [value]="option.value">
+            {{ option.label | translate }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="genericForm.get(field.name)?.hasError('required')">
+          {{ 'FIELD_REQUIRED' | translate }}
+        </mat-error>
+      </mat-form-field>
+
+      <!-- حقل التاريخ -->
+      <mat-form-field appearance="fill" *ngIf="field.type === 'date'">
+        <mat-label>{{ field.label | translate }}</mat-label>
+        <input matInput [matDatepicker]="picker" [formControlName]="field.name" [placeholder]="field.label | translate" />
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        <mat-error *ngIf="genericForm.get(field.name)?.hasError('required')">
+          {{ 'FIELD_REQUIRED' | translate }}
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="form-buttons">
+    <button mat-raised-button color="primary" type="submit">{{ 'SAVE' | translate }}</button>
+    <button mat-button type="button" color="warn" (click)="formSubmit.emit(null)">{{ 'CANCEL' | translate }}</button>
+  </div>
+</form>

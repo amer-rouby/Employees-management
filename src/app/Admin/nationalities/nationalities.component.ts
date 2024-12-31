@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { Nationalities } from '../../Models/nationalities.model';
-import { NationalitiesService } from '../../Services/nationalities.service';
 import { ConfirmDeleteDialogComponent } from '../../Dialogs/confirm-delete-dialog/confirm-delete-dialog.component';
 import { DialogService } from '../../Services/dialog.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Nationalities } from '../../Models/nationalities.model';
+import { NationalitiesService } from '../../Services/nationalities.service';
 import { FieldsAdminModel } from '../../Models/FieldsAdmin.model';
+import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-nationalities',
@@ -18,12 +20,12 @@ export class NationalitiesComponent implements OnInit {
     { label: 'SYSTEM_ADMINISTRATION' },
     { label: 'MANAGEMENT_NATIONALITIES' }
   ];
-  
+
   nationalities: MatTableDataSource<Nationalities> = new MatTableDataSource<Nationalities>();
   displayedColumns: string[] = ['arabic', 'english', 'actions'];
   columnDefinitions = [
-    { key: 'arabic', header: 'ARABIC_NAME', cell: (element: Nationalities) => `${element.arabic}` },
-    { key: 'english', header: 'ENGLISH_NAME', cell: (element: Nationalities) => `${element.english}` },
+    { key: 'arabic', header: 'ARABIC_NAME', cell: (element: Nationalities) => element.arabic },
+    { key: 'english', header: 'ENGLISH_NAME', cell: (element: Nationalities) => element.english },
     { key: 'actions', header: 'ACTIONS' }
   ];
 
@@ -35,11 +37,14 @@ export class NationalitiesComponent implements OnInit {
   nationalityForm: FormGroup;
   isEditing: boolean = false;
   selectedId: string | null = null;
+  isLoading: boolean = false;
 
   constructor(
     private nationalitiesService: NationalitiesService,
     private dialogService: DialogService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private toastr: ToastrService,
+    private translate: TranslateService
   ) {
     this.nationalityForm = this.fb.group({
       arabic: ['', Validators.required],
@@ -52,19 +57,29 @@ export class NationalitiesComponent implements OnInit {
   }
 
   fetchNationalities(): void {
-    this.nationalitiesService.getAllNationalitiesRequests().subscribe(data => {
-      this.nationalities.data = data;
-    });
+    this.toggleLoading(true);
+    this.nationalitiesService.getAllNationalitiesRequests().subscribe(
+      data => {
+        this.nationalities.data = data;
+        this.toggleLoading(false);
+      },
+      error => this.handleError('FAILED_TO_LOAD_NATIONALITIES', error)
+    );
   }
 
   addNationality(): void {
     if (this.nationalityForm.invalid) return;
 
+    this.toggleLoading(true);
     const newNationality: Nationalities = this.nationalityForm.value;
-    this.nationalitiesService.addnatioNalitiesRequest(newNationality).subscribe(() => {
-      this.fetchNationalities();
-      this.resetForm();
-    });
+    this.nationalitiesService.addnatioNalitiesRequest(newNationality).subscribe(
+      () => {
+        this.fetchNationalities();
+        this.resetForm();
+        this.showToast('NATIONALITY_ADDED_SUCCESS');
+      },
+      error => this.handleError('FAILED_TO_ADD_NATIONALITY', error)
+    );
   }
 
   editNationality(nationality: Nationalities): void {
@@ -76,19 +91,29 @@ export class NationalitiesComponent implements OnInit {
   updateNationality(): void {
     if (this.nationalityForm.invalid || !this.selectedId) return;
 
-    this.nationalitiesService.updateNationalitiesRequest(this.selectedId, this.nationalityForm.value).subscribe(() => {
-      this.fetchNationalities();
-      this.resetForm();
-    });
+    this.toggleLoading(true);
+    this.nationalitiesService.updateNationalitiesRequest(this.selectedId, this.nationalityForm.value).subscribe(
+      () => {
+        this.fetchNationalities();
+        this.resetForm();
+        this.showToast('NATIONALITY_UPDATED_SUCCESS');
+      },
+      error => this.handleError('FAILED_TO_UPDATE_NATIONALITY', error)
+    );
   }
 
   deleteNationality(id: string): void {
-    this.dialogService.openDialog(ConfirmDeleteDialogComponent, {}, '400px').subscribe((result) => {
+    this.dialogService.openDialog(ConfirmDeleteDialogComponent, {}, '400px').subscribe(result => {
       if (result) {
-        this.nationalitiesService.deleteNationalitiesRequest(id).subscribe(() => {
-          this.fetchNationalities();
-          this.resetForm();
-        });
+        this.toggleLoading(true);
+        this.nationalitiesService.deleteNationalitiesRequest(id).subscribe(
+          () => {
+            this.fetchNationalities();
+            this.resetForm();
+            this.showToast('NATIONALITY_DELETED_SUCCESS');
+          },
+          error => this.handleError('FAILED_TO_DELETE_NATIONALITY', error)
+        );
       }
     });
   }
@@ -99,4 +124,20 @@ export class NationalitiesComponent implements OnInit {
     this.selectedId = null;
   }
 
+  private toggleLoading(state: boolean): void {
+    this.isLoading = state;
+  }
+
+  private handleError(message: string, error: any): void {
+    console.error(error);
+    this.toastr.error(message, 'Error');
+    this.toggleLoading(false);
+  }
+
+  private showToast(key: string): void {
+    this.translate.get(key).subscribe(message => {
+      this.toastr.success(message);
+    });
+    this.toggleLoading(false);
+  }
 }

@@ -1,12 +1,13 @@
 <app-breadcrumbs [breadcrumbs]="breadcrumbs"></app-breadcrumbs>
 <div class="container-job-titles">
+  <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
   <fieldset>
     <legend>
       <mat-icon color="primary">work</mat-icon>
       {{ 'MANAGEMENT_JOB_TITLES' | translate }}
     </legend>
     <app-shared-form [formGroup]="jobTitlesForm" [fields]="jobTitlesFields" [isEditing]="isEditing"
-      (submitForm)="isEditing ? updateJobTitles() : addJobTitles()" (cancelForm)="resetForm()">
+      (submitForm)="isEditing ? updateJobTitle() : addJobTitle()" (cancelForm)="resetForm()">
     </app-shared-form>
   </fieldset>
 
@@ -16,8 +17,8 @@
       {{ 'DATA_LIST' | translate }}
     </legend>
     <app-shared-table [dataSource]="jobTitles" [displayedColumns]="displayedColumns"
-      [columnDefinitions]="columnDefinitions" [showViewAction]="false" (onEdit)="editJobTitles($event)"
-      (onDelete)="deleteJobTitles($event)">
+      [columnDefinitions]="columnDefinitions" [showViewAction]="false" (onEdit)="editJobTitle($event)"
+      (onDelete)="deleteJobTitle($event)">
     </app-shared-table>
   </fieldset>
 </div>

@@ -1,12 +1,13 @@
 <app-breadcrumbs [breadcrumbs]="breadcrumbs"></app-breadcrumbs>
 <div class="container-departments">
+  <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
   <fieldset>
     <legend>
       <mat-icon aria-hidden="true" color="primary" class="icon-spacing">corporate_fare</mat-icon>
       {{ 'MANAGEMENT_DEPARTMENTS' | translate }}
     </legend>
-    <app-shared-form [formGroup]="DepartmentsForm" [fields]="DepartmentsFields" [isEditing]="isEditing"
-      (submitForm)="isEditing ? updateDepartments() : addDepartments()" (cancelForm)="resetForm()">
+    <app-shared-form [formGroup]="departmentsForm" [fields]="departmentsFields" [isEditing]="isEditing"
+      (submitForm)="isEditing ? updateDepartment() : addDepartment()" (cancelForm)="resetForm()">
     </app-shared-form>
   </fieldset>
 
@@ -16,8 +17,8 @@
       {{ 'DATA_LIST' | translate }}
     </legend>
     <app-shared-table [dataSource]="departments" [displayedColumns]="displayedColumns"
-      [columnDefinitions]="columnDefinitions" [showViewAction]="false" (onEdit)="editDepartments($event)"
-      (onDelete)="deleteDepartments($event)">
+      [columnDefinitions]="columnDefinitions" [showViewAction]="false" (onEdit)="editDepartment($event)"
+      (onDelete)="deleteDepartment($event)">
     </app-shared-table>
   </fieldset>
 </div>
