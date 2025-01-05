@@ -1,4 +1,4 @@
-.shared-form {
+.generic-form {
     padding: 10px !important;
     display: flex;
     flex-direction: column;
@@ -29,14 +29,14 @@
     direction: inherit;
   }
   
-  [dir="rtl"] .shared-form,
+  [dir="rtl"] .generic-form,
   [dir="rtl"] .form-grid,
   [dir="rtl"] .form-buttons {
     direction: rtl;
     text-align: right;
   }
   
-  [dir="ltr"] .shared-form,
+  [dir="ltr"] .generic-form,
   [dir="ltr"] .form-grid,
   [dir="ltr"] .form-buttons {
     direction: ltr;

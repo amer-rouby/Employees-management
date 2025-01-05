@@ -1,7 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Employee } from '../../Models/employee.model';
-import {gender, maritalStatus } from '../../constants/data.constants';
 import { PdfService } from '../../Services/pdf.service';
 import { NationalitiesService } from '../../Services/nationalities.service';
 import { JobTitlesService } from '../../Services/JobTitles.service';
@@ -9,6 +8,10 @@ import { DepartmentsService } from '../../Services/departments.service';
 import { JobTitles } from '../../Models/JobTitles.model';
 import { Departments } from '../../Models/departments.model';
 import { Nationalities } from '../../Models/nationalities.model';
+import { Gender } from '../../Models/gender.model';
+import { MaritalStatus } from '../../Models/maritalStatus.model';
+import { GenderService } from '../../Services/gender.service';
+import { MaritalStatusService } from '../../Services/maritalStatus.service';
 
 @Component({
   selector: 'app-employee-details-dialog',
@@ -18,14 +21,16 @@ import { Nationalities } from '../../Models/nationalities.model';
 export class EmployeeDetailsDialogComponent implements OnInit{
   jobTitles : JobTitles[]=[];
   departments : Departments[]=[];
-  gender = gender;
+  gender: Gender[]=[];
   nationalities :Nationalities[]=[];
-  maritalStatus = maritalStatus;
+  maritalStatus: MaritalStatus[]=[];
   isShow = true;
   ngOnInit(): void {
     this.fetchNationalities()
     this.fetchJobTitles()
     this.fetchDepartments()
+    this.fetchGender()
+    this.fetchMaritalStatus()
   }
   constructor(
     @Inject(MAT_DIALOG_DATA) public employee: Employee,
@@ -34,6 +39,8 @@ export class EmployeeDetailsDialogComponent implements OnInit{
     private nationalitiesService: NationalitiesService,
     private jobTitlesService: JobTitlesService,
     private departmentsService: DepartmentsService,
+    private genderService: GenderService,
+    private maritalStatusService: MaritalStatusService,
   ) {}
 
   getLookupValueById(lookupArray: any[], id: any, language = 'english'): string {
@@ -60,6 +67,16 @@ export class EmployeeDetailsDialogComponent implements OnInit{
   fetchDepartments(): void {
     this.departmentsService.getAllDepartmentsRequests().subscribe(data => {
       this.departments = data;
+    });
+  }
+  fetchGender(): void {
+    this.genderService.getAllGenderRecords().subscribe(data => {
+      this.gender = data;
+    });
+  }
+  fetchMaritalStatus(): void {
+    this.maritalStatusService.getAllMaritalStatus().subscribe(data => {
+      this.maritalStatus = data;
     });
   }
   closeDialog(): void {

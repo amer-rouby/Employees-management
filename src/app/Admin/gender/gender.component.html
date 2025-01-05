@@ -1,0 +1,24 @@
+<app-breadcrumbs [breadcrumbs]="breadcrumbs"></app-breadcrumbs>
+<div class="container-gender">
+    <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+    <fieldset>
+        <legend>
+            <mat-icon color="primary" class="icon-spacing">corporate_fare</mat-icon>
+            {{ 'MANAGEMENT_DEPARTMENTS' | translate }}
+        </legend>
+        <app-shared-form [formGroup]="genderForm" [fields]="genderFields" [isEditing]="isEditing"
+            (submitForm)="isEditing ? updateGender() : addGender()" (cancelForm)="resetForm()">
+        </app-shared-form>
+    </fieldset>
+
+    <fieldset>
+        <legend>
+            <mat-icon color="primary" class="icon-spacing">view_list</mat-icon>
+            {{ 'DATA_LIST' | translate }}
+        </legend>
+        <app-shared-table [dataSource]="gender" [displayedColumns]="displayedColumns"
+            [columnDefinitions]="columnDefinitions" [showViewAction]="false" (onEdit)="editGender($event)"
+            (onDelete)="deleteGender($event)">
+        </app-shared-table>
+    </fieldset>
+</div>

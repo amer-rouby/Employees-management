@@ -50,6 +50,8 @@ import { SharedFormComponent } from './Components/shared/shared-form/shared-form
 import { BreadcrumbsComponent } from './Components/shared/breadcrumbs/breadcrumbs.component';
 import { DepartmentsComponent } from './Admin/departments/departments.component';
 import { GenericFormComponent } from './Components/shared/generic-form/generic-form.component';
+import { GenderComponent } from './Admin/gender/gender.component';
+import { MaritalStatusComponent } from './Admin/marital-status/marital-status.component';
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
@@ -77,7 +79,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     SharedFormComponent,
     BreadcrumbsComponent,
     DepartmentsComponent,
-    GenericFormComponent
+    GenericFormComponent,
+    GenderComponent,
+    MaritalStatusComponent
   ],
   imports: [
     BrowserModule,
