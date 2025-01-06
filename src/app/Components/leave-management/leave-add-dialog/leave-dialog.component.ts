@@ -6,10 +6,12 @@ import { DatePipe } from '@angular/common';
 import { TranslateService } from '@ngx-translate/core';
 import { LeaveService } from '../../../Services/leave.service';
 import { EmployeesService } from '../../../Services/employee-management.service';
-import { leaveStatus, leaveTypes } from '../../../constants/data.constants';
 import { Leave } from '../../../Models/leave.model';
 import { Employee } from '../../../Models/employee.model';
 import { PermissionsService } from '../../../Services/permissions.service';
+import { TypesOfVacationsService } from '../../../Services/Types-of-vacations.service';
+import { leavelStatusService } from '../../../Services/leave-status.service';
+import { DropdownItem } from '../../../Models/dropdown.model';
 
 @Component({
   selector: 'app-leave-dialog',
@@ -18,8 +20,8 @@ import { PermissionsService } from '../../../Services/permissions.service';
   providers: [DatePipe],
 })
 export class LeaveDialogComponent implements OnInit {
-  leaveStatus = leaveStatus;
-  leaveTypes = leaveTypes;
+  leaveStatus: DropdownItem[] = [];
+  leaveTypes: DropdownItem[] = [];
   employees: Employee[] = [];
   employeeForm!: FormGroup;
   leave!: Leave;
@@ -28,6 +30,8 @@ export class LeaveDialogComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private leaveService: LeaveService,
+    private typesOfVacationsService: TypesOfVacationsService,
+    private leavelStatusService: leavelStatusService,
     private employeesService: EmployeesService,
     private permissionsService: PermissionsService,
     private dialogRef: MatDialogRef<LeaveDialogComponent>,
@@ -41,6 +45,8 @@ export class LeaveDialogComponent implements OnInit {
   ngOnInit(): void {
     this.initializeForm();
     this.loadEmployees();
+    this.loadStatuse();
+    this.loadTypes();
 
     if (this.data.action === 'edit' && this.data.leave) {
       this.leave = { ...this.data.leave };
@@ -67,6 +73,18 @@ export class LeaveDialogComponent implements OnInit {
   private loadEmployees(): void {
     this.employeesService.getAllEmployees().subscribe({
       next: (employees: Employee[]) => (this.employees = employees),
+      error: (err) => console.error('Failed to load employees:', err),
+    });
+  }
+  private loadStatuse(): void {
+    this.leavelStatusService.getAllleavelStatusRequests().subscribe({
+      next: (leaveStatus: DropdownItem[]) => (this.leaveStatus = leaveStatus),
+      error: (err) => console.error('Failed to load employees:', err),
+    });
+  }
+  private loadTypes(): void {
+    this.typesOfVacationsService.getAllTypesOfVacationsRequests().subscribe({
+      next: (leaveTypes: DropdownItem[]) => (this.leaveTypes = leaveTypes),
       error: (err) => console.error('Failed to load employees:', err),
     });
   }
