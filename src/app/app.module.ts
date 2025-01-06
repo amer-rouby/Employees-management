@@ -1,7 +1,7 @@
 import { MatButtonModule } from '@angular/material/button';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './Components/header/header.component';
@@ -34,8 +34,8 @@ import { LoginComponent } from './auth/login/login.component';
 import { AuthService } from './Services/auth.service';
 import { AuthGuard } from './Guards/auth.guard';
 import { RedirectIfLoggedInGuard } from './Guards/redirect-if-logged-in.guard';
-import {MatProgressBarModule} from '@angular/material/progress-bar';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { EmployeeDetailsDialogComponent } from './Dialogs/employee-details-dialog/employee-details-dialog.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
@@ -49,6 +49,11 @@ import { ValidateLanguageDirective } from './Directives/validate-language.direct
 import { SharedFormComponent } from './Components/shared/shared-form/shared-form.component';
 import { BreadcrumbsComponent } from './Components/shared/breadcrumbs/breadcrumbs.component';
 import { DepartmentsComponent } from './Admin/departments/departments.component';
+import { GenericFormComponent } from './Components/shared/generic-form/generic-form.component';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { LeavelStatusComponent } from './Admin/leavel-status/leavel-status.component';
+import { TypesOfVacationsComponent } from './Admin/types-of-vacations/types-of-vacations.component';
+
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
@@ -75,23 +80,23 @@ export function HttpLoaderFactory(http: HttpClient) {
     ValidateLanguageDirective,
     SharedFormComponent,
     BreadcrumbsComponent,
-    DepartmentsComponent
+    DepartmentsComponent,
+    GenericFormComponent,
+    LeavelStatusComponent,
+    TypesOfVacationsComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule,
-    BrowserModule,
     BrowserAnimationsModule,
     MatButtonModule,
     MatToolbarModule,
     MatInputModule,
     MatMenuModule,
-    AppRoutingModule,
     FormsModule,
     MatTableModule,
     MatIconModule,
-    ReactiveFormsModule, 
+    ReactiveFormsModule,
     MatDialogModule,
     MatPaginatorModule,
     MatSelectModule,
@@ -102,7 +107,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
     AngularFireDatabaseModule,
-    
+
     ToastrModule.forRoot(),
     TranslateModule.forRoot({
       loader: {
@@ -113,8 +118,13 @@ export function HttpLoaderFactory(http: HttpClient) {
     }),
   ],
   providers: [
+    provideHttpClient(withInterceptorsFromDi()),
     provideAnimationsAsync(),
-   AuthService, AuthGuard, RedirectIfLoggedInGuard, TranslateTextPipe,ValidateLanguageDirective
+    AuthService,
+    AuthGuard,
+    RedirectIfLoggedInGuard,
+    TranslateTextPipe,
+    ValidateLanguageDirective
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]

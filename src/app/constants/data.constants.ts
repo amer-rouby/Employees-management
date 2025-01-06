@@ -1,10 +1,10 @@
-export const gender = [
-  { id: 0, arabic: "ذكر", english: "male" },
-  { id: 1, arabic: "انثي", english: "female" },
+export var gender = [
+  { id: 0, arabic: "ذكر", english: "male", name:"" },
+  { id: 1, arabic: "انثي", english: "female" , name:""},
 ]
 export const maritalStatus = [
-  { id: 0, arabic: "متزوج", english: "Married" },
-  { id: 1, arabic: "أعزب", english: "Single" },
+  { id: 0, arabic: "متزوج", english: "Married" , name:""},
+  { id: 1, arabic: "أعزب", english: "Single", name:"" },
 ];
 // src/app/models/leave-status.ts
 export const leaveStatus = [

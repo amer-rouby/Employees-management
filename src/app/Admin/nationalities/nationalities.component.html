@@ -1,5 +1,6 @@
 <app-breadcrumbs [breadcrumbs]="breadcrumbs"></app-breadcrumbs>
 <div class="container-nationalities">
+  <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
   <!-- Nationalities Management Form -->
   <fieldset>
     <legend>

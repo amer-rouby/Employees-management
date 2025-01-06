@@ -3,64 +3,65 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ConfirmDeleteDialogComponent } from '../../Dialogs/confirm-delete-dialog/confirm-delete-dialog.component';
 import { DialogService } from '../../Services/dialog.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Departments } from '../../Models/departments.model';
-import { DepartmentsService } from '../../Services/departments.service';
+
 import { FieldsAdminModel } from '../../Models/FieldsAdmin.model';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
+import { leavelStatus } from '../../Models/leavelStatus.model';
+import { leavelStatusService } from '../../Services/leave-status.service';
 
 @Component({
   selector: 'app-job-titles',
-  templateUrl: './departments.component.html',
-  styleUrls: ['./departments.component.scss']
+  templateUrl: './leavel-status.component.html',
+  styleUrls: ['./leavel-status.component.scss']
 })
-export class DepartmentsComponent implements OnInit {
+export class LeavelStatusComponent implements OnInit {
   breadcrumbs = [
     { label: 'HOME', link: '/' },
     { label: 'SYSTEM_ADMINISTRATION' },
-    { label: 'MANAGEMENT_DEPARTMENTS' }
+    { label: 'MANAGEMENT_LEAVEL_STATUSE' }
   ];
 
-  departments: MatTableDataSource<Departments> = new MatTableDataSource<Departments>();
+  leavelStatus: MatTableDataSource<leavelStatus> = new MatTableDataSource<leavelStatus>();
   displayedColumns: string[] = ['arabic', 'english', 'actions'];
   columnDefinitions = [
-    { key: 'arabic', header: 'ARABIC_NAME', cell: (element: Departments) => `${element.arabic}` },
-    { key: 'english', header: 'ENGLISH_NAME', cell: (element: Departments) => `${element.english}` },
+    { key: 'arabic', header: 'ARABIC_NAME', cell: (element: leavelStatus) => `${element.arabic}` },
+    { key: 'english', header: 'ENGLISH_NAME', cell: (element: leavelStatus) => `${element.english}` },
     { key: 'actions', header: 'ACTIONS' }
   ];
 
-  departmentsFields: FieldsAdminModel[] = [
+  leavelStatusFields: FieldsAdminModel[] = [
     { label: 'ARABIC_NAME', controlName: 'arabic', type: 'text', required: true, languageType: 'arabic' },
     { label: 'ENGLISH_NAME', controlName: 'english', type: 'text', required: true, languageType: 'english' },
   ];
 
-  departmentsForm: FormGroup;
+  leavelStatusForm: FormGroup;
   isEditing = false;
   selectedId: string | null = null;
   isLoading = false;
 
   constructor(
-    private departmentsService: DepartmentsService,
+    private leavelStatusService: leavelStatusService,
     private dialogService: DialogService,
     private fb: FormBuilder,
     private toastr: ToastrService,
     private translate: TranslateService
   ) {
-    this.departmentsForm = this.fb.group({
+    this.leavelStatusForm = this.fb.group({
       arabic: ['', Validators.required],
       english: ['', Validators.required]
     });
   }
 
   ngOnInit(): void {
-    this.fetchDepartments();
+    this.fetchLeavelStatus();
   }
 
-  private fetchDepartments(): void {
+  private fetchLeavelStatus(): void {
     this.toggleLoading(true);
-    this.departmentsService.getAllDepartmentsRequests().subscribe(
+    this.leavelStatusService.getAllleavelStatusRequests().subscribe(
       data => {
-        this.departments.data = data;
+        this.leavelStatus.data = data;
         this.toggleLoading(false);
       },
       error => this.handleError('FAILED_TO_LOAD_DEPARTMENTS', error)
@@ -68,27 +69,27 @@ export class DepartmentsComponent implements OnInit {
   }
 
   addDepartment(): void {
-    if (this.departmentsForm.invalid) return;
+    if (this.leavelStatusForm.invalid) return;
 
     this.toggleLoading(true);
-    const newDepartment: Departments = this.departmentsForm.value;
-    this.departmentsService.addDepartmentsRequest(newDepartment).subscribe(
+    const newDepartment: leavelStatus = this.leavelStatusForm.value;
+    this.leavelStatusService.addleavelStatusRequest(newDepartment).subscribe(
       () => this.handleSuccess('DEPARTMENT_ADDED_SUCCESS'),
       error => this.handleError('FAILED_TO_ADD_DEPARTMENT', error)
     );
   }
 
-  editDepartment(department: Departments): void {
-    this.departmentsForm.patchValue(department);
+  editDepartment(department: leavelStatus): void {
+    this.leavelStatusForm.patchValue(department);
     this.isEditing = true;
     this.selectedId = department.id;
   }
 
   updateDepartment(): void {
-    if (this.departmentsForm.invalid || !this.selectedId) return;
+    if (this.leavelStatusForm.invalid || !this.selectedId) return;
 
     this.toggleLoading(true);
-    this.departmentsService.updateDepartmentsRequest(this.selectedId, this.departmentsForm.value).subscribe(
+    this.leavelStatusService.updateleavelStatusRequest(this.selectedId, this.leavelStatusForm.value).subscribe(
       () => this.handleSuccess('DEPARTMENT_UPDATED_SUCCESS'),
       error => this.handleError('FAILED_TO_UPDATE_DEPARTMENT', error)
     );
@@ -98,7 +99,7 @@ export class DepartmentsComponent implements OnInit {
     this.dialogService.openDialog(ConfirmDeleteDialogComponent, {}, '400px').subscribe(result => {
       if (result) {
         this.toggleLoading(true);
-        this.departmentsService.deleteDepartmentsRequest(id).subscribe(
+        this.leavelStatusService.deleteleavelStatusRequest(id).subscribe(
           () => this.handleSuccess('DEPARTMENT_DELETED_SUCCESS'),
           error => this.handleError('FAILED_TO_DELETE_DEPARTMENT', error)
         );
@@ -107,7 +108,7 @@ export class DepartmentsComponent implements OnInit {
   }
 
   resetForm(): void {
-    this.departmentsForm.reset();
+    this.leavelStatusForm.reset();
     this.isEditing = false;
     this.selectedId = null;
   }
@@ -123,7 +124,7 @@ export class DepartmentsComponent implements OnInit {
   }
 
   private handleSuccess(messageKey: string): void {
-    this.fetchDepartments();
+    this.fetchLeavelStatus();
     this.resetForm();
     this.showToast(messageKey);
   }

@@ -21,13 +21,21 @@ export class EmployeesService {
   }
 
   // Add a new employee to the database
-  addEmployee(data: Employee): Observable<Employee> {
-    return from(this.db.list<Employee>(this.basePath).push(data).then(docRef => {
-      return this.addIdToEmployeeData(data, docRef.key);
-    })).pipe(
-      catchError(this.handleError<Employee>('adding employee', { ...data, id: 'default-id' }))
+  addEmployee(data: any): Observable<any> {
+    const listRef = this.db.list<any>(this.basePath);
+    return from(listRef.push(data)).pipe(
+      map(ref => {
+        if (ref.key) {
+          const newEmployee = { ...data, id: ref.key };
+          listRef.update(ref.key, newEmployee);
+          return newEmployee;
+        } else {
+          throw new Error('Failed to retrieve the generated key');
+        }
+      }),
     );
   }
+
 
   // Update an existing employee in the database
   updateEmployee(id: string, data: Employee): Observable<void> {

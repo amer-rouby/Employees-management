@@ -6,9 +6,11 @@ import { LeaveDialogComponent } from './leave-add-dialog/leave-dialog.component'
 import { ConfirmDeleteDialogComponent } from '../../Dialogs/confirm-delete-dialog/confirm-delete-dialog.component';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
-import { leaveStatus, leaveTypes } from './../../constants/data.constants';
 import { Employee } from '../../Models/employee.model';
 import { DialogService } from '../../Services/dialog.service';
+import { TypesOfVacationsService } from '../../Services/Types-of-vacations.service';
+import { leavelStatusService } from '../../Services/leave-status.service';
+import { DropdownItem } from '../../Models/dropdown.model';
 
 @Component({
   selector: 'app-leave-management',
@@ -26,20 +28,24 @@ export class LeaveManagementComponent {
   leaveRequests: Leave[] = [];
   isLoading = false;
 
-  leaveStatus = leaveStatus;
-  leaveTypes = leaveTypes;
+  leaveStatus: DropdownItem[] = [];
+  leaveTypes: DropdownItem[] = [];
 
   columnDefinitions: any[] = [];
   showViewAction = false;
 
   constructor(
     private leaveService: LeaveService,
+    private typesOfVacationsService: TypesOfVacationsService,
+    private leavelStatusService: leavelStatusService,
     private dialogService: DialogService,
     private translate: TranslateService,
     private toastr: ToastrService
   ) {
     this.setupColumnDefinitions();
     this.loadLeaveRequests();
+    this.loadStatuse();
+    this.loadTypes();
   }
 
   loadLeaveRequests(): void {
@@ -53,6 +59,18 @@ export class LeaveManagementComponent {
       error: () => {
         this.toggleLoading(false);
       },
+    });
+  }
+  private loadStatuse(): void {
+    this.leavelStatusService.getAllleavelStatusRequests().subscribe({
+      next: (leaveStatus: DropdownItem[]) => (this.leaveStatus = leaveStatus),
+      error: (err) => console.error('Failed to load employees:', err),
+    });
+  }
+  private loadTypes(): void {
+    this.typesOfVacationsService.getAllTypesOfVacationsRequests().subscribe({
+      next: (leaveTypes: DropdownItem[]) => (this.leaveTypes = leaveTypes),
+      error: (err) => console.error('Failed to load employees:', err),
     });
   }
 
