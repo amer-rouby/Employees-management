@@ -20,17 +20,15 @@ import { DropdownItem } from '../../Models/dropdown.model';
 export class LeaveManagementComponent {
   breadcrumbs = [
     { label: 'HOME', link: '/' },
-    { label: 'MANAGEMENT'},
+    { label: 'MANAGEMENT' },
     { label: 'LEAVE_MANAGEMENT' }
   ];
   dataSource = new MatTableDataSource<Leave>([]);
   displayedColumns: string[] = ['name', 'types', 'startDate', 'endDate', 'status', 'actions'];
   leaveRequests: Leave[] = [];
   isLoading = false;
-
   leaveStatus: DropdownItem[] = [];
   leaveTypes: DropdownItem[] = [];
-
   columnDefinitions: any[] = [];
   showViewAction = false;
 
@@ -44,8 +42,8 @@ export class LeaveManagementComponent {
   ) {
     this.setupColumnDefinitions();
     this.loadLeaveRequests();
-    this.loadStatuse();
-    this.loadTypes();
+    this.loadStatuseVacations();
+    this.loadTypesVacations();
   }
 
   loadLeaveRequests(): void {
@@ -61,13 +59,15 @@ export class LeaveManagementComponent {
       },
     });
   }
-  private loadStatuse(): void {
+
+  private loadStatuseVacations(): void {
     this.leavelStatusService.getAllleavelStatusRequests().subscribe({
       next: (leaveStatus: DropdownItem[]) => (this.leaveStatus = leaveStatus),
       error: (err) => console.error('Failed to load employees:', err),
     });
   }
-  private loadTypes(): void {
+  
+  private loadTypesVacations(): void {
     this.typesOfVacationsService.getAllTypesOfVacationsRequests().subscribe({
       next: (leaveTypes: DropdownItem[]) => (this.leaveTypes = leaveTypes),
       error: (err) => console.error('Failed to load employees:', err),
@@ -83,7 +83,7 @@ export class LeaveManagementComponent {
     });
   }
 
-  openDialog(leave: Leave): void {
+  openEditDialog(leave: Leave): void {
     this.dialogService.openDialog(LeaveDialogComponent, { action: 'edit', leave }).subscribe((result) => {
       if (result) {
         this.showSuccess('leaveUpdated');
@@ -118,35 +118,14 @@ export class LeaveManagementComponent {
 
   private setupColumnDefinitions(): void {
     this.translate
-      .get([
-        'TYPE',
-        'EMPLOYEES_ARABIC_NAME',
-        'EMPLOYEES_ENGLISH_NAME',
-        'START_DATE',
-        'END_DATE',
-        'STATUS',
-        'ACTIONS',
-      ])
-      .subscribe((translations) => {
+      .get(['TYPE', 'EMPLOYEES_ARABIC_NAME', 'EMPLOYEES_ENGLISH_NAME', 'START_DATE', 'END_DATE', 'STATUS', 'ACTIONS'])
+      .subscribe(() => {
         this.columnDefinitions = [
-          {
-            key: 'types',
-            header: 'TYPE',
-            cell: (leave: Leave) => this.getTranslationForKey('leaveTypes', leave.types),
-          },
-          {
-            key: 'name',
-            header: 'NAME',
-            cell: (employee: Employee) =>
-              this.translate.currentLang === 'ar' ? employee.name : employee.englishName,
-          },
+          { key: 'types', header: 'TYPE', cell: (leave: Leave) => this.getTranslationForKey('leaveTypes', leave.types), },
+          { key: 'name', header: 'NAME', cell: (employee: Employee) => this.translate.currentLang === 'ar' ? employee.name : employee.englishName, },
           { key: 'startDate', header: 'START_DATE', cell: (leave: Leave) => leave.startDate },
           { key: 'endDate', header: 'END_DATE', cell: (leave: Leave) => leave.endDate },
-          {
-            key: 'status',
-            header: 'STATUS',
-            cell: (leave: Leave) => this.getTranslationForKey('leaveStatus', leave.status),
-          },
+          { key: 'status', header: 'STATUS', cell: (leave: Leave) => this.getTranslationForKey('leaveStatus', leave.status), },
           { key: 'actions', header: 'ACTIONS', cell: () => '' },
         ];
       });

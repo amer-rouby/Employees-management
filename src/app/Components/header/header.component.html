@@ -15,14 +15,14 @@
     @if(canRegisterUser){
     <ng-container>
       <button mat-menu-item [routerLink]="'/employee-management'">
-        <mat-icon>group</mat-icon>
+        <mat-icon>people</mat-icon>
         {{ 'EMPLOYEE_MANAGEMENT' | translate }}
       </button>
     </ng-container>
     }
 
     <button mat-menu-item [routerLink]="'/leave-management'">
-      <mat-icon>event_note</mat-icon>
+      <mat-icon>assignment</mat-icon>
       {{ 'LEAVE_MANAGEMENT' | translate }}
     </button>
   </mat-menu>
@@ -38,23 +38,23 @@
 
     <ng-container>
       <button mat-menu-item [routerLink]="'/nationalities'">
-        <mat-icon>flag</mat-icon>
+        <mat-icon>public</mat-icon>
         {{ 'NATIONALITIES' | translate }}
       </button>
       <button mat-menu-item [routerLink]="'/job-names'">
-        <mat-icon>work</mat-icon>
+        <mat-icon>business</mat-icon>
         {{ 'JOB_NAMES' | translate }}
       </button>
       <button mat-menu-item [routerLink]="'/departments'">
-        <mat-icon>business</mat-icon>
+        <mat-icon>category</mat-icon>
         {{ 'MANAGEMENT_DEPARTMENTS' | translate }}
       </button>
       <button mat-menu-item [routerLink]="'/leavel-status'">
-        <mat-icon>person_add_alt</mat-icon>
+        <mat-icon>check_circle</mat-icon>
         {{ 'LEAVEL_STATUSE' | translate }}
       </button>
       <button mat-menu-item [routerLink]="'/types-of-vacations'">
-        <mat-icon>person_add_alt</mat-icon>
+        <mat-icon>assignment</mat-icon>
         {{ 'TYPE_OF_VACATIONS' | translate }}
       </button>
       <button mat-menu-item [routerLink]="'/register'">
@@ -62,7 +62,6 @@
         {{ 'REGISTER.TITLE' | translate }}
       </button>
     </ng-container>
-
 
   </mat-menu>
   }
@@ -104,13 +103,13 @@
     </button>
     @if(canRegisterUser){
     <button mat-menu-item [routerLink]="'/employee-management'">
-      <mat-icon>group</mat-icon>
+      <mat-icon>people</mat-icon>
       {{ 'EMPLOYEE_MANAGEMENT' | translate }}
     </button>
     }
 
     <button mat-menu-item [routerLink]="'/leave-management'">
-      <mat-icon>event_note</mat-icon>
+      <mat-icon>assignment</mat-icon>
       {{ 'LEAVE_MANAGEMENT' | translate }}
     </button>
     @if(canRegisterUser){

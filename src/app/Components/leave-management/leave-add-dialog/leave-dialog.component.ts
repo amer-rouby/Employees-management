@@ -45,8 +45,8 @@ export class LeaveDialogComponent implements OnInit {
   ngOnInit(): void {
     this.initializeForm();
     this.loadEmployees();
-    this.loadStatuse();
-    this.loadTypes();
+    this.loadStatuseVacations();
+    this.loadTypesVacations();
 
     if (this.data.action === 'edit' && this.data.leave) {
       this.leave = { ...this.data.leave };
@@ -76,13 +76,13 @@ export class LeaveDialogComponent implements OnInit {
       error: (err) => console.error('Failed to load employees:', err),
     });
   }
-  private loadStatuse(): void {
+  private loadStatuseVacations(): void {
     this.leavelStatusService.getAllleavelStatusRequests().subscribe({
       next: (leaveStatus: DropdownItem[]) => (this.leaveStatus = leaveStatus),
       error: (err) => console.error('Failed to load employees:', err),
     });
   }
-  private loadTypes(): void {
+  private loadTypesVacations(): void {
     this.typesOfVacationsService.getAllTypesOfVacationsRequests().subscribe({
       next: (leaveTypes: DropdownItem[]) => (this.leaveTypes = leaveTypes),
       error: (err) => console.error('Failed to load employees:', err),

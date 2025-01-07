@@ -8,11 +8,15 @@ import { EmployeeDialogComponent } from './employee-add-dialog/employee-dialog.c
 import { EmployeeDetailsDialogComponent } from '../../Dialogs/employee-details-dialog/employee-details-dialog.component';
 import { ConfirmDeleteDialogComponent } from '../../Dialogs/confirm-delete-dialog/confirm-delete-dialog.component';
 import { EmployeesService } from '../../Services/employee-management.service';
-import { gender, maritalStatus } from '../../constants/data.constants';
 import { JobTitlesService } from '../../Services/JobTitles.service';
 import { DepartmentsService } from '../../Services/departments.service';
 import { JobTitles } from '../../Models/JobTitles.model';
 import { Departments } from '../../Models/departments.model';
+import { MaritalStatusService } from '../../Services/maritalStatus.service';
+import { GenderService } from '../../Services/gender.service';
+import { Gender } from '../../Models/gender.model';
+import { MaritalStatus } from '../../Models/maritalStatus.model';
+import { HttpErrorResponse } from '@angular/common/http'; // استيراد HttpErrorResponse
 
 @Component({
   selector: 'app-employee-management',
@@ -32,7 +36,8 @@ export class EmployeeManagementComponent implements OnInit {
   isLoading = false;
   jobTitles: JobTitles[] = [];
   departments: Departments[] = [];
-  constants = { gender, maritalStatus };
+  gender!: Gender[];
+  maritalStatus!: MaritalStatus[];
   columnDefinitions: any[] = [];
 
   constructor(
@@ -42,13 +47,37 @@ export class EmployeeManagementComponent implements OnInit {
     private employeesService: EmployeesService,
     private jobTitlesService: JobTitlesService,
     private departmentsService: DepartmentsService,
-  ) {}
+    private maritalStatusService: MaritalStatusService,
+    private genderService: GenderService,
+  ) { }
 
   ngOnInit(): void {
     this.loadEmployees();
     this.fetchJobTitles();
     this.fetchDepartments();
+    this.loadDropdownData(); // Ensure dropdown data is loaded
     this.setupColumnDefinitions();
+  }
+
+  private loadDropdownData(): void {
+    const services = [
+      { method: this.genderService.getAllGenderRecords(), setter: (data: Gender[]) => this.gender = this.mapDropdownData(data) },
+      { method: this.maritalStatusService.getAllMaritalStatus(), setter: (data: MaritalStatus[]) => this.maritalStatus = this.mapDropdownData(data) },
+    ];
+
+    services.forEach(service => {
+      service.method.subscribe((data: any[]) => {
+        service.setter(data);
+      });
+    });
+  }
+
+  private mapDropdownData(data: any[]): any[] {
+    return data.map(item => ({
+      id: item.id,
+      arabic: item.arabic,
+      english: item.english
+    }));
   }
 
   private fetchJobTitles(): void {
@@ -57,11 +86,14 @@ export class EmployeeManagementComponent implements OnInit {
       error => this.handleError('Failed to load job titles', error)
     );
   }
+
   fetchDepartments(): void {
-    this.departmentsService.getAllDepartmentsRequests().subscribe(data => {
-      this.departments = data;
-    });
+    this.departmentsService.getAllDepartmentsRequests().subscribe(
+      data => this.departments = data,
+      error => this.handleError('Failed to load departments', error)
+    );
   }
+
   private loadEmployees(): void {
     this.toggleLoading(true);
     this.employeesService.getAllEmployees().subscribe(
@@ -105,14 +137,12 @@ export class EmployeeManagementComponent implements OnInit {
   }
 
   private handleEmployeeAdded(newEmployee: Employee): void {
-    // التأكد من عدم تكرار الموظف
     if (!this.employees.find(emp => emp.id === newEmployee.id)) {
       this.employees.push(newEmployee);
-      this.dataSource.data = [...this.employees];  // تحديث dataSource بشكل صحيح
+      this.dataSource.data = [...this.employees];
       this.showToast('employeeAdded');
     }
   }
-  
 
   private handleEmployeeUpdated(updatedEmployee: Employee): void {
     const index = this.employees.findIndex(emp => emp.id === updatedEmployee.id);
@@ -124,7 +154,6 @@ export class EmployeeManagementComponent implements OnInit {
   }
 
   confirmDelete(id: string): void {
-    debugger
     this.dialogService.openDialog(ConfirmDeleteDialogComponent, {}, '400px').subscribe(result => {
       if (result) {
         this.deleteEmployee(id);
@@ -133,22 +162,18 @@ export class EmployeeManagementComponent implements OnInit {
   }
 
   deleteEmployee(id: string): void {
-    debugger
     this.toggleLoading(true);
     this.employeesService.deleteEmployee(id.toString()).subscribe(
       () => this.handleEmployeeDeleted(id),
       error => this.handleError('Failed to delete employee', error)
     );
   }
-  
+
   private handleEmployeeDeleted(id: string): void {
-    debugger
-    // التأكد من حذف العنصر من المصفوفة
     this.employees = this.employees.filter(emp => emp.id !== id.toString());
     this.dataSource.data = [...this.employees];
     this.showToast('employeeDeleted');
   }
-  
 
   applyFilter(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
@@ -158,24 +183,25 @@ export class EmployeeManagementComponent implements OnInit {
   private setupColumnDefinitions(): void {
     this.translate
       .get(['NAME', 'POSITION', 'DEPARTMENT', 'GENDER', 'ACTIONS'])
-      .subscribe(translations => {
+      .subscribe(() => {
         this.columnDefinitions = [
-          { key: 'name', header: translations['NAME'],cell: (employee: Employee) => this.translate.currentLang === 'ar' ? employee.name : employee.englishName},
-          { key: 'jobTitle', header: translations['POSITION'], cell: (employee: Employee) => this.getTranslatedValue('jobTitles', employee.jobTitleId) },
-          { key: 'department', header: translations['DEPARTMENT'], cell: (employee: Employee) => this.getTranslatedValue('departments', employee.departmentId) },
-          { key: 'actions', header: translations['ACTIONS'], cell: () => '' }
+          { key: 'name', header: 'NAME', cell: (employee: Employee) => this.translate.currentLang === 'ar' ? employee.name : employee.englishName },
+          { key: 'jobTitle', header:'POSITION', cell: (employee: Employee) => this.getTranslatedValue('jobTitles', employee.jobTitleId) },
+          { key: 'department', header:'DEPARTMENT', cell: (employee: Employee) => this.getTranslatedValue('departments', employee.departmentId) },
+          { key: 'actions', header: 'ACTIONS', cell: () => '' }
         ];
       });
   }
 
-  private getTranslatedValue(key: 'gender' | 'maritalStatus' | 'jobTitles' | 'departments', id: number): any {
-    const collection = key === 'jobTitles' ? this.jobTitles : key === 'departments' ? this.departments : this.constants[key];
-    const item = collection?.find(i => i.id === id);
+  private getTranslatedValue(key: 'gender' | 'maritalStatus' | 'jobTitles' | 'departments', id: number | string): any {
+    const collection = key === 'jobTitles' ? this.jobTitles :
+      key === 'departments' ? this.departments :
+        key === 'gender' ? this.gender : this.maritalStatus;
+    const item = collection?.find(i => String(i.id) === String(id));
     return item ? (this.translate.currentLang === 'ar' ? item.arabic : item.english) : 'Unknown';
   }
-  
 
-  private handleError(message: string, error: any): void {
+  private handleError(message: string, error: HttpErrorResponse): void {
     console.error(error);
     this.toastr.error(message, 'Error');
     this.toggleLoading(false);
