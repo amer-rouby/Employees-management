@@ -9,9 +9,8 @@ import { EmployeesService } from '../../../Services/employee-management.service'
 import { Leave } from '../../../Models/leave.model';
 import { Employee } from '../../../Models/employee.model';
 import { PermissionsService } from '../../../Services/permissions.service';
-import { TypesOfVacationsService } from '../../../Services/Types-of-vacations.service';
-import { leavelStatusService } from '../../../Services/leave-status.service';
 import { DropdownItem } from '../../../Models/dropdown.model';
+import { DataService } from '../../../Services/Data.service';
 
 @Component({
   selector: 'app-leave-dialog',
@@ -30,8 +29,7 @@ export class LeaveDialogComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private leaveService: LeaveService,
-    private typesOfVacationsService: TypesOfVacationsService,
-    private leavelStatusService: leavelStatusService,
+    private dataService: DataService,
     private employeesService: EmployeesService,
     private permissionsService: PermissionsService,
     private dialogRef: MatDialogRef<LeaveDialogComponent>,
@@ -45,8 +43,8 @@ export class LeaveDialogComponent implements OnInit {
   ngOnInit(): void {
     this.initializeForm();
     this.loadEmployees();
-    this.loadStatuseVacations();
-    this.loadTypesVacations();
+    this.fetchData();
+
 
     if (this.data.action === 'edit' && this.data.leave) {
       this.leave = { ...this.data.leave };
@@ -76,17 +74,10 @@ export class LeaveDialogComponent implements OnInit {
       error: (err) => console.error('Failed to load employees:', err),
     });
   }
-  private loadStatuseVacations(): void {
-    this.leavelStatusService.getAllleavelStatusRequests().subscribe({
-      next: (leaveStatus: DropdownItem[]) => (this.leaveStatus = leaveStatus),
-      error: (err) => console.error('Failed to load employees:', err),
-    });
-  }
-  private loadTypesVacations(): void {
-    this.typesOfVacationsService.getAllTypesOfVacationsRequests().subscribe({
-      next: (leaveTypes: DropdownItem[]) => (this.leaveTypes = leaveTypes),
-      error: (err) => console.error('Failed to load employees:', err),
-    });
+
+  private fetchData(): void {
+    this.dataService.getLeavelStatus().subscribe(data => this.leaveStatus = data);
+    this.dataService.getTypesOfVacations().subscribe(data => this.leaveTypes = data);
   }
 
   onSubmit(): void {

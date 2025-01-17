@@ -2,17 +2,12 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Employee } from '../../Models/employee.model';
 import { PdfService } from '../../Services/pdf.service';
-import { NationalitiesService } from '../../Services/nationalities.service';
-import { JobTitlesService } from '../../Services/JobTitles.service';
-import { DepartmentsService } from '../../Services/departments.service';
 import { JobTitles } from '../../Models/JobTitles.model';
 import { Departments } from '../../Models/departments.model';
 import { Nationalities } from '../../Models/nationalities.model';
 import { Gender } from '../../Models/gender.model';
 import { MaritalStatus } from '../../Models/maritalStatus.model';
-import { GenderService } from '../../Services/gender.service';
-import { MaritalStatusService } from '../../Services/maritalStatus.service';
-import { Observable } from 'rxjs';
+import { DataService } from '../../Services/Data.service';
 
 @Component({
   selector: 'app-employee-details-dialog',
@@ -31,43 +26,33 @@ export class EmployeeDetailsDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public employee: Employee,
     private dialogRef: MatDialogRef<EmployeeDetailsDialogComponent>,
     private pdfService: PdfService,
-    private nationalitiesService: NationalitiesService,
-    private jobTitlesService: JobTitlesService,
-    private departmentsService: DepartmentsService,
-    private genderService: GenderService,
-    private maritalStatusService: MaritalStatusService
+    private dataService: DataService
   ) { }
 
   ngOnInit(): void {
-    // Fetching all the necessary data for dropdowns
-    this.fetchData([
-      { method: this.nationalitiesService.getAllNationalitiesRequests(), setter: (data: Nationalities[]) => this.nationalities = data },
-      { method: this.jobTitlesService.getAllJobTitlesRequests(), setter: (data: JobTitles[]) => this.jobTitles = data },
-      { method: this.departmentsService.getAllDepartmentsRequests(), setter: (data: Departments[]) => this.departments = data },
-      { method: this.genderService.getAllGenderRecords(), setter: (data: Gender[]) => this.gender = data },
-      { method: this.maritalStatusService.getAllMaritalStatus(), setter: (data: MaritalStatus[]) => this.maritalStatus = data }
-    ]);
+    this.fetchData();
   }
 
-  // General method to fetch data and set it
-  private fetchData(services: { method: Observable<any>, setter: (data: any) => void }[]): void {
-    services.forEach(service => {
-      service.method.subscribe(service.setter);
-    });
+  private fetchData(): void {
+    this.dataService.getNationalities().subscribe(data => this.nationalities = data);
+    this.dataService.getJobTitles().subscribe(data => this.jobTitles = data);
+    this.dataService.getDepartments().subscribe(data => this.departments = data);
+    this.dataService.getGender().subscribe(data => this.gender = data);
+    this.dataService.getMaritalStatus().subscribe(data => this.maritalStatus = data);
   }
 
-  // Utility method to get the translated value based on id
   getLookupValueById(lookupArray: any[], id: any, language = 'english'): string {
-    const item = lookupArray.find(i => i.id === id);
+    if (!Array.isArray(lookupArray)) {
+      return '';
+    }
+    const item = lookupArray.find((i) => i.id === id);
     return item ? item[language] : '';
   }
 
-  // Close the dialog
   closeDialog(): void {
     this.dialogRef.close();
   }
 
-  // Print the employee details as PDF
   printPDF(): void {
     this.isShow = false;
     setTimeout(() => {

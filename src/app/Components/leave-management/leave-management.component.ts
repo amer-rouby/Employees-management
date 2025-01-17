@@ -11,6 +11,7 @@ import { DialogService } from '../../Services/dialog.service';
 import { TypesOfVacationsService } from '../../Services/Types-of-vacations.service';
 import { leavelStatusService } from '../../Services/leave-status.service';
 import { DropdownItem } from '../../Models/dropdown.model';
+import { DataService } from '../../Services/Data.service';
 
 @Component({
   selector: 'app-leave-management',
@@ -38,12 +39,12 @@ export class LeaveManagementComponent {
     private leavelStatusService: leavelStatusService,
     private dialogService: DialogService,
     private translate: TranslateService,
+    private dataService: DataService,
     private toastr: ToastrService
   ) {
     this.setupColumnDefinitions();
     this.loadLeaveRequests();
-    this.loadStatuseVacations();
-    this.loadTypesVacations();
+    this.fetchData();
   }
 
   loadLeaveRequests(): void {
@@ -60,20 +61,11 @@ export class LeaveManagementComponent {
     });
   }
 
-  private loadStatuseVacations(): void {
-    this.leavelStatusService.getAllleavelStatusRequests().subscribe({
-      next: (leaveStatus: DropdownItem[]) => (this.leaveStatus = leaveStatus),
-      error: (err) => console.error('Failed to load employees:', err),
-    });
+  private fetchData(): void {
+    this.dataService.getLeavelStatus().subscribe(data => this.leaveStatus = data);
+    this.dataService.getTypesOfVacations().subscribe(data => this.leaveTypes = data);
   }
   
-  private loadTypesVacations(): void {
-    this.typesOfVacationsService.getAllTypesOfVacationsRequests().subscribe({
-      next: (leaveTypes: DropdownItem[]) => (this.leaveTypes = leaveTypes),
-      error: (err) => console.error('Failed to load employees:', err),
-    });
-  }
-
   openAddLeaveDialog(): void {
     this.dialogService.openDialog(LeaveDialogComponent, { action: 'add' }).subscribe((result) => {
       if (result) {

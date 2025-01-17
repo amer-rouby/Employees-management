@@ -23,7 +23,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { ConfirmDeleteDialogComponent } from './Dialogs/confirm-delete-dialog/confirm-delete-dialog.component';
 import { MatSelectModule } from '@angular/material/select';
-import { SharedTableComponent } from './Components/shared/shared-table/shared-table.component';
+
 import { ToastrModule } from 'ngx-toastr';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
@@ -46,13 +46,17 @@ import { CountDirective } from './Directives/count.directive';
 import { NationalitiesComponent } from './Admin/nationalities/nationalities.component';
 import { JobTitlesComponent } from './Admin/job-titles/job-titles.component';
 import { ValidateLanguageDirective } from './Directives/validate-language.directive';
-import { SharedFormComponent } from './Components/shared/shared-form/shared-form.component';
-import { BreadcrumbsComponent } from './Components/shared/breadcrumbs/breadcrumbs.component';
+
 import { DepartmentsComponent } from './Admin/departments/departments.component';
-import { GenericFormComponent } from './Components/shared/generic-form/generic-form.component';
+
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { LeavelStatusComponent } from './Admin/leavel-status/leavel-status.component';
 import { TypesOfVacationsComponent } from './Admin/types-of-vacations/types-of-vacations.component';
+
+import { SharedTableComponent } from './shared/shared-table/shared-table.component';
+import { BreadcrumbsComponent } from './shared/breadcrumbs/breadcrumbs.component';
+import { SharedFormComponent } from './shared/shared-form/shared-form.component';
+import { GenericFormComponent } from './shared/generic-form/generic-form.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
