@@ -1,7 +1,7 @@
 import { MatButtonModule } from '@angular/material/button';
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './Components/header/header.component';
@@ -23,7 +23,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { ConfirmDeleteDialogComponent } from './Dialogs/confirm-delete-dialog/confirm-delete-dialog.component';
 import { MatSelectModule } from '@angular/material/select';
-import { SharedTableComponent } from './Components/shared/shared-table/shared-table.component';
+
 import { ToastrModule } from 'ngx-toastr';
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
@@ -34,14 +34,30 @@ import { LoginComponent } from './auth/login/login.component';
 import { AuthService } from './Services/auth.service';
 import { AuthGuard } from './Guards/auth.guard';
 import { RedirectIfLoggedInGuard } from './Guards/redirect-if-logged-in.guard';
-import {MatProgressBarModule} from '@angular/material/progress-bar';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { EmployeeDetailsDialogComponent } from './Dialogs/employee-details-dialog/employee-details-dialog.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { LeaveManagementComponent } from './Components/leave-management/leave-management.component';
 import { LeaveDialogComponent } from './Components/leave-management/leave-add-dialog/leave-dialog.component';
 import { TranslateTextPipe } from './pipes/Transform.pipe';
+import { CountDirective } from './Directives/count.directive';
+import { NationalitiesComponent } from './Admin/nationalities/nationalities.component';
+import { JobTitlesComponent } from './Admin/job-titles/job-titles.component';
+import { ValidateLanguageDirective } from './Directives/validate-language.directive';
+
+import { DepartmentsComponent } from './Admin/departments/departments.component';
+
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { LeavelStatusComponent } from './Admin/leavel-status/leavel-status.component';
+import { TypesOfVacationsComponent } from './Admin/types-of-vacations/types-of-vacations.component';
+
+import { SharedTableComponent } from './shared/shared-table/shared-table.component';
+import { BreadcrumbsComponent } from './shared/breadcrumbs/breadcrumbs.component';
+import { SharedFormComponent } from './shared/shared-form/shared-form.component';
+import { GenericFormComponent } from './shared/generic-form/generic-form.component';
+
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
@@ -61,23 +77,30 @@ export function HttpLoaderFactory(http: HttpClient) {
     EmployeeDetailsDialogComponent,
     LeaveManagementComponent,
     LeaveDialogComponent,
-    TranslateTextPipe
+    TranslateTextPipe,
+    CountDirective,
+    NationalitiesComponent,
+    JobTitlesComponent,
+    ValidateLanguageDirective,
+    SharedFormComponent,
+    BreadcrumbsComponent,
+    DepartmentsComponent,
+    GenericFormComponent,
+    LeavelStatusComponent,
+    TypesOfVacationsComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule,
-    BrowserModule,
     BrowserAnimationsModule,
     MatButtonModule,
     MatToolbarModule,
     MatInputModule,
     MatMenuModule,
-    AppRoutingModule,
     FormsModule,
     MatTableModule,
     MatIconModule,
-    ReactiveFormsModule, 
+    ReactiveFormsModule,
     MatDialogModule,
     MatPaginatorModule,
     MatSelectModule,
@@ -88,7 +111,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
     AngularFireDatabaseModule,
-    
+
     ToastrModule.forRoot(),
     TranslateModule.forRoot({
       loader: {
@@ -99,8 +122,13 @@ export function HttpLoaderFactory(http: HttpClient) {
     }),
   ],
   providers: [
+    provideHttpClient(withInterceptorsFromDi()),
     provideAnimationsAsync(),
-   AuthService, AuthGuard, RedirectIfLoggedInGuard, TranslateTextPipe,
+    AuthService,
+    AuthGuard,
+    RedirectIfLoggedInGuard,
+    TranslateTextPipe,
+    ValidateLanguageDirective
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   bootstrap: [AppComponent]

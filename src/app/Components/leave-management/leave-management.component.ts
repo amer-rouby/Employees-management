@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { LeaveService } from '../../Services/leave.service';
 import { Leave } from '../../Models/leave.model';
@@ -7,8 +6,12 @@ import { LeaveDialogComponent } from './leave-add-dialog/leave-dialog.component'
 import { ConfirmDeleteDialogComponent } from '../../Dialogs/confirm-delete-dialog/confirm-delete-dialog.component';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
-import { leaveStatus, leaveTypes } from './../../constants/data.constants';
 import { Employee } from '../../Models/employee.model';
+import { DialogService } from '../../Services/dialog.service';
+import { TypesOfVacationsService } from '../../Services/Types-of-vacations.service';
+import { leavelStatusService } from '../../Services/leave-status.service';
+import { DropdownItem } from '../../Models/dropdown.model';
+import { DataService } from '../../Services/Data.service';
 
 @Component({
   selector: 'app-leave-management',
@@ -16,25 +19,32 @@ import { Employee } from '../../Models/employee.model';
   styleUrls: ['./leave-management.component.scss'],
 })
 export class LeaveManagementComponent {
+  breadcrumbs = [
+    { label: 'HOME', link: '/' },
+    { label: 'MANAGEMENT' },
+    { label: 'LEAVE_MANAGEMENT' }
+  ];
   dataSource = new MatTableDataSource<Leave>([]);
   displayedColumns: string[] = ['name', 'types', 'startDate', 'endDate', 'status', 'actions'];
   leaveRequests: Leave[] = [];
   isLoading = false;
-
-  leaveStatus = leaveStatus;
-  leaveTypes = leaveTypes;
-
+  leaveStatus: DropdownItem[] = [];
+  leaveTypes: DropdownItem[] = [];
   columnDefinitions: any[] = [];
   showViewAction = false;
 
   constructor(
     private leaveService: LeaveService,
-    private dialog: MatDialog,
+    private typesOfVacationsService: TypesOfVacationsService,
+    private leavelStatusService: leavelStatusService,
+    private dialogService: DialogService,
     private translate: TranslateService,
+    private dataService: DataService,
     private toastr: ToastrService
   ) {
     this.setupColumnDefinitions();
     this.loadLeaveRequests();
+    this.fetchData();
   }
 
   loadLeaveRequests(): void {
@@ -51,13 +61,13 @@ export class LeaveManagementComponent {
     });
   }
 
+  private fetchData(): void {
+    this.dataService.getLeavelStatus().subscribe(data => this.leaveStatus = data);
+    this.dataService.getTypesOfVacations().subscribe(data => this.leaveTypes = data);
+  }
+  
   openAddLeaveDialog(): void {
-    const dialogRef = this.dialog.open(LeaveDialogComponent, {
-      width: '600px',
-      data: { action: 'add' },
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
+    this.dialogService.openDialog(LeaveDialogComponent, { action: 'add' }).subscribe((result) => {
       if (result) {
         this.showSuccess('leaveUpdated');
         this.loadLeaveRequests();
@@ -65,13 +75,8 @@ export class LeaveManagementComponent {
     });
   }
 
-  openDialog(leave: Leave): void {
-    const dialogRef = this.dialog.open(LeaveDialogComponent, {
-      width: '600px',
-      data: { action: 'edit', leave },
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
+  openEditDialog(leave: Leave): void {
+    this.dialogService.openDialog(LeaveDialogComponent, { action: 'edit', leave }).subscribe((result) => {
       if (result) {
         this.showSuccess('leaveUpdated');
         this.loadLeaveRequests();
@@ -80,11 +85,7 @@ export class LeaveManagementComponent {
   }
 
   confirmDelete(id: string): void {
-    const dialogRef = this.dialog.open(ConfirmDeleteDialogComponent, {
-      width: '400px',
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
+    this.dialogService.openDialog(ConfirmDeleteDialogComponent, {}, '400px').subscribe((result) => {
       if (result) {
         this.leaveService.deleteLeaveRequest(id).subscribe({
           next: () => {
@@ -109,41 +110,15 @@ export class LeaveManagementComponent {
 
   private setupColumnDefinitions(): void {
     this.translate
-      .get([
-        'TYPE',
-        'EMPLOYEES_ARABIC_NAME',
-        'EMPLOYEES_ENGLISH_NAME',
-        'START_DATE',
-        'END_DATE',
-        'STATUS',
-        'ACTIONS',
-      ])
-      .subscribe((translations) => {
+      .get(['TYPE', 'EMPLOYEES_ARABIC_NAME', 'EMPLOYEES_ENGLISH_NAME', 'START_DATE', 'END_DATE', 'STATUS', 'ACTIONS'])
+      .subscribe(() => {
         this.columnDefinitions = [
-          {
-            key: 'types',
-            header: 'TYPE',
-            cell: (leave: Leave) => this.getTranslationForKey('leaveTypes', leave.types),
-          },
-          {
-            key: 'name',
-            header: 'NAME',
-            cell: (employee: Employee) => this.translate.currentLang === 'ar' ? employee.name : employee.englishName,
-          },
-          {
-            key: 'startDate', 
-            header: 'START_DATE',
-            cell: (leave: Leave) => leave.startDate },
-          { key: 'endDate', 
-            header: 'END_DATE', 
-            cell: (leave: Leave) => leave.endDate },
-          { 
-            key: 'status', 
-            header: 'STATUS', 
-            cell: (leave: Leave) => this.getTranslationForKey('leaveStatus', leave.status) },
-          { 
-            key: 'actions', 
-            header: 'ACTIONS', cell: () => '' },
+          { key: 'types', header: 'TYPE', cell: (leave: Leave) => this.getTranslationForKey('leaveTypes', leave.types), },
+          { key: 'name', header: 'NAME', cell: (employee: Employee) => this.translate.currentLang === 'ar' ? employee.name : employee.englishName, },
+          { key: 'startDate', header: 'START_DATE', cell: (leave: Leave) => leave.startDate },
+          { key: 'endDate', header: 'END_DATE', cell: (leave: Leave) => leave.endDate },
+          { key: 'status', header: 'STATUS', cell: (leave: Leave) => this.getTranslationForKey('leaveStatus', leave.status), },
+          { key: 'actions', header: 'ACTIONS', cell: () => '' },
         ];
       });
   }

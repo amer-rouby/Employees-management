@@ -1,0 +1,24 @@
+<app-breadcrumbs [breadcrumbs]="breadcrumbs"></app-breadcrumbs>
+<div class="container-leavelStatus">
+    <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+    <fieldset>
+        <legend>
+            <mat-icon color="primary" class="icon-spacing">corporate_fare</mat-icon>
+            {{ 'MANAGEMENT_LEAVEL_STATUSE' | translate }}
+        </legend>
+        <app-shared-form [formGroup]="leavelStatusForm" [fields]="leavelStatusFields" [isEditing]="isEditing"
+            (submitForm)="isEditing ? updateDepartment() : addDepartment()" (cancelForm)="resetForm()">
+        </app-shared-form>
+    </fieldset>
+
+    <fieldset>
+        <legend>
+            <mat-icon color="primary" class="icon-spacing">view_list</mat-icon>
+            {{ 'DATA_LIST' | translate }}
+        </legend>
+        <app-shared-table [dataSource]="leavelStatus" [displayedColumns]="displayedColumns"
+            [columnDefinitions]="columnDefinitions" [showViewAction]="false" (onEdit)="editDepartment($event)"
+            (onDelete)="deleteDepartment($event)">
+        </app-shared-table>
+    </fieldset>
+</div>

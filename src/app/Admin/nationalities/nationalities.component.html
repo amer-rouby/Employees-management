@@ -1,0 +1,26 @@
+<app-breadcrumbs [breadcrumbs]="breadcrumbs"></app-breadcrumbs>
+<div class="container-nationalities">
+  <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
+  <!-- Nationalities Management Form -->
+  <fieldset>
+    <legend>
+      <mat-icon color="primary">flag</mat-icon>
+      {{ 'MANAGEMENT_NATIONALITIES' | translate }}
+    </legend>
+    <app-shared-form [formGroup]="nationalityForm" [fields]="nationalityFields" [isEditing]="isEditing"
+      (submitForm)="isEditing ? updateNationality() : addNationality()" (cancelForm)="resetForm()">
+    </app-shared-form>
+  </fieldset>
+
+  <!-- Data List -->
+  <fieldset>
+    <legend>
+      <mat-icon color="primary">list</mat-icon>
+      {{ 'DATA_LIST' | translate }}
+    </legend>
+    <app-shared-table [dataSource]="nationalities" [displayedColumns]="displayedColumns"
+      [columnDefinitions]="columnDefinitions" [showViewAction]="false" (onEdit)="editNationality($event)"
+      (onDelete)="deleteNationality($event)">
+    </app-shared-table>
+  </fieldset>
+</div>

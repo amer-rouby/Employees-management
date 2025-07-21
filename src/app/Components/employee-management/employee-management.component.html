@@ -1,6 +1,8 @@
+<app-breadcrumbs [breadcrumbs]="breadcrumbs"></app-breadcrumbs>
 <div class="container px-3">
-  @if (isLoading) {
-    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  
+  @if(isLoading){
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
   }
 
   <div class="toolbar">
@@ -26,4 +28,3 @@
     (onView)="viewEmployeeDetails($event)">
   </app-shared-table>
 </div>
-

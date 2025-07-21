@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { PermissionsService } from '../../../Services/permissions.service';
+import { PermissionsService } from '../../Services/permissions.service';
 
 @Component({
   selector: 'app-shared-table',

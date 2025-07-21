@@ -1,3 +1,4 @@
+<app-breadcrumbs [breadcrumbs]="breadcrumbs"></app-breadcrumbs>
 <div class="container">
   @if (isLoading) {
     <div class="loading-overlay">
@@ -8,7 +9,7 @@
     <mat-card>
       <mat-card-header>
         <mat-card-title class="title">{{ 'REGISTER.TITLE' | translate }}</mat-card-title>
-        <mat-icon aria-hidden="false" aria-label="Register Icon" class="register-icon">person_add</mat-icon>
+        <mat-icon aria-label="Register Icon" class="register-icon">person_add</mat-icon>
       </mat-card-header>
       <mat-card-content>
         <mat-form-field appearance="fill" class="full-width">

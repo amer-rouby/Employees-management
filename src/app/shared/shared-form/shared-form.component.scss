@@ -1,0 +1,44 @@
+.shared-form {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  margin: auto;
+}
+
+.shared-form mat-form-field {
+  width: 48%;
+  margin: 10px;
+  margin-bottom: 16px;
+}
+
+.form-buttons {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.form-buttons button {
+  width: 7%;
+  margin: 0 8px;
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+  .shared-form mat-form-field {
+    width: 100%; /* Full width for small screens */
+  }
+
+  .form-buttons button {
+    width: 40%; /* Buttons take more width on small screens */
+  }
+}
+
+@media (min-width: 1200px) {
+  .shared-form mat-form-field {
+    width: 48%; /* 2 fields per row on large screens */
+  }
+
+  .form-buttons button {
+    width: 15%; /* Slightly larger buttons on large screens */
+  }
+}

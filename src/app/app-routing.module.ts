@@ -9,11 +9,21 @@ import { LeaveManagementComponent } from './Components/leave-management/leave-ma
 
 import { AuthGuard } from './Guards/auth.guard';
 import { RedirectIfLoggedInGuard } from './Guards/redirect-if-logged-in.guard';
+import { NationalitiesComponent } from './Admin/nationalities/nationalities.component';
+import { JobTitlesComponent } from './Admin/job-titles/job-titles.component';
+import { DepartmentsComponent } from './Admin/departments/departments.component';
+import { LeavelStatusComponent } from './Admin/leavel-status/leavel-status.component';
+import { TypesOfVacationsComponent } from './Admin/types-of-vacations/types-of-vacations.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'employee-management', component: EmployeeManagementComponent, canActivate: [AuthGuard] },
   { path: 'leave-management', component: LeaveManagementComponent, canActivate: [AuthGuard] },
+  { path: 'nationalities', component: NationalitiesComponent, canActivate: [AuthGuard] },
+  { path: 'job-names', component: JobTitlesComponent, canActivate: [AuthGuard] },
+  { path: 'departments', component: DepartmentsComponent, canActivate: [AuthGuard] },
+  { path: 'leavel-status', component: LeavelStatusComponent, canActivate: [AuthGuard] },
+  { path: 'types-of-vacations', component: TypesOfVacationsComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent, canActivate: [RedirectIfLoggedInGuard] },
   { path: 'register', component: RegisterComponent, canActivate: [AuthGuard] },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
