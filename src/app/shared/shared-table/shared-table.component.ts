@@ -14,7 +14,7 @@ export class SharedTableComponent<T> {
   @Input() columnDefinitions: any[] = [];
   @Input() showViewAction: boolean= false;
   @Output() onEdit = new EventEmitter<T>();
-  @Output() onDelete = new EventEmitter<string>();
+  @Output() onDelete = new EventEmitter<number>();
   @Output() onView = new EventEmitter<T>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   heCanTakeAction: boolean= false;
@@ -35,7 +35,7 @@ export class SharedTableComponent<T> {
     this.onEdit.emit(element);
   }
 
-  deleteItem(id: string): void {
+  deleteItem(id: number): void {
     this.onDelete.emit(id);
   }
 

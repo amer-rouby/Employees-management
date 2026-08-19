@@ -1,75 +1,87 @@
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase } from '@angular/fire/compat/database';
-import { from, Observable, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Employee } from '../Models/employee.model';
+import { environment } from '../../environments/environment';
+
+interface EmployeePage {
+  content: any[];
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class EmployeesService {
-  private basePath = 'employees';
+  private baseUrl = `${environment.apiUrl}/api/employees`;
 
-  constructor(private db: AngularFireDatabase) { }
+  constructor(private http: HttpClient) { }
 
   // Fetch all employees from the database
   getAllEmployees(): Observable<Employee[]> {
-    return this.db.list<Employee>(this.basePath).snapshotChanges().pipe(
-      map(this.mapEmployeeChanges),
-      catchError(this.handleError<Employee[]>('fetching employees', []))
+    return this.http.get<EmployeePage>(`${this.baseUrl}?size=1000`).pipe(
+      map(page => page.content.map(this.fromBackendEmployee))
     );
   }
 
   // Add a new employee to the database
-  addEmployee(data: any): Observable<any> {
-    const listRef = this.db.list<any>(this.basePath);
-    return from(listRef.push(data)).pipe(
-      map(ref => {
-        if (ref.key) {
-          const newEmployee = { ...data, id: ref.key };
-          listRef.update(ref.key, newEmployee);
-          return newEmployee;
-        } else {
-          throw new Error('Failed to retrieve the generated key');
-        }
-      }),
+  addEmployee(data: any): Observable<Employee> {
+    return this.http.post<any>(this.baseUrl, this.toEmployeeRequest(data)).pipe(
+      map(this.fromBackendEmployee)
     );
   }
 
-
   // Update an existing employee in the database
-  updateEmployee(id: string, data: Employee): Observable<void> {
-    return from(this.db.object<Employee>(`${this.basePath}/${id}`).update(data)).pipe(
-      catchError(this.handleError<void>('updating employee'))
+  updateEmployee(id: number, data: Employee): Observable<Employee> {
+    return this.http.put<any>(`${this.baseUrl}/${id}`, this.toEmployeeRequest(data)).pipe(
+      map(this.fromBackendEmployee)
     );
   }
 
   // Delete an employee from the database
-  deleteEmployee(id: string): Observable<void> {
-    return from(this.db.object(`${this.basePath}/${id}`).remove()).pipe(
-      catchError(this.handleError<void>('deleting employee'))
-    );
+  deleteEmployee(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
 
-  // Helper function to map changes to employee data
-  private mapEmployeeChanges(changes: any[]): Employee[] {
-    return changes.map(c => {
-      const data = c.payload.val() as Employee;
-      const id = c.payload.key as string;
-      return { ...data, id };
-    });
-  }
-
-  // Helper function to handle errors
-  private handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-      console.error(`${operation} failed: ${error.message}`);
-      return of(result as T);
+  // Map the frontend form/model shape to the backend's EmployeeRequest shape
+  private toEmployeeRequest(data: any): any {
+    return {
+      arabic: data.name,
+      english: data.englishName,
+      departmentId: data.departmentId,
+      jobTitleId: data.jobTitleId,
+      genderId: data.genderId,
+      nationalityId: data.nationalitieId,
+      maritalStatusId: data.maritalStatusId,
+      phoneNumber: data.phoneNumber,
+      identityNumber: data.identityNumber,
+      hireDate: data.hireDate,
     };
   }
 
-  // Helper function to add an id to employee data
-  private addIdToEmployeeData(data: Employee, id: string | null): Employee {
-    return { ...data, id: id ?? 'default-id' };
+  // Map the backend Employee response shape to the frontend Employee model.
+  // Defined as an arrow function field so `this` stays bound when passed as a bare
+  // reference to rxjs `map()` / `Array.prototype.map()`.
+  private fromBackendEmployee = (raw: any): Employee => {
+    return {
+      id: raw.id,
+      name: raw.arabic,
+      englishName: raw.english,
+      departmentId: raw.department?.id,
+      jobTitleId: raw.jobTitle?.id,
+      genderId: raw.gender?.id,
+      nationalitieId: raw.nationality?.id,
+      maritalStatusId: raw.maritalStatus?.id,
+      phoneNumber: raw.phoneNumber,
+      identityNumber: raw.identityNumber,
+      hireDate: raw.hireDate ? this.parseLocalDate(raw.hireDate) : raw.hireDate,
+    };
+  };
+
+  // Parse a yyyy-MM-dd date-only string as a local date, avoiding the UTC-midnight
+  // interpretation `new Date(string)` uses (which can shift the day in some timezones).
+  private parseLocalDate(dateOnly: string): Date {
+    const [year, month, day] = dateOnly.split('-').map(Number);
+    return new Date(year, month - 1, day);
   }
 }

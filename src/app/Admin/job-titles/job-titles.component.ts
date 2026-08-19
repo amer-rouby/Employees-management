@@ -29,7 +29,7 @@ export class JobTitlesComponent implements OnInit {
   
   jobTitlesForm: FormGroup;
   isEditing: boolean = false;
-  selectedId: string | null = null;
+  selectedId: number | null = null;
   isLoading: boolean = false;
 
   constructor(
@@ -84,7 +84,7 @@ export class JobTitlesComponent implements OnInit {
     );
   }
 
-  deleteJobTitle(id: string): void {
+  deleteJobTitle(id: number): void {
     this.dialogService.openDialog(ConfirmDeleteDialogComponent, {}, '400px').subscribe(result => {
       if (result) {
         this.toggleLoading(true);

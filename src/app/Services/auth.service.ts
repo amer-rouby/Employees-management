@@ -1,75 +1,60 @@
 import { Injectable } from '@angular/core';
-import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, Observable, firstValueFrom } from 'rxjs';
 import { PermissionsService } from './permissions.service';
+import { LocalStorageService } from './local-storage.service';
+import { environment } from '../../environments/environment';
+
+interface LoginResponse {
+  token: string;
+  role: string;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  private tokenKey = 'authToken';
+  private isLoggedInSubject: BehaviorSubject<boolean>;
+
   constructor(
-    private afAuth: AngularFireAuth,
+    private http: HttpClient,
+    private localStorage: LocalStorageService,
     private permissionsService: PermissionsService
   ) {
-    this.setAuthPersistence();
+    const hasToken = !!this.localStorage.getItem(this.tokenKey);
+    this.isLoggedInSubject = new BehaviorSubject<boolean>(hasToken);
   }
 
-  private setAuthPersistence(): void {
-    this.afAuth.setPersistence('session')
-      .then(() => {
-        this.afAuth.authState.subscribe(user => {
-          if (user) {
-            this.permissionsService.loadPermissions(user.uid);
-            this.setLoginStatus(true);
-          } else {
-            this.resetLoginStatus();
-          }
-        });
-      })
-      .catch(error => {
-        console.error('Error setting persistence:', error);
-      });
+  register(username: string, password: string): Promise<any> {
+    return firstValueFrom(
+      this.http.post(`${environment.apiUrl}/auth/register`, { username, password })
+    );
   }
 
-  register(email: string, password: string): Promise<any> {
-    return this.afAuth.createUserWithEmailAndPassword(email, password).then(userCredential => {
-      const userId = userCredential.user?.uid;
-      if (userId) {
-        this.permissionsService.loadPermissions(userId);
-      }
-      return userCredential;
-    });
-  }
-
-  login(email: string, password: string): Promise<any> {
-    return this.afAuth.signInWithEmailAndPassword(email, password).then(userCredential => {
-      const userId = userCredential.user?.uid;
-      if (userId) {
-        this.permissionsService.loadPermissions(userId);
-      }
-      return userCredential;
+  login(username: string, password: string): Promise<any> {
+    return firstValueFrom(
+      this.http.post<LoginResponse>(`${environment.apiUrl}/auth/login`, { username, password })
+    ).then(response => {
+      this.localStorage.setItem(this.tokenKey, response.token);
+      this.permissionsService.loadPermissions(response.role);
+      this.isLoggedInSubject.next(true);
+      return response;
     });
   }
 
   logout(): Promise<void> {
-    return this.afAuth.signOut().then(() => this.resetLoginStatus());
+    this.localStorage.removeItem(this.tokenKey);
+    this.permissionsService.clearPermissions();
+    this.isLoggedInSubject.next(false);
+    return Promise.resolve();
   }
 
-  getUserState(): Observable<firebase.default.User | null> {
-    return this.afAuth.authState;
+  getUserState(): Observable<boolean> {
+    return this.isLoggedInSubject.asObservable();
   }
 
   isAuthenticated(): Observable<boolean> {
-    return this.afAuth.authState.pipe(map(user => !!user));
-  }
-
-  private setLoginStatus(isLoggedIn: boolean): void {
-    sessionStorage.setItem('isLoggedIn', String(isLoggedIn));
-  }
-
-  private resetLoginStatus(): void {
-    this.setLoginStatus(false);
-    this.permissionsService.clearPermissions();
+    return this.isLoggedInSubject.asObservable();
   }
 }

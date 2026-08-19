@@ -153,7 +153,7 @@ export class EmployeeManagementComponent implements OnInit {
     this.showToast('employeeUpdated');
   }
 
-  confirmDelete(id: string): void {
+  confirmDelete(id: number): void {
     this.dialogService.openDialog(ConfirmDeleteDialogComponent, {}, '400px').subscribe(result => {
       if (result) {
         this.deleteEmployee(id);
@@ -161,16 +161,16 @@ export class EmployeeManagementComponent implements OnInit {
     });
   }
 
-  deleteEmployee(id: string): void {
+  deleteEmployee(id: number): void {
     this.toggleLoading(true);
-    this.employeesService.deleteEmployee(id.toString()).subscribe(
+    this.employeesService.deleteEmployee(id).subscribe(
       () => this.handleEmployeeDeleted(id),
       error => this.handleError('Failed to delete employee', error)
     );
   }
 
-  private handleEmployeeDeleted(id: string): void {
-    this.employees = this.employees.filter(emp => emp.id !== id.toString());
+  private handleEmployeeDeleted(id: number): void {
+    this.employees = this.employees.filter(emp => emp.id !== id);
     this.dataSource.data = [...this.employees];
     this.showToast('employeeDeleted');
   }
@@ -181,16 +181,12 @@ export class EmployeeManagementComponent implements OnInit {
   }
 
   private setupColumnDefinitions(): void {
-    this.translate
-      .get(['NAME', 'POSITION', 'DEPARTMENT', 'GENDER', 'ACTIONS'])
-      .subscribe(() => {
-        this.columnDefinitions = [
-          { key: 'name', header: 'NAME', cell: (employee: Employee) => this.translate.currentLang === 'ar' ? employee.name : employee.englishName },
-          { key: 'jobTitle', header:'POSITION', cell: (employee: Employee) => this.getTranslatedValue('jobTitles', employee.jobTitleId) },
-          { key: 'department', header:'DEPARTMENT', cell: (employee: Employee) => this.getTranslatedValue('departments', employee.departmentId) },
-          { key: 'actions', header: 'ACTIONS', cell: () => '' }
-        ];
-      });
+    this.columnDefinitions = [
+      { key: 'name', header: 'NAME', cell: (employee: Employee) => this.translate.currentLang === 'ar' ? employee.name : employee.englishName },
+      { key: 'jobTitle', header:'POSITION', cell: (employee: Employee) => this.getTranslatedValue('jobTitles', employee.jobTitleId) },
+      { key: 'department', header:'DEPARTMENT', cell: (employee: Employee) => this.getTranslatedValue('departments', employee.departmentId) },
+      { key: 'actions', header: 'ACTIONS', cell: () => '' }
+    ];
   }
 
   private getTranslatedValue(key: 'gender' | 'maritalStatus' | 'jobTitles' | 'departments', id: number | string): any {

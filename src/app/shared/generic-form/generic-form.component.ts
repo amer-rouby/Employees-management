@@ -77,11 +77,16 @@ export class GenericFormComponent implements OnInit {
     return formData;
   }
 
-  // Convert date to ISO string and handle invalid date
+  // Convert date to a date-only string (yyyy-MM-dd) using local date parts, matching the
+  // backend's LocalDate fields. Using toISOString() here would shift the date across UTC
+  // boundaries for timezones ahead of UTC, producing an off-by-one-day value.
   private convertToDateISOString(dateValue: any, fieldName: string): string | undefined {
     const date = new Date(dateValue);
     if (dateValue && !isNaN(date.getTime())) {
-      return date.toISOString();
+      const year = date.getFullYear();
+      const month = String(date.getMonth() + 1).padStart(2, '0');
+      const day = String(date.getDate()).padStart(2, '0');
+      return `${year}-${month}-${day}`;
     } else {
       console.warn(`Invalid date for field: ${fieldName}`);
       return undefined;

@@ -1,6 +1,5 @@
 export interface JobTitles {
-    id: string;
+    id: number;
     arabic: string;
     english: string;
   }
-  

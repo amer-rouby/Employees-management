@@ -84,7 +84,7 @@ export class LeaveManagementComponent {
     });
   }
 
-  confirmDelete(id: string): void {
+  confirmDelete(id: number): void {
     this.dialogService.openDialog(ConfirmDeleteDialogComponent, {}, '400px').subscribe((result) => {
       if (result) {
         this.leaveService.deleteLeaveRequest(id).subscribe({
@@ -109,18 +109,14 @@ export class LeaveManagementComponent {
   }
 
   private setupColumnDefinitions(): void {
-    this.translate
-      .get(['TYPE', 'EMPLOYEES_ARABIC_NAME', 'EMPLOYEES_ENGLISH_NAME', 'START_DATE', 'END_DATE', 'STATUS', 'ACTIONS'])
-      .subscribe(() => {
-        this.columnDefinitions = [
-          { key: 'types', header: 'TYPE', cell: (leave: Leave) => this.getTranslationForKey('leaveTypes', leave.types), },
-          { key: 'name', header: 'NAME', cell: (employee: Employee) => this.translate.currentLang === 'ar' ? employee.name : employee.englishName, },
-          { key: 'startDate', header: 'START_DATE', cell: (leave: Leave) => leave.startDate },
-          { key: 'endDate', header: 'END_DATE', cell: (leave: Leave) => leave.endDate },
-          { key: 'status', header: 'STATUS', cell: (leave: Leave) => this.getTranslationForKey('leaveStatus', leave.status), },
-          { key: 'actions', header: 'ACTIONS', cell: () => '' },
-        ];
-      });
+    this.columnDefinitions = [
+      { key: 'types', header: 'TYPE', cell: (leave: Leave) => this.getTranslationForKey('leaveTypes', leave.types), },
+      { key: 'name', header: 'NAME', cell: (leave: Leave) => this.translate.currentLang === 'ar' ? leave.name : leave.englishName, },
+      { key: 'startDate', header: 'START_DATE', cell: (leave: Leave) => leave.startDate },
+      { key: 'endDate', header: 'END_DATE', cell: (leave: Leave) => leave.endDate },
+      { key: 'status', header: 'STATUS', cell: (leave: Leave) => this.getTranslationForKey('leaveStatus', leave.status), },
+      { key: 'actions', header: 'ACTIONS', cell: () => '' },
+    ];
   }
 
   private getTranslationForKey(key: 'leaveStatus' | 'leaveTypes', id: any): string {

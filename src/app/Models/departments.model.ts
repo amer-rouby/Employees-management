@@ -1,6 +1,5 @@
 export interface Departments {
-    id: string;
+    id: number;
     arabic: string;
     english: string;
   }
-  

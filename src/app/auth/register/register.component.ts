@@ -29,7 +29,7 @@ export class RegisterComponent {
       {
         email: [
           '',
-          [Validators.required, ValidationAuthService.emailValidator()],
+          [Validators.required],
         ],
         password: ['', [Validators.required, Validators.minLength(6)]],
         confirmPassword: ['', [Validators.required]],

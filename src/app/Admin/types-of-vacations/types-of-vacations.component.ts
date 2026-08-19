@@ -37,7 +37,7 @@ export class TypesOfVacationsComponent implements OnInit {
 
   TypesOfVacationsForm: FormGroup;
   isEditing = false;
-  selectedId: string | null = null;
+  selectedId: number | null = null;
   isLoading = false;
 
   constructor(
@@ -95,7 +95,7 @@ export class TypesOfVacationsComponent implements OnInit {
     );
   }
 
-  deleteDepartment(id: string): void {
+  deleteDepartment(id: number): void {
     this.dialogService.openDialog(ConfirmDeleteDialogComponent, {}, '400px').subscribe(result => {
       if (result) {
         this.toggleLoading(true);

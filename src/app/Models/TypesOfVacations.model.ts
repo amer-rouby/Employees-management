@@ -1,5 +1,5 @@
 export interface TypesOfVacations {
-    id: string;
+    id: number;
     arabic: string;
     english: string;
 }

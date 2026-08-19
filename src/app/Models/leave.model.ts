@@ -1,9 +1,9 @@
 export interface Leave {
-  id: string;
+  id: number;
   name: string;
   englishName: string;
-  types: string;
+  types: number;
   startDate: string;
   endDate: string;
-  status: string;
+  status: number;
 }

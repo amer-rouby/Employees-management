@@ -25,10 +25,6 @@ import { ConfirmDeleteDialogComponent } from './Dialogs/confirm-delete-dialog/co
 import { MatSelectModule } from '@angular/material/select';
 
 import { ToastrModule } from 'ngx-toastr';
-import { AngularFireModule } from '@angular/fire/compat';
-import { AngularFireAuthModule } from '@angular/fire/compat/auth';
-import { AngularFireDatabaseModule } from '@angular/fire/compat/database';
-import { environment } from '../environments/environment';
 import { RegisterComponent } from './auth/register/register.component';
 import { LoginComponent } from './auth/login/login.component';
 import { AuthService } from './Services/auth.service';
@@ -49,7 +45,8 @@ import { ValidateLanguageDirective } from './Directives/validate-language.direct
 
 import { DepartmentsComponent } from './Admin/departments/departments.component';
 
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './Services/auth.interceptor';
 import { LeavelStatusComponent } from './Admin/leavel-status/leavel-status.component';
 import { TypesOfVacationsComponent } from './Admin/types-of-vacations/types-of-vacations.component';
 
@@ -108,9 +105,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatProgressSpinnerModule,
     MatNativeDateModule,
     MatDatepickerModule,
-    AngularFireModule.initializeApp(environment.firebaseConfig),
-    AngularFireAuthModule,
-    AngularFireDatabaseModule,
 
     ToastrModule.forRoot(),
     TranslateModule.forRoot({
@@ -123,6 +117,7 @@ export function HttpLoaderFactory(http: HttpClient) {
   ],
   providers: [
     provideHttpClient(withInterceptorsFromDi()),
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     provideAnimationsAsync(),
     AuthService,
     AuthGuard,
