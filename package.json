@@ -22,7 +22,6 @@
     "@angular/router": "^18.2.0",
     "@ngx-translate/core": "^15.0.0",
     "@ngx-translate/http-loader": "^8.0.0",
-    "bootstrap": "^5.3.3",
     "html2canvas": "^1.4.1",
     "jspdf": "^2.5.1",
     "ngx-toastr": "^19.0.0",

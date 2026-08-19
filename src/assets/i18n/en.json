@@ -113,5 +113,11 @@
   "TYPE_OF_VACATIONS": "Types Of Vacations",
   "LEAVEL_STATUSE": "Leavel statuse",
   "MANAGEMENT_TYPE_OF_VACATIONS": "Management Types Of Vacations",
-  "MANAGEMENT_LEAVEL_STATUSE": "Management Leavel statuse"
+  "MANAGEMENT_LEAVEL_STATUSE": "Management Leavel statuse",
+  "HOME_WELCOME_TITLE": "Welcome back",
+  "HOME_WELCOME_SUBTITLE": "Here's a quick overview of the system",
+  "TOTAL_EMPLOYEES": "Total Employees",
+  "TOTAL_LEAVE_REQUESTS": "Total Leave Requests",
+  "QUICK_ACCESS": "Quick Access",
+  "GO_TO_SCREEN": "Go to screen"
 }

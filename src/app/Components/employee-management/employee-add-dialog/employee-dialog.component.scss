@@ -1,18 +1,18 @@
 .employee-form {
   display: flex;
   flex-direction: column;
-  gap: 16px; 
+  gap: var(--space-4);
 
   .form-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr); 
-    gap: 16px; 
+    gap: var(--space-4);
     direction: inherit; 
   }
 
   .form-buttons {
     display: flex;
-    gap: 16px; 
+    gap: var(--space-4);
     justify-content: flex-end; 
     direction: inherit; 
   }

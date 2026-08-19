@@ -3,9 +3,9 @@
     <button *ngIf="isShow" mat-icon-button (click)="closeDialog()" aria-label="Close" class="close-button">
       <mat-icon>close</mat-icon>
     </button>
-    <div class="d-flex align-items-center">
+    <div class="header-title">
+      <mat-icon class="header-icon">info</mat-icon>
       <h2>Employee Details</h2>
-      <mat-icon class="header-icon mx-2">info</mat-icon>
     </div>
     <button *ngIf="isShow" mat-button class="pdf-button" (click)="printPDF()">Print PDF</button>
   </div>

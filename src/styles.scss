@@ -1,52 +1,68 @@
-@use '@angular/material' as mat;
-@include mat.core();
+@use 'styles/theme';
+@use 'styles/tokens';
 @import 'node_modules/ngx-toastr/toastr.css';
 
+* {
+  box-sizing: border-box;
+}
 
 html,
 body {
-    max-height: 100% !important;
-    width: 100%;
-    // background-image:
-    //     linear-gradient(rgba(255, 255, 255, 0.497), rgba(255, 255, 255, 0.394)),
-    //     url('../src/assets/images/Pdf.PNG');
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center center;
-    background-attachment: fixed;
-    color: #fff;
+  height: 100%;
+  width: 100%;
+  margin: 0;
 }
 
 body {
-    font-family: Roboto, "Helvetica Neue", sans-serif;
-    direction: inherit;
+  font-family: var(--font-family);
+  background-color: var(--color-background);
+  color: var(--color-text-primary);
+  direction: inherit;
 }
 
 .app-container {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
-.main-section {
-    margin-top: 60px !important;
+.main-content {
+  padding-top: var(--header-height);
 }
 
+// Card-style section wrapper used across Admin/CRUD screens (replaces the old
+// <fieldset>/<legend> hack that relied on a hardcoded white background + navy text).
 fieldset {
-    position: relative;
-    width: 100% !important;
-    margin: 1.125rem 0 !important;
-    padding-bottom: 1.25rem !important;
-  }
-  
-  legend {
-    position: absolute;
-    top:-20px !important;
-    background: #fff;
-    color: #052c65 !important;
-    font-size: 14px !important;
-    font-weight: bold;
-    margin: 0px 10px !important;
-    padding: 0 0.1875rem;
-  }
+  position: relative;
+  width: 100%;
+  margin: 0 0 var(--space-5) 0;
+  padding: var(--space-5) var(--space-4) var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+}
+
+legend {
+  position: absolute;
+  top: -14px;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: var(--color-surface);
+  color: var(--color-primary);
+  font-size: var(--font-size-sm);
+  font-weight: 700;
+  margin: 0 var(--space-3);
+  padding: 0 var(--space-2);
+}
+
+// Utility classes used to replace the bootstrap.min.css utilities that used
+// to be loaded (and conflicted with Material's own resets).
+.d-flex {
+  display: flex;
+}
+
+.align-items-center {
+  align-items: center;
+}
