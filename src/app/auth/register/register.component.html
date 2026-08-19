@@ -18,7 +18,7 @@
           <input
             matInput
             formControlName="email"
-            type="email"
+            type="text"
             placeholder="{{ 'REGISTER.EMAIL_PLACEHOLDER' | translate }}"
             />
             @if (registrationForm.get('email')?.invalid && email?.touched) {

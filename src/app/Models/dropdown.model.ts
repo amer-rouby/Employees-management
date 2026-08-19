@@ -1,5 +1,5 @@
 export interface DropdownItem {
-    id: string;  // تغيير id ليكون من نوع string
+    id: number;
     arabic: string;
     english: string;
 }

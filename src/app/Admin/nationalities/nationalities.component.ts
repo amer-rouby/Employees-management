@@ -36,7 +36,7 @@ export class NationalitiesComponent implements OnInit {
 
   nationalityForm: FormGroup;
   isEditing: boolean = false;
-  selectedId: string | null = null;
+  selectedId: number | null = null;
   isLoading: boolean = false;
 
   constructor(
@@ -102,7 +102,7 @@ export class NationalitiesComponent implements OnInit {
     );
   }
 
-  deleteNationality(id: string): void {
+  deleteNationality(id: number): void {
     this.dialogService.openDialog(ConfirmDeleteDialogComponent, {}, '400px').subscribe(result => {
       if (result) {
         this.toggleLoading(true);

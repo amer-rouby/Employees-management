@@ -1,28 +1,26 @@
 import { Injectable } from '@angular/core';
+import { LocalStorageService } from './local-storage.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PermissionsService {
-  private userPermissions: boolean = false;
-  private userPermissionsKey: string = 'userPermissions';
+  private userRoleKey: string = 'userRole';
 
-  private usersToken = ['W7JBBlBDgmfekGnc6imbK9U9czL2', 'RYxN9sPhcUNmACxmRtgeBcCUQ4h2'];
+  constructor(private localStorage: LocalStorageService) { }
 
-  loadPermissions(userId: string): void {
-    this.userPermissions = this.usersToken.includes(userId);
-    sessionStorage.setItem(this.userPermissionsKey, JSON.stringify(this.userPermissions));
+  loadPermissions(role?: string): void {
+    if (role) {
+      this.localStorage.setItem(this.userRoleKey, role);
+    }
   }
 
   clearPermissions(): void {
-    this.userPermissions = false;
-    sessionStorage.removeItem(this.userPermissionsKey);
+    this.localStorage.removeItem(this.userRoleKey);
   }
 
   hasPermission(): boolean {
-    const storedPermissions = sessionStorage.getItem(this.userPermissionsKey);
-    this.userPermissions = storedPermissions ? JSON.parse(storedPermissions) : false;
-    return this.userPermissions;
+    return this.localStorage.getItem(this.userRoleKey) === 'ADMIN';
   }
 
   canRegisterUser(): boolean {

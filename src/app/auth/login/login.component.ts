@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from '../../Services/auth.service';
 import { TranslateService } from '@ngx-translate/core';
-import { ValidationAuthService } from '../../Services/validationAuth.service';
 
 @Component({
   selector: 'app-login',
@@ -23,7 +22,7 @@ export class LoginComponent {
     private translate: TranslateService
   ) {
     this.loginForm = this.fb.group({
-      email: ['', [Validators.required, ValidationAuthService.emailValidator()],],
+      email: ['', [Validators.required]],
       password: ['', [Validators.required, Validators.minLength(6)]],
     });
   }

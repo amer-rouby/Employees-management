@@ -1,5 +1,5 @@
 export interface leavelStatus {
-    id: string;
+    id: number;
     arabic: string;
     english: string;
 }

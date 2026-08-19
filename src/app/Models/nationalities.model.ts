@@ -1,6 +1,5 @@
 export interface Nationalities {
-    id: string;
+    id: number;
     arabic: string;
     english: string;
   }
-  
