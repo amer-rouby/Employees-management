@@ -2,43 +2,35 @@
   display: flex;
   flex-wrap: wrap;
   width: 100%;
-  margin: auto;
+  gap: var(--space-4);
 }
 
 .shared-form mat-form-field {
-  width: 48%;
-  margin: 10px;
-  margin-bottom: 16px;
+  flex: 1 1 calc(50% - var(--space-4));
+  min-width: 220px;
 }
 
 .form-buttons {
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
+  gap: var(--space-3);
   width: 100%;
 }
 
 .form-buttons button {
-  width: 7%;
-  margin: 0 8px;
+  min-width: 120px;
 }
 
-/* Media Queries for Responsiveness */
 @media (max-width: 768px) {
   .shared-form mat-form-field {
-    width: 100%; /* Full width for small screens */
+    flex-basis: 100%;
+  }
+
+  .form-buttons {
+    justify-content: stretch;
   }
 
   .form-buttons button {
-    width: 40%; /* Buttons take more width on small screens */
-  }
-}
-
-@media (min-width: 1200px) {
-  .shared-form mat-form-field {
-    width: 48%; /* 2 fields per row on large screens */
-  }
-
-  .form-buttons button {
-    width: 15%; /* Slightly larger buttons on large screens */
+    flex: 1;
   }
 }

@@ -115,5 +115,11 @@
   "TYPE_OF_VACATIONS": "انواع الاجازات",
   "LEAVEL_STATUSE": "حالة الاجازة",
   "MANAGEMENT_TYPE_OF_VACATIONS": "ادارة انواع الاجازات",
-  "MANAGEMENT_LEAVEL_STATUSE": "ادارة حالات الاجازات"
+  "MANAGEMENT_LEAVEL_STATUSE": "ادارة حالات الاجازات",
+  "HOME_WELCOME_TITLE": "أهلاً بك",
+  "HOME_WELCOME_SUBTITLE": "نظرة سريعة على النظام",
+  "TOTAL_EMPLOYEES": "إجمالي الموظفين",
+  "TOTAL_LEAVE_REQUESTS": "إجمالي طلبات الإجازات",
+  "QUICK_ACCESS": "الوصول السريع",
+  "GO_TO_SCREEN": "الانتقال"
 }

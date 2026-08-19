@@ -1,36 +1,65 @@
-
 <div class="home-page">
-<!-- <div class="container">
-@if(canRegisterUser){
-  <div class="image-container">
-    <a [routerLink]="'/employee-management'">
-      <img src="assets/images/What-is-Attendance-Software-for-Employee-Management-and-How-Does-it-Work_-feature-image-1.png" alt="Employee Management">
-    </a>
-    <div class="path-name">
-      {{ 'EMPLOYEE_MANAGEMENT' | translate }}
-    </div>
-  </div>
+  <section class="welcome-banner">
+    <h1>{{ 'HOME_WELCOME_TITLE' | translate }}</h1>
+    <p>{{ 'HOME_WELCOME_SUBTITLE' | translate }}</p>
+  </section>
 
-}
-
-  <div class="image-container">
-    <a [routerLink]="'/leave-management'">
-      <img src="assets/images/Why-Do-Each-Business-Need-to-Invest-in-an-HR-Software-Company_-_Feature-image_-1.png" alt="Employee Management">
-    </a>
-    <div class="path-name">
-      {{ 'LEAVE_MANAGEMENT' | translate }}
-    </div>
-  </div>
-  
-  @if(canRegisterUser){
-    <div class="image-container">
-      <a [routerLink]="'/register'">
-        <img src="assets/images/How-Does-Attendance-Software-for-Employee-Management-Work_.png" alt="Employee Management">
-      </a>
-      <div class="path-name">
-        {{ 'REGISTER.TITLE' | translate }}
+  <section class="stats-row" *ngIf="canRegisterUser || leaveCount !== null">
+    <div class="stat-card" *ngIf="canRegisterUser">
+      <mat-icon class="stat-icon">people</mat-icon>
+      <div class="stat-body">
+        <div class="stat-value">{{ employeeCount ?? '—' }}</div>
+        <div class="stat-label">{{ 'TOTAL_EMPLOYEES' | translate }}</div>
       </div>
     </div>
-  }
-</div> -->
+
+    <div class="stat-card">
+      <mat-icon class="stat-icon">assignment</mat-icon>
+      <div class="stat-body">
+        <div class="stat-value">{{ leaveCount ?? '—' }}</div>
+        <div class="stat-label">{{ 'TOTAL_LEAVE_REQUESTS' | translate }}</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="quick-access">
+    <h2>{{ 'QUICK_ACCESS' | translate }}</h2>
+    <div class="cards-grid">
+      <a class="access-card" *ngIf="canRegisterUser" [routerLink]="'/employee-management'">
+        <mat-icon>people</mat-icon>
+        <span class="card-title">{{ 'EMPLOYEE_MANAGEMENT' | translate }}</span>
+        <span class="card-action">{{ 'GO_TO_SCREEN' | translate }}</span>
+      </a>
+
+      <a class="access-card" [routerLink]="'/leave-management'">
+        <mat-icon>assignment</mat-icon>
+        <span class="card-title">{{ 'LEAVE_MANAGEMENT' | translate }}</span>
+        <span class="card-action">{{ 'GO_TO_SCREEN' | translate }}</span>
+      </a>
+
+      <a class="access-card" *ngIf="canRegisterUser" [routerLink]="'/departments'">
+        <mat-icon>category</mat-icon>
+        <span class="card-title">{{ 'MANAGEMENT_DEPARTMENTS' | translate }}</span>
+        <span class="card-action">{{ 'GO_TO_SCREEN' | translate }}</span>
+      </a>
+
+      <a class="access-card" *ngIf="canRegisterUser" [routerLink]="'/nationalities'">
+        <mat-icon>public</mat-icon>
+        <span class="card-title">{{ 'NATIONALITIES' | translate }}</span>
+        <span class="card-action">{{ 'GO_TO_SCREEN' | translate }}</span>
+      </a>
+
+      <a class="access-card" *ngIf="canRegisterUser" [routerLink]="'/job-names'">
+        <mat-icon>business</mat-icon>
+        <span class="card-title">{{ 'JOB_NAMES' | translate }}</span>
+        <span class="card-action">{{ 'GO_TO_SCREEN' | translate }}</span>
+      </a>
+
+      <a class="access-card" *ngIf="canRegisterUser" [routerLink]="'/register'">
+        <mat-icon>person_add_alt</mat-icon>
+        <span class="card-title">{{ 'REGISTER.TITLE' | translate }}</span>
+        <span class="card-action">{{ 'GO_TO_SCREEN' | translate }}</span>
+      </a>
+    </div>
+  </section>
 </div>
